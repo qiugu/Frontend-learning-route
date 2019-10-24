@@ -1,3 +1,5 @@
+import { mergeOptions } from '../util/index'
+
 let uid = 0
 export function initMixin(Vue) {
   Vue.prototype._init = function(options) {
@@ -8,7 +10,13 @@ export function initMixin(Vue) {
 
     if (options && options._isComponent) {
 
-    } else {}
+    } else {
+      vm.$options = mergeOptions(
+        resolveConstructorOptions(vm.constructor),
+        options || {},
+        vm
+      )
+    }
 
     // 如果选项中包含el挂载的元素，则挂载到Vue实例上
     if (vm.$options.el) {
@@ -18,3 +26,5 @@ export function initMixin(Vue) {
     callHook(vm, 'created')
   }
 }
+
+export function resolveConstructorOptions () {}
