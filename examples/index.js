@@ -1,4 +1,4 @@
-import Vue from '../src/core/instance/index'
+import Vue from '../src/core/index'
 
 const vue = new Vue({
   el: '#app'
