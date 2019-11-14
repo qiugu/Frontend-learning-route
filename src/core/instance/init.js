@@ -1,4 +1,5 @@
 import { mergeOptions } from '../util/index'
+import { callHook } from './lifecycle'
 
 let uid = 0
 export function initMixin(Vue) {
@@ -17,13 +18,15 @@ export function initMixin(Vue) {
         vm
       )
     }
-
+    vm._self = vm
+    // 解析事件，渲染方法后调用钩子
+    callHook(vm, 'beforeCreated')
+    // 解析注入和options选项method、data选项后。触发created钩子
+    callHook(vm, 'created')
     // 如果选项中包含el挂载的元素，则挂载到Vue实例上
     if (vm.$options.el) {
       vm.$mount(vm.$options.el)
     }
-    // 初始化的时候。触发created钩子
-    callHook(vm, 'created')
   }
 }
 

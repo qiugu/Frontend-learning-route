@@ -11,7 +11,9 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(),
-    new HtmlWebpackPlugin(),
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, './examples/public/index.html')
+    }),
     new webpack.HotModuleReplacementPlugin()
   ],
   devServer: {

@@ -26,4 +26,11 @@ export function mergeOptions (parent, child, vm) {
   if (process.env.NODE_ENV !== 'production') {
     checkComponents(child)
   }
+
+  if (typeof child === 'function') {
+    child = child.options
+  }
+
+  const options = {}
+  return options
 }

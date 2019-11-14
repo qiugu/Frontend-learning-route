@@ -1,7 +1,9 @@
-import Vue from '../src/core/index'
+import Vue from '../src/platform/web/entry-runtime-with-compiler.js'
 
 const vue = new Vue({
-  el: '#app'
-})
+  data: {
+    foo: 'bar'
+  }
+}).$mount('#app')
 
-console.log(vue)
+console.log(Vue.prototype)
