@@ -1,5 +1,6 @@
 import { mergeOptions } from '../util/index'
-import { callHook } from './lifecycle'
+import { callHook, initLifecycle } from './lifecycle'
+import { initEvents } from './events'
 
 let uid = 0
 export function initMixin(Vue) {
@@ -19,6 +20,8 @@ export function initMixin(Vue) {
       )
     }
     vm._self = vm
+    initLifecycle(vm)
+    initEvents(vm)
     // 解析事件，渲染方法后调用钩子
     callHook(vm, 'beforeCreated')
     // 解析注入和options选项method、data选项后。触发created钩子

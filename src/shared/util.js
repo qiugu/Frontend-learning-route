@@ -22,3 +22,17 @@ export const isBuiltInTag = makeMap('slot,component', true)
  * @param {object} c 可选参数
  */
 export const no = (a,b,c) => false
+
+/**
+ * 删除数组中指定的某项
+ * @param {array} arr 要删除的数组
+ * @param {any} item 指定的某项
+ */
+export function remove (arr, item) {
+  if (arr.length) {
+    const index = arr.indexOf(item)
+    if (index > -1) {
+      return arr.splice(index, 1)
+    }
+  }
+}

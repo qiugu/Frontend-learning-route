@@ -16,6 +16,13 @@ module.exports = {
     }),
     new webpack.HotModuleReplacementPlugin()
   ],
+  resolve: {
+    alias: {
+      platform: path.resolve(__dirname, './src/platform'),
+      util: path.resolve(__dirname, './src/shared')
+    },
+    extensions: ['.js','.vue']
+  },
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     port: 2002,

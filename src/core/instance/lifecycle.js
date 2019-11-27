@@ -4,6 +4,35 @@ export function callHook (vm, hook) {
   
 }
 
+/**
+ * 做一些属性初始化的工作
+ * @param {object} vm Vue的组件实例
+ */
+export function initLifecycle(vm) {
+  const options = vm.$options
+
+  let parent = options.parent
+
+  if (parent && !options.abstract) {
+    while (parent.$options.abstract && parent.$parent) {
+      parent = parent.$parent
+    }
+    // 将当前组件实例加入父组件的children属性中
+    parent.$children.push(vm)
+  }
+
+  vm.$parent = parent
+  vm.$root = parent ? parent.$root : vm
+  vm.$chilren = []
+  vm.$refs = {}
+  vm._watcher = null
+  vm._inactive = null
+  vm._derectInactive = false
+  vm.isMounted = false
+  vm._isDestroyed = false
+  vm._isBeingDestroyed = false
+}
+
 export function mountComponent (vm, el, hydrating = false) {
   vm.$el = el
   // 如果vue实例选项中的render方法不存在，则指定render方法为创建一个空的虚拟dom

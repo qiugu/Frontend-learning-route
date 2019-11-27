@@ -1,4 +1,6 @@
 import { initMixin } from './init'
+import { stateMixin } from './state'
+import { eventsMixin } from './events'
 
 function Vue (options) {
   // 判断当前的环境，并且上下文this如果不是Vue的子对象，则发出警告
@@ -10,5 +12,7 @@ function Vue (options) {
 }
 
 initMixin(Vue)
+stateMixin(Vue)
+eventsMixin(Vue)
 
 export default Vue
