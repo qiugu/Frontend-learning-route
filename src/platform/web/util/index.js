@@ -19,5 +19,7 @@ function getShouldDecode (href) {
   return div.innerHTML.indexOf('$#10;') > 0
 }
 
+export const inBrowser = typeof window !== 'undefined'
+
 export const shouldDecodeNewlines = typeof window !== 'undefined' ? getShouldDecode(false) : false
 export const shouldDecodeNewlinesForHref = typeof window !== 'undefined' ? getShouldDecode(false) : false

@@ -36,3 +36,17 @@ export function remove (arr, item) {
     }
   }
 }
+
+// 空方法
+export function noop () {}
+
+// 输入值，返回相同的值
+export const identity = (_) => _
+
+// 混入属性到目标对象中
+export function extend (to, from) {
+  for (const key in from) {
+    to[key] = from[key]
+  }
+  return to
+}

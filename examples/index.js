@@ -10,3 +10,4 @@ const vue = new Vue({
 })
 
 console.log(vue)
+console.log(Vue.config)

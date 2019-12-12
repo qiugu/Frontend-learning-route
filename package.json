@@ -16,7 +16,7 @@
     "webpack-cli": "^3.3.9"
   },
   "scripts": {
-    "dev": "webpack-dev-server"
+    "dev": "webpack-dev-server --config webpack.example.js"
   },
   "repository": {
     "type": "git",
