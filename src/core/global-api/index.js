@@ -1,4 +1,5 @@
 import config from '../config'
+import { initUse } from './use'
 
 export function initGlobalAPI (Vue) {
   const configDef = {}
@@ -10,4 +11,7 @@ export function initGlobalAPI (Vue) {
   }
   // Vue构造函数上定义config属性
   Object.defineProperty(Vue, 'config', configDef)
+
+  // use方法
+  initUse(Vue)
 }
