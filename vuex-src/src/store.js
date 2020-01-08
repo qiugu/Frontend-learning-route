@@ -1,5 +1,5 @@
 import ModuleCollection from "./module/module-collection"
-import { isPromise, forEachValue, partial } from "./util"
+import { isPromise, forEachValue, partial, assert, isObject } from "./util"
 
 let Vue
 
@@ -21,6 +21,7 @@ export class Store {
     this._wrappedGetters = Object.create(null)
     this._modules = new ModuleCollection(options)
     this._modulesNamespaceMap = Object.create(null)
+    this._subscribers = []
     this._watcherVM = new Vue()
     this._makeLocalGettersCache = Object.create(null)
 
@@ -40,9 +41,54 @@ export class Store {
     plugins.forEach(plugin => plugin(this))
   }
 
-  dispatch () {}
+  get state () {
+    return this._vm._data.$$state
+  }
 
-  commit () {}
+  set state (v) {
+    if (process.env.NODE_ENV !== 'production') {
+      assert(false, `use store.replaceState() to explicit replace store state.`)
+    }
+  }
+
+  dispatch (_type, _payload) {
+    const {type, payload, options} = unifyObjectStyle(_type, _payload, _options)
+
+    const action = { type, payload }
+    const entry = this._actions[type]
+
+    try {
+      this._actionSubscribers
+        .slice()
+        .filter(sub => sub.before)
+        .forEach(sub => sub.before(action, state))
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  commit (_type, _payload, _options) {
+    const {type, payload, options} = unifyObjectStyle(_type, _payload, _options)
+    const mutation = { type, payload }
+    const entry = this._mutations[type]
+
+    this._withCommit(() => {
+      entry.forEach(function commitIterator (handler) {
+        handler(payload)
+      })
+    })
+
+    this._subscribers
+      .slice()
+      .forEach(sub => sub(mutation, this.state))
+  }
+
+  _withCommit (fn) {
+    const committing = this._committing
+    this._committing = true
+    fn()
+    this._committing = committing
+  }
 }
 
 function installModule (store, rootState, path, module, hot) {
@@ -163,6 +209,8 @@ function makeLocalContext (store, namespace, path) {
       get: () => getNestedState(store.state, path)
     }
   })
+
+  return local
 }
 
 function makeLocalGetters (store, namespace) {
@@ -233,4 +281,41 @@ function registerGetter (store, type, rawGetter, local) {
       store.getters
     )
   }
+}
+
+function unifyObjectStyle (type, payload, options) {
+  // 如果是type是对象类型
+  /**
+   * store.commit({
+   *  type: 'increment',
+   *  payload: '10'
+   * })
+   */
+  if (isObject(type) && type.type) {
+    options = payload
+    payload = type
+    type = type.type
+  }
+
+  return { type, payload, options }
+}
+
+export function install (_Vue) {
+  // 将vuex全局注入组件及其子组件中
+  Vue = _Vue
+  Vue.mixin({
+    beforeCreate () {
+      const options = this.$options
+      // 全局混入，当前组件有store属性，则定义$store访问
+      // 否则去parent父组件选项中访问$store属性
+      // 子组件始终获取顶层属性中的store属性，并且可以使用this.store访问
+      if (options.store) {
+        this.$store = typeof options.store === 'function'
+          ? options.store()
+          : options.store
+      } else if (options.parent && options.parent.$store) {
+        this.$store = options.parent.$store
+      }
+    }
+  })
 }

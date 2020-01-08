@@ -1,5 +1,12 @@
 import Vue from 'vue'
+import App from './App.vue'
+import store from './store'
 
 new Vue({
-  
-}).$mount('#app')
+  el: '#app',
+  store,
+  mounted () {
+    console.log('super', this)
+  },
+  render: h => h(App)
+})

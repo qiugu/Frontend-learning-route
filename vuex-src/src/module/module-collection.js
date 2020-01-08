@@ -30,7 +30,13 @@ export default class ModuleCollection {
     }, this.root)
   }
 
-  getNamespace (path) {}
+  getNamespace (path) {
+    let module = this.root
+    return path.reduce((namespace, key) => {
+      module = module.getChild(key)
+      return namespace + (module.namespaced ? key + '/' : '')
+    }, '')
+  }
 
   update (rawRootModule) {}
 }

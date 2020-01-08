@@ -2,8 +2,9 @@
   "name": "Front-end-knowledge-system",
   "version": "1.0.0",
   "description": "source-code learning",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
+    "dev": "node vuex-src/examples/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,10 +19,17 @@
   },
   "homepage": "https://github.com/qiugu/Front-end-knowledge-system#readme",
   "dependencies": {
+    "babel-loader": "^8.0.6",
+    "express": "^4.17.1",
     "vue": "^2.6.11"
   },
   "devDependencies": {
+    "@babel/core": "^7.7.7",
+    "vue-loader": "^15.8.3",
+    "vue-template-compiler": "^2.6.11",
     "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.10"
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-middleware": "^3.7.2",
+    "webpack-hot-middleware": "^2.25.0"
   }
 }

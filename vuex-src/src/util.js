@@ -11,3 +11,11 @@ export function partial (fn, args) {
     return fn(args)
   }
 }
+
+export function assert (condition, msg) {
+  if (!condition) console.error(`[vuex]: ${msg}`)
+}
+
+export function isObject (obj) {
+  return obj !== null && typeof obj === 'object'
+}
