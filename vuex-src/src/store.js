@@ -91,6 +91,14 @@ export class Store {
   }
 }
 
+/**
+ * 将mutations、actions、getters放入数组中
+ * @param {Store} store Store的实例
+ * @param {object} rootState Store中的配置项
+ * @param {array} path 
+ * @param {Module} module Module的实例
+ * @param {boolean} hot 
+ */
 function installModule (store, rootState, path, module, hot) {
   const isRoot = !path.length
   const namespace = store._modules.getNamespace(path)

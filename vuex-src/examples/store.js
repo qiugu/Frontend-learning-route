@@ -3,7 +3,7 @@ import Vue from 'vue'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+const app = {
   state: {
     count: 0
   },
@@ -11,5 +11,11 @@ export default new Vuex.Store({
     ADD_COUNT (state, payload) {
       state.count++
     }
+  }
+}
+
+export default new Vuex.Store({
+  modules: {
+    app
   }
 })

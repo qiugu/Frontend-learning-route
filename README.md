@@ -1,8 +1,10 @@
 # 前端知识体系
 
+![](./前端知识体系.png)
+
 ## 源码学习
 1. vue源码学习
-2. vuex源码学习
+2. [vuex源码学习](./vuex-src/readme.md)
 3. vue-router源码学习
 4. webpack实现
 
