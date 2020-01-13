@@ -14,4 +14,6 @@
 * 队列
 * 链表
 * 集合
-* 字典
+* [字典](./data-structure-and-algorithm/dictionary.md)
+* [哈希表(散列)](./data-structure-and-algorithm/hash.md)
+* [树](./data-structure-and-algorithm/tree.md)
