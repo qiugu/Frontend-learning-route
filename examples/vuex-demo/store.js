@@ -1,4 +1,4 @@
-import * as Vuex from '../src/index'
+import * as Vuex from 'vuex'
 import Vue from 'vue'
 
 Vue.use(Vuex)

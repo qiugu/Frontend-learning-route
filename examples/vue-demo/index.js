@@ -8,6 +8,3 @@ const vue = new Vue({
   },
   template: `<div>hello Vue</div>`
 })
-
-console.log(vue)
-console.log(Vue.config)
