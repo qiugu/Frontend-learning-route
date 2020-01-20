@@ -17,13 +17,14 @@ export const VNodeFlags = {
   FRAGMENT: 1 << 7,
   // Portal
   PORTAL: 1 << 8,
-  // // html元素类型
-  // ELEMENT: VNodeFlags.ELEMENT_HTML | VNodeFlags.ELEMENT_SVG,
-  // // 有状态组件
-  // COMPONENT_STATEFUL: VNodeFlags.COMPONENT_STATEFUL_NORMAL | VNodeFlags.COMPONENT_STATEFUL_SHOULD_KEEP_ALIVE | VNodeFlags.COMPONENT_STATEFUL_KEPT_ALIVE,
-  // // 组件类型
-  // COMPONENT: VNodeFlags.COMPONENT_STATEFUL | VNodeFlags.COMPONENT_FUNCTIONAL
 }
+
+// // html元素类型
+VNodeFlags.ELEMENT = VNodeFlags.ELEMENT_HTML || VNodeFlags.ELEMENT_SVG
+// // 有状态组件
+VNodeFlags.COMPONENT_STATEFUL = VNodeFlags.COMPONENT_STATEFUL_NORMAL || VNodeFlags.COMPONENT_STATEFUL_SHOULD_KEEP_ALIVE || VNodeFlags.COMPONENT_STATEFUL_KEPT_ALIVE
+// // 组件类型
+VNodeFlags.COMPONENT = VNodeFlags.COMPONENT_STATEFUL || VNodeFlags.COMPONENT_FUNCTIONAL
 
 export const ChildrenFlags = {
   // 未知的子节点
@@ -35,10 +36,11 @@ export const ChildrenFlags = {
   // 包含key属性的多个子节点
   KEYED_VNODES: 1 << 2,
   // 没有key属性的多个子节点
-  NONE_KEYED_VNODES: 1 << 3,
-  // 多节点类型
-  // MULTIPLE_VNODES: ChildrenFlags.KEYED_VNODES | ChildrenFlags.NONE_KEYED_VNODES
+  NONE_KEYED_VNODES: 1 << 3
 }
+
+ // 多节点类型
+ ChildrenFlags.MULTIPLE_VNODES = ChildrenFlags.KEYED_VNODES | ChildrenFlags.NONE_KEYED_VNODES
 
 export default class VNode {
   constructor (tag, data, children, el, flags = undefined, childrenFlags = undefined) {
