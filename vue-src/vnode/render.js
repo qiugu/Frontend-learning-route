@@ -1,4 +1,5 @@
 import VNode, {VNodeFlags, ChildrenFlags} from './vnode'
+import { patch } from './patch'
 
 export const Fragment = Symbol()
 export const Portal = Symbol()
@@ -96,7 +97,7 @@ export function render(vnode, container) {
 }
 
 // 根据vnode的flags执行不同的挂载方法
-function mount(vnode, container) {
+export function mount(vnode, container) {
   const { flags } = vnode
   if (flags & VNodeFlags.ELEMENT) {
     mountElement(vnode, container)
@@ -153,9 +154,9 @@ function mountElement (vnode, container, isSVG) {
   const child = vnode.children
   const childFlags = vnode.childrenFlags
   if (childFlags !== ChildrenFlags.NO_CHILDREN) {
-    if (childFlags === ChildrenFlags.SINGLE_VNODE) {
+    if (childFlags & ChildrenFlags.SINGLE_VNODE) {
       mount(child, el, isSVG)
-    } else if (childFlags === ChildrenFlags.MULTIPLE_VNODES) {
+    } else if (childFlags & ChildrenFlags.MULTIPLE_VNODES) {
       for (let i = 0; i < child.length; i++) {
         mount(child[i], el, isSVG)
       }
@@ -164,14 +165,72 @@ function mountElement (vnode, container, isSVG) {
 
   container.appendChild(el)
 }
-function mountComponent () {}
+
+// 挂载组件
+function mountComponent (vnode, container, isSVG) {
+  const { flags } = vnode
+  if (flags & VNodeFlags.COMPONENT_STATEFUL_NORMAL) {
+    mountStatefulComponent(vnode, container, isSVG)
+  } else if (flags & VNodeFlags.COMPONENT_FUNCTIONAL) {
+    mountFunctionalComponent(vnode, container, isSVG)
+  }
+}
+
+// 挂载文本节点
 function mountText (vnode, container) {
   const el = document.createTextNode(vnode.children)
   vnode.el = el
   container.appendChild(el)
 }
-function mountFragment () {}
-function mountPortal () {}
+
+// 挂载fragment
+function mountFragment (vnode, container, isSVG) {
+  const child = vnode.children
+  const childFlags = vnode.childrenFlags
+  // 根据子元素的标识符，执行相应的挂载
+  // 如果是单个子元素，将vnode的el引用设置为子元素的el
+  // 如果是没有子元素，则创建文本节点，将vnode引用指向文本节点
+  // 多个子元素的情况下，vnode的引用指向子元素的第一个元素
+  switch(childFlags) {
+    case ChildrenFlags.SINGLE_VNODE: {
+      mount(child, container, isSVG)
+      vnode.el = child.el
+      break
+    }
+    case ChildrenFlags.NO_CHILDREN: {
+      const text = createTextVNode('')
+      mountText(text, container)
+      vnode.el = text.el
+      break
+    }
+    default: {
+      for (let i = 0; i < child.length; i++) {
+        mount(child[i], container, isSVG) 
+      }
+      vnode.el = child[0].el
+    }
+  }
+}
+
+// 挂载Portal
+function mountPortal (vnode, container) {
+  const { tag, children, childrenFlags } = vnode
+  const target = typeof tag === 'string' ? document.querySelector(tag) : tag
+
+  if (!target) throw new Error('mount element is not exist')
+
+  if (childrenFlags & ChildrenFlags.SINGLE_VNODE) {
+    mount(children, target)
+  } else if (childrenFlags & ChildrenFlags.MULTIPLE_VNODES) {
+    for (let i = 0; i < children.length; i++) {
+      mount(children[i], target)
+    }
+  }
+
+  const text = createTextVNode('')
+  mountText(text, container, null)
+  vnode.el = text.el
+}
 
 // 动态class绑定
 function normalizeClass(val) {
@@ -186,4 +245,38 @@ function normalizeClass(val) {
     res = res += Object.keys(val).filter(key => val[key]).join(' ')
   }
   return res.trim()
+}
+
+// 挂载有状态组件，tag指向组件
+function mountStatefulComponent(vnode, container, isSVG) {
+  const { children, childrenFlags } = vnode
+  // 创建组件实例
+  const instance = new vnode.tag()
+  // 调用组件实例上的render方法生成vnode
+  instance.$vnode = instance.render()
+  // 挂载vnode
+  mount(instance.$vnode, container, isSVG)
+  // el 属性值 和 组件实例的 $el 属性都引用组件的根DOM元素
+  instance.$el = vnode.el = instance.$vnode.el
+
+  // 如果挂载的组件中含有子元素
+  if (children) {
+    if (childrenFlags & ChildrenFlags.SINGLE_VNODE) {
+      mount(children, instance.$el, isSVG)
+    } else if (childrenFlags & ChildrenFlags.MULTIPLE_VNODES) {
+      for (let i = 0; i < children.length; i++) {
+        mount(children[i], instance.$el, isSVG)
+      }
+    } 
+  }
+}
+
+// 挂载函数式组件
+function mountFunctionalComponent() {
+  // 函数式组件直接执行对应的函数方法即可
+  const instance = vnode.tag()
+  mount(instance, container, isSVG)
+  vnode.el = instance.el
+  // 如果挂载的组件中含有子元素
+  // 略
 }
