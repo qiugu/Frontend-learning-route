@@ -9,7 +9,7 @@
 export default {
   computed: {
     count () {
-      return this.$store.state.app.count
+      return this.$store.getters['app/count']
     }
   },
   mounted () {
@@ -17,7 +17,7 @@ export default {
   },
   methods: {
     handleClick () {
-      this.$store.commit('ADD_COUNT')
+      this.$store.commit('app/ADD_COUNT')
     }
   }
 }
