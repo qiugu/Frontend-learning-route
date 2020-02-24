@@ -10,7 +10,6 @@
 ## 计算机基础
 
 ### 数据结构与算法
-* 数组
 * [栈](./data-structure-and-algorithm/code/stack.js)
 * [队列](./data-structure-and-algorithm/code/queue.js)
 * [链表](./data-structure-and-algorithm/code/linkedList.js)
