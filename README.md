@@ -20,7 +20,7 @@
 * [树](./data-structure-and-algorithm/md/tree.md)
 
 ## 语言基础
-* [HTML](./language.md)
+* [HTML](./language/html.md)
 
 ## 浏览器
 暂无
