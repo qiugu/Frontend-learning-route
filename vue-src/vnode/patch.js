@@ -1,4 +1,5 @@
-import {VNodeFlags, mount} from './vnode'
+import {VNodeFlags} from './vnode'
+import { mount } from './render'
 
 export function patch(prevVNode, nextVNode, container) {
   const nextFlags = nextVNode.flags

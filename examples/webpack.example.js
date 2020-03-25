@@ -2,7 +2,6 @@ const path = require('path')
 const fs = require('fs')
 const webpack = require('webpack')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
   mode: 'development',
@@ -21,7 +20,6 @@ module.exports = {
     publicPath: '/__build__/'
   },
   plugins: [
-    new CleanWebpackPlugin(),
     new VueLoaderPlugin(),
     new webpack.HotModuleReplacementPlugin()
   ],
