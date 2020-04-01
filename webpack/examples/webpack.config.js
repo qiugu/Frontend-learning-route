@@ -2,6 +2,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const webpack = require('webpack')
 const path = require('path')
 const DonePlugin = require('./plugins/DonePlugin.js')
+const DashboardPlugin = require('./plugins/DashboardPlugin.js')
 
 module.exports = {
   mode: 'development',
@@ -28,6 +29,10 @@ module.exports = {
     //   template: './index.html',
     //   filename: 'index.html'
     // }),
-    new DonePlugin()
+    new DonePlugin(),
+    new DashboardPlugin({
+      type: 'progress',
+      keepAlive: false
+    })
   ]
 }
