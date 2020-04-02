@@ -73,7 +73,7 @@ function shellSort(arr, gap) {
   for (let i = 0; i < gap.length; i++) {
     const n = gap[i]
     for (let j = i + n; j < len; j++) {
-      for (let k = j; k > 0; k-=n) {
+      for (let k = j; k > 0; k-= n) {
         if (arr[k] < arr[k - n]) {
           [arr[k], arr[k - n]] = [arr[k - n], arr[k]]
         }
@@ -92,7 +92,7 @@ function shellSort1(arr) {
   }
   while (h >= 1) {
     for (let i = h; i < len; i++) {
-      for (j = i; j >= h; j -=h) {
+      for (j = i; j >= h; j -= h) {
         if (arr[j] < arr[j - h]) {
           [arr[j], arr[j - h]] = [arr[j - h], arr[j]]
         }
@@ -266,7 +266,7 @@ function makeChange(origAmt, coins) {
  * 背包问题
  */
 function ksack(values, weights, capacity) {
-  // 初始化剩余容量，物品数量，装入背包的物品价值
+  // 初始化装入背包的重量，物品数量，装入背包的物品价值
   let load = 0, i = 0, w = 0
   while (load < capacity && i < 4) {
     if (weights[i] <= (capacity - load)) {
