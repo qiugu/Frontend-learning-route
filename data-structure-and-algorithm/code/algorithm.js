@@ -73,7 +73,7 @@ function shellSort(arr, gap) {
   for (let i = 0; i < gap.length; i++) {
     const n = gap[i]
     for (let j = i + n; j < len; j++) {
-      for (let k = j; k > 0; k-=n) {
+      for (let k = j; k > 0; k-= n) {
         if (arr[k] < arr[k - n]) {
           [arr[k], arr[k - n]] = [arr[k - n], arr[k]]
         }
@@ -92,7 +92,7 @@ function shellSort1(arr) {
   }
   while (h >= 1) {
     for (let i = h; i < len; i++) {
-      for (j = i; j >= h; j -=h) {
+      for (j = i; j >= h; j -= h) {
         if (arr[j] < arr[j - h]) {
           [arr[j], arr[j - h]] = [arr[j - h], arr[j]]
         }

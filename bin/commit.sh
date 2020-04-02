@@ -1,6 +1,6 @@
 #! /bin/bash
 
-git add .
+git add -A
 
 if [[ -z $1 && -z $2 ]]
 then
