@@ -266,7 +266,7 @@ function makeChange(origAmt, coins) {
  * 背包问题
  */
 function ksack(values, weights, capacity) {
-  // 初始化剩余容量，物品数量，装入背包的物品价值
+  // 初始化装入背包的重量，物品数量，装入背包的物品价值
   let load = 0, i = 0, w = 0
   while (load < capacity && i < 4) {
     if (weights[i] <= (capacity - load)) {
