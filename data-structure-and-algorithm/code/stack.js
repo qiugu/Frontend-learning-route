@@ -55,7 +55,10 @@ function Stack() {
 // console.log(stack.isEmpty())
 // console.log(stack)
 
-// 十进制转二进制的利用栈的数据结构
+/**
+ * 十进制转二进制的利用栈的数据结构
+ * @param {number} decNumer 需要进行转换的数字
+ */
 function dec2bin(decNumer) {
   const stack = new Stack()
   while (decNumer > 0) {

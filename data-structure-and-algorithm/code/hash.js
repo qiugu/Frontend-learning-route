@@ -11,7 +11,7 @@ function HashTable () {
 HashTable.prototype.hashFn = function (str, size) {
   let hashCode = 0
   for (let i = 0; i < str.length; i++) {
-    hashCode = 37 * hashCode + str.charCodeAt(i) 
+    hashCode += 37 * hashCode + str.charCodeAt(i) 
   }
   return hashCode % size
 }
@@ -39,7 +39,7 @@ HashTable.prototype.put = function (key, val) {
   // 如果存储数据的数量大于哈希表容量的0.75，则容量进行扩容，扩容后的容量为质数
   if (this.count > this.capacity * 0.75) {
     const prime = this.getPrime(this.capacity * 2)
-    this.capacity(prime)
+    this.resize(prime)
   }
 }
 
@@ -76,7 +76,7 @@ HashTable.prototype.remove = function (key) {
       // 如果存储数据的数量小于哈希表容量的0.25，则减少容量，减少后的容量为一个质数
       if (this.capacity > 7 && this.count < this.capacity * 0.25) {
         const prime = this.getPrime(Math.floor(this.capacity / 2))
-        this.capacity(prime)
+        this.resize(prime)
       }
 
       return tuple[1]
@@ -86,7 +86,8 @@ HashTable.prototype.remove = function (key) {
   return null
 }
 
-HashTable.prototype.capacity = function (capacity) {
+// 扩容或减容
+HashTable.prototype.resize = function (capacity) {
   const oldStorage = this.storage
   this.storage = []
   this.count = 0
@@ -137,3 +138,4 @@ hashtable.put('azxvxz', 'ddd')
 console.log(hashtable.get('qweeqw'))
 console.log(hashtable.remove('qweeqw'))
 console.log(hashtable.get('qweeqw'))
+hashtable.capacity(10)

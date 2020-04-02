@@ -1,3 +1,7 @@
+/**
+ * 链表节点
+ * @param {any} element 链表节点保存数据
+ */
 function Node(element) {
   this.element = element
   this.next = null

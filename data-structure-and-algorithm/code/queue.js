@@ -1,33 +1,39 @@
 function Queue () {
   this.data = []
+}
 
-  Queue.prototype.enqueue = function (ele) {
-    this.data.push(ele)
-  }
+// 入队
+Queue.prototype.enqueue = function (ele) {
+  this.data.push(ele)
+}
 
-  Queue.prototype.dequeue = function () {
-    return this.data.shift()
-  }
+// 出队
+Queue.prototype.dequeue = function () {
+  return this.data.shift()
+}
 
-  Queue.prototype.front = function () {
-    return this.data[0]
-  }
+// 查看队首元素
+Queue.prototype.front = function () {
+  return this.data[0]
+}
 
-  Queue.prototype.isEmpty = function () {
-    return this.data.length === 0
-  }
+// 查看队列是否为空
+Queue.prototype.isEmpty = function () {
+  return this.data.length === 0
+}
 
-  Queue.prototype.size = function () {
-    return this.data.length
-  }
+// 查看队列长度
+Queue.prototype.size = function () {
+  return this.data.length
+}
 
-  Queue.prototype.toString = function () {
-    let ret = ''
-    for (let i = 0; i < this.data.length; i++) {
+// 查看队列成员
+Queue.prototype.toString = function () {
+  let ret = ''
+  for (let i = 0; i < this.data.length; i++) {
       ret += this.data[i] + ''
-    }
-    return ret
   }
+  return ret
 }
 
 // 击鼓传花
@@ -53,61 +59,73 @@ function passGame(list, num) {
 const members = ['a','b','c','d','e']
 // console.log(passGame(members,10))
 
+/**
+ * 优先级队列
+ */
+
+// 队列成员
+function QueueElem (elem, priority) {
+  this.elem = elem
+  this.priority = priority
+}
+
 // 优先级队列
 function PriorityQueue () {
-  function QueueElem (elem, priority) {
-    this.elem = elem
-    this.priority = priority
-  }
   this.data = []
+}
 
-  PriorityQueue.prototype.enqueue = function (elem, priority) {
-    const priorityElem = new QueueElem(elem, priority)
+// 入队
+PriorityQueue.prototype.enqueue = function (elem, priority) {
+  const priorityElem = new QueueElem(elem, priority)
 
-    // 优先级队列长度为0时，直接将元素添加进去
-    if (this.data.length === 0) {
+  // 优先级队列长度为0时，直接将元素添加进去
+  if (this.data.length === 0) {
+    this.data.push(priorityElem)
+  } else {
+    let isAdd = false
+    for (let i = 0; i < this.data.length;i++) {
+      // 如果插入的元素的优先级比当前的元素高，那么就插入当前元素的前面的位置
+      if (priority < this.data[i].priority) {
+        this.data.splice(i, 0, priorityElem)
+        isAdd = true
+        break
+      }
+    }
+
+    // 如果插入的元素比当前队列中的所有的元素优先级都要低，那么就插入队尾
+    if (!isAdd) {
       this.data.push(priorityElem)
-    } else {
-      let isAdd = false
-      for (let i = 0; i < this.data.length;i++) {
-        // 如果插入的元素的优先级比当前的元素高，那么就插入当前元素的前面的位置
-        if (priority < this.data[i].priority) {
-          this.data.splice(i, 0, priorityElem)
-          isAdd = true
-          break
-        }
-      }
-
-      // 如果插入的元素比当前队列中的所有的元素优先级都要低，那么就插入队尾
-      if (!isAdd) {
-        this.data.push(priorityElem)
-      }
     }
   }
+}
 
-  PriorityQueue.prototype.dequeue = function () {
-    return this.data.shift()
-  }
+// 出队
+PriorityQueue.prototype.dequeue = function () {
+  return this.data.shift()
+}
 
-  PriorityQueue.prototype.front = function () {
-    return this.data[0]
-  }
+// 查看队首元素
+PriorityQueue.prototype.front = function () {
+  return this.data[0]
+}
 
-  PriorityQueue.prototype.isEmpty = function () {
-    return this.data.length === 0
-  }
+// 队列是否为空
+PriorityQueue.prototype.isEmpty = function () {
+  return this.data.length === 0
+}
 
-  PriorityQueue.prototype.size = function () {
-    return this.data.length
-  }
+// 队列长度
+PriorityQueue.prototype.size = function () {
+  return this.data.length
+}
 
-  PriorityQueue.prototype.toString = function () {
-    let ret = ''
-    for (let i = 0; i < this.data.length; i++) {
-      ret += this.data[i].elem + this.data[i].priority + '\n'
-    }
-    return ret
+// 查看队列成员
+PriorityQueue.prototype.toString = function () {
+  let ret = ''
+  for (let i = 0; i < this.data.length; i++) {
+    ret += this.data[i].elem + this.data[i].priority + '\n'
   }
+  return ret
 }
 
 const pq = new PriorityQueue()
