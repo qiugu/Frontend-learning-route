@@ -23,6 +23,7 @@
 
 ## 语言基础
 * [HTML](./language/html.md)
+* [JAVASCRIPT](./language/javascript.md)
 
 ## 浏览器
 暂无
