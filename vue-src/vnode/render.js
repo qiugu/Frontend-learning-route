@@ -3,6 +3,7 @@ import { patch } from './patch'
 
 export const Fragment = Symbol()
 export const Portal = Symbol()
+export const domPropsRE = /\[A-Z]|^(?:value|checked|selected|muted)$/
 
 // 创建vnode
 export function h(tag, data = null, children = null) {
@@ -114,7 +115,6 @@ export function mount(vnode, container) {
 
 // 挂载原生dom元素
 function mountElement (vnode, container, isSVG) {
-  const domPropsRE = /\[A-Z]|^(?:value|checked|selected|muted)$/
   // 判断是否是svg元素
   isSVG = isSVG || vnode.flags & VNodeFlags.ELEMENT_SVG
   const el = isSVG
