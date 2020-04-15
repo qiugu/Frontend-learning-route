@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Socket.IO chat</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    #chat {
+      display: none;
+      font-size: 20px;
+      height: 100%;
+    }
+
+    body {
+      font: 13px Helvetica, Arial;
+    }
+
+    form {
+      background: #000;
+      padding: 3px;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+
+    form input {
+      border: 0;
+      padding: 10px;
+      width: 90%;
+      margin-right: .5%;
+    }
+
+    form button {
+      width: 9%;
+      background: rgb(130, 224, 255);
+      border: none;
+      padding: 10px;
+    }
+
+    #message {
+      list-style-type: none;
+      margin: 0;
+      padding: 20px;
+      overflow: auto;
+    }
+
+    #message li {
+      padding: 5px 10px;
+    }
+
+    #message li:nth-child(odd) {
+      background: #eee;
+    }
+
+    .confirmed::after {
+      content: '√';
+      height: 10px;
+      width: 10px;
+      margin-left: 20px;
+      display: inline-block;
+      color: lightblue;
+    }
+
+    .announcement {
+      background: rgb(136, 220, 205);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="chat">
+    <ul id="message"></ul>
+    <form action="" id="form">
+      <input autocomplete="off" id="input" /><button>Send</button>
+    </form>
+  </div>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io();
+    socket.on('connect', () => {
+      socket.emit('join', prompt('What\'s your nickname'));
+      document.getElementById('chat').style.display = 'block';
+
+      // 监听用户连接的通知，在屏幕上显示有人加入了
+      socket.on('announcement', msg => {
+        const li = document.createElement('li');
+        li.innerHTML = msg;
+        li.className = 'announcement';
+        document.getElementById('message').appendChild(li);
+      });
+    });
+
+    // 提交发送的信息到服务器
+    const input = document.getElementById('input');
+    const form = document.getElementById('form');
+    form.onsubmit = function() {
+      // 监听用户自身发出的信息
+      const li = addMessage('me', input.value);
+      socket.emit('text', input.value, date => {
+        li.className = 'confirmed';
+        li.title = date;
+      });
+      input.value = '';
+      input.focus();
+      return false;
+    }
+
+    socket.on('text', addMessage);
+
+    function addMessage(from, text) {
+      const li = document.createElement('li');
+      li.className = 'message';
+      li.innerHTML = `<b>${from}</b>: ${text}`;
+      document.getElementById('message').appendChild(li);
+      return li;
+    }
+  </script>
+</body>
+
+</html>
