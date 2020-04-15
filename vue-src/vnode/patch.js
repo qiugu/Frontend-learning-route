@@ -35,6 +35,12 @@ export function patch(prevVNode, nextVNode, container) {
  */
 function replaceVNode(prevVNode, nextVNode, container) {
   container.removeChild(prevVNode.el)
+
+  // 如果节点是组件类型的话，移除节点的时候，需要调用组件的unmounted钩子
+  if (prevVNode.flag & VNodeFlags.COMPONENT_STATEFUL_NORMAL) {
+    const instance = prevVNode.children
+    instance.unmounted && instance.unmounted()
+  }
   mount(nextVNode, container)
 }
 
@@ -82,7 +88,33 @@ function patchElement(prevVNode, nextVNode, container) {
   )
 }
 
-function patchComponent() {}
+/**
+ * 对比组件节点
+ * @param {VNode} prevVNode 旧节点
+ * @param {VNode} nextVNode 新节点
+ * @param {HTMLElement} container 挂载dom元素
+ */
+function patchComponent(prevVNode, nextVNode, container) {
+  // 如果组件类型不同，则替换节点
+  if (nextVNode.tag !== prevVNode.tag) {
+    replaceVNode(prevVNode, nextVNode, container)
+  }
+  // 如果是个有状态组件，拿到组件实例，更新props和更新组件
+  else if (nextVNode.flags & VNodeFlags.COMPONENT_STATEFUL_NORMAL) {
+    const instance = (nextVNode.children = prevVNode.children)
+    instance.$props = nextVNode.data
+    instance._update()
+  }
+  // 比较函数式组件
+  else {
+    const handle = nextVNode.handle = prevVNode.handle
+    handle.prev = prevVNode
+    handle.next = nextVNode
+    handle.container = container
+
+    handle.update()
+  }
+}
 
 /**
  * 对比文本节点
@@ -96,9 +128,64 @@ function patchText(prevVNode, nextVNode) {
   }
 }
 
-function patchFragment() {}
+/**
+ * 对比两个片段节点，两个片段没有根节点，因此直接比较其子节点即可
+ * @param {VNode} prevVNode 
+ * @param {VNode} nextVNode 
+ * @param {HTMLElement} container 
+ */
+function patchFragment(prevVNode, nextVNode, container) {
+  patchChildren(
+    prevVNode.childFlags,
+    nextVNode.childFlags,
+    prevVNode.children,
+    nextVNode.children,
+    container
+  )
 
-function patchPortal() {}
+  switch(nextVNode.childFlags) {
+    case ChildrenFlags.SINGLE_VNODE:
+      nextVNode.el = nextVNode.children.el
+      break
+    case ChildrenFlags.NO_CHILDREN:
+      nextVNode.el = prevVNode.el
+      break
+    default:
+      nextVNode.el = nextVNode.children[0].el
+  }
+}
+
+/**
+ * Portal组件更新，除了对比子节点外，还需要比较挂载点是否相同
+ * @param {VNode} prevVNode 
+ * @param {VNode} nextVNode 
+ */
+function patchPortal(prevVNode, nextVNode) {
+  patchChildren(
+    prevVNode.childFlags,
+    nextVNode.childFlags,
+    prevVNode.children,
+    nextVNode.children,
+    prevVNode.tag
+  )
+
+  nextVNode.el = prevVNode.el
+
+  if (nextVNode.tag !== prevVNode.tag) {
+    const container = typeof nextVNode.tag === 'string' ? document.querySelector(nextVNode.tag) : nextVNode.tag
+    switch(nextVNode.childFlags) {
+      case ChildrenFlags.SINGLE_VNODE:
+        container.appendChild(nextVNode.children.el)
+        break
+      case ChildrenFlags.NO_CHILDREN:
+        break
+      default:
+        for(let i = 0; i < nextVNode.children.length; i++) {
+          container.appendChild(nextVNode.children[i].el)
+        }
+    }
+  }
+}
 
 /**
  * 对比新旧节点上的数据
@@ -158,10 +245,10 @@ function patchChildren(prevChildFlags, nextChildFlags, prevChildren, nextChildre
       }
       else if (nextChildFlags === ChildrenFlags.NO_CHILDREN) {
         // 新节点没有子节点的话，则移除旧节点的子节点即可
-        container.removeChild(prevChildren.el);
+        container.removeChild(prevChildren.el)
       }
       else {
-        container.removeChild(prevChildren.el);
+        container.removeChild(prevChildren.el)
         for(let i = 0; i < nextChildren.length; i++) {
           mount(nextChildren[i], container)
         }
