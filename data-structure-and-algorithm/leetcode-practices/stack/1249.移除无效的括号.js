@@ -1,7 +1,13 @@
+/*
+ * @lc app=leetcode.cn id=1249 lang=javascript
+ *
+ * [1249] 移除无效的括号
+ */
+
+// @lc code=start
 /**
- * 移除无效括号
- * @param {string} s 给定的字符串
- * @returns {string} 输出有效的字符串
+ * @param {string} s
+ * @return {string}
  */
 var minRemoveToMakeValid = function(s) {
   let i = 0, stack = [];
@@ -31,9 +37,5 @@ var minRemoveToMakeValid = function(s) {
   }
   return res;
 };
-console.log(minRemoveToMakeValid("l(e)))et((co)d(e"))
-console.log(minRemoveToMakeValid("a)b(c)d"))
-console.log(minRemoveToMakeValid("lee(t(c)o)de)"))
-console.log(minRemoveToMakeValid("(a(b(c)d)"))
-console.log(minRemoveToMakeValid("abc"))
-console.log(minRemoveToMakeValid("))(("))
+// @lc code=end
+

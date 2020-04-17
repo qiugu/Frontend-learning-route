@@ -1,7 +1,13 @@
+/*
+ * @lc app=leetcode.cn id=1209 lang=javascript
+ *
+ * [1209] 删除字符串中的所有相邻重复项 II
+ */
+
+// @lc code=start
 /**
- * 删除字符串中的所有相邻重复项II
- * @param {string} s 给定的字符串
- * @param {number} k 要删除相邻重复的个数
+ * @param {string} s
+ * @param {number} k
  * @return {string}
  */
 var removeDuplicates = function(s, k) {
@@ -24,4 +30,5 @@ var removeDuplicates = function(s, k) {
   }
   return res;
 };
-console.log(removeDuplicates('deeedbbcccbdaa', 3))
+// @lc code=end
+

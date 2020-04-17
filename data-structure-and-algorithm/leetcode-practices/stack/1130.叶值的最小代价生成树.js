@@ -1,7 +1,13 @@
+/*
+ * @lc app=leetcode.cn id=1130 lang=javascript
+ *
+ * [1130] 叶值的最小代价生成树
+ */
+
+// @lc code=start
 /**
- * 叶值最小代价生成树
- * @param {number[]} arr 中序遍历得到的叶子节点
- * @returns {number} 每个非叶节点最小可能总和
+ * @param {number[]} arr
+ * @return {number}
  */
 var mctFromLeafValues = function(arr) {
   // 单调栈
@@ -19,6 +25,5 @@ var mctFromLeafValues = function(arr) {
   }
   return ans;
 };
-console.log(mctFromLeafValues([4,11]))
-console.log(mctFromLeafValues([6,2,4]))
-console.log(mctFromLeafValues([5,8,7,4]))
+// @lc code=end
+

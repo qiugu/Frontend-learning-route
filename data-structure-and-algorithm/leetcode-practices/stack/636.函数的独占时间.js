@@ -1,9 +1,14 @@
+/*
+ * @lc app=leetcode.cn id=636 lang=javascript
+ *
+ * [636] 函数的独占时间
+ */
 
+// @lc code=start
 /**
- * 函数的独占时间
- * @param {number} n 运行函数的数量1 <= n <= 100
- * @param {array} logs 运行日志
- * @returns {array} 每个函数执行的时间组成的数组
+ * @param {number} n
+ * @param {string[]} logs
+ * @return {number[]}
  */
 var exclusiveTime = function(n, logs) {
   let stack = [], i = 1;
@@ -33,11 +38,5 @@ var exclusiveTime = function(n, logs) {
   }
   return res;
 };
-console.log(exclusiveTime(3, [
-  '0:start:0',
-  '1:start:2',
-  '1:end:5',
-  '2:start:6',
-  '2:end:9',
-  '0:end:12'
-]))
+// @lc code=end
+

@@ -1,6 +1,12 @@
+/*
+ * @lc app=leetcode.cn id=1190 lang=javascript
+ *
+ * [1190] 反转每对括号间的子串
+ */
+
+// @lc code=start
 /**
- * 反转每对括号间的字符串
- * @param {string} s 给定字符串
+ * @param {string} s
  * @return {string}
  */
 var reverseParentheses = function(s) {
@@ -26,5 +32,5 @@ var reverseParentheses = function(s) {
   }
   return stack.join('');
 };
-console.log(reverseParentheses('(ed(et(oc))el)'))
-console.log(reverseParentheses('(u(love)i)'))
+// @lc code=end
+

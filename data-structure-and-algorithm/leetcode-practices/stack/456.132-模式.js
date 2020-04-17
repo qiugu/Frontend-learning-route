@@ -1,6 +1,13 @@
+/*
+ * @lc app=leetcode.cn id=456 lang=javascript
+ *
+ * [456] 132模式
+ */
+
+// @lc code=start
 /**
- * 132模式
- * @param {array} nums 
+ * @param {number[]} nums
+ * @return {boolean}
  */
 var find132pattern = function(nums) {
   let stack = [], mins = []
@@ -24,7 +31,5 @@ var find132pattern = function(nums) {
   }
   return false
 }
-console.log(test([3, 5, 0, 3, 4]))
-console.log(test([3, 1, 4, 2]))
-console.log(test([-1, 3, 2, 0]))
-console.log(test([1, 2, 3, 4]))
+// @lc code=end
+
