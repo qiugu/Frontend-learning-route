@@ -3,6 +3,7 @@ import { patch } from './patch'
 
 export const Fragment = Symbol()
 export const Portal = Symbol()
+export const domPropsRE = /\[A-Z]|^(?:value|checked|selected|muted)$/
 
 // 创建vnode
 export function h(tag, data = null, children = null) {
@@ -114,7 +115,6 @@ export function mount(vnode, container) {
 
 // 挂载原生dom元素
 function mountElement (vnode, container, isSVG) {
-  const domPropsRE = /\[A-Z]|^(?:value|checked|selected|muted)$/
   // 判断是否是svg元素
   isSVG = isSVG || vnode.flags & VNodeFlags.ELEMENT_SVG
   const el = isSVG
@@ -251,13 +251,31 @@ function normalizeClass(val) {
 function mountStatefulComponent(vnode, container, isSVG) {
   const { children, childrenFlags } = vnode
   // 创建组件实例
-  const instance = new vnode.tag()
-  // 调用组件实例上的render方法生成vnode
-  instance.$vnode = instance.render()
-  // 挂载vnode
-  mount(instance.$vnode, container, isSVG)
-  // el 属性值 和 组件实例的 $el 属性都引用组件的根DOM元素
-  instance.$el = vnode.el = instance.$vnode.el
+  const instance = vnode.children = new vnode.tag()
+  instance.$props = vnode.data
+  
+  instance._update = function() {
+    // 判断实例是否已经挂载了，如果是已经挂载则比较新旧节点
+    if (instance._mounted) {
+      const prevVNode = instance.$vnode
+      const nextVNode = (instance.$vnode = instance.render())
+      patch(prevVNode, nextVNode, prevVNode.el.parentNode)
+      instance.$el = vnode.el = instance.$vnode.el
+    } else {
+      // 调用组件实例上的render方法生成vnode
+      instance.$vnode = instance.render()
+      // 挂载vnode
+      mount(instance.$vnode, container, isSVG)
+      // 已经挂载了实例，则将_mounted置为true
+      instance._mounted = true
+      // el 属性值 和 组件实例的 $el 属性都引用组件的根DOM元素
+      instance.$el = vnode.el = instance.$vnode.el
+      // 调用mounted钩子
+      instance.mounted && instance.mounted()
+    }
+  }
+
+  instance._update()
 
   // 如果挂载的组件中含有子元素
   if (children) {
@@ -272,11 +290,31 @@ function mountStatefulComponent(vnode, container, isSVG) {
 }
 
 // 挂载函数式组件
-function mountFunctionalComponent() {
-  // 函数式组件直接执行对应的函数方法即可
-  const instance = vnode.tag()
-  mount(instance, container, isSVG)
-  vnode.el = instance.el
-  // 如果挂载的组件中含有子元素
-  // 略
+function mountFunctionalComponent(vnode, container, isSVG) {
+  vnode.handle = {
+    prev: null,
+    next: vnode,
+    container,
+    update: () => {
+      // 判断节点是初次挂载还是更新节点
+      // 节点的旧节点存在，表示之前已经挂载了，现在就是更新节点
+      if (vnode.handle.prev) {
+        const prevVNode = vnode.handle.prev
+        const nextVNode = vnode.handle.next
+        const prevTree = prevVNode.children
+        const props = nextVNode.data
+        const nextTree = nextVNode.children = nextVNode.tag(props)
+        patch(prevTree, nextTree, vnode.handle.container)
+      } else {
+        // 函数式组件没有实例，直接将props传入函数中即可
+        const props = vnode.data
+        // 函数式组件直接执行对应的函数方法即可
+        const $vnode = vnode.children = vnode.tag(props)
+        mount($vnode, container, isSVG)
+        vnode.el = $vnode.el
+      }
+    }
+  }
+
+  vnode.handle.update()
 }
