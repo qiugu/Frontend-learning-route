@@ -68,3 +68,68 @@ a = a ^ b;
 console.log(a); // 17
 console.log(b); // 13
 ```
+
+### 判断奇偶
+利用奇数的二进制末位是1，偶数的二进制末位是0的条件来判断奇偶
+
+```javascript
+num & 1 = 1; // num是奇数
+num & 1 = 0; // num是偶数
+```
+
+### 数组元素个数计数
+
+1. 只出现一次的元素
+```javascript
+function singleNumber (nums) {
+  let a = 0;
+  // 异或运算
+  // 任何数异或0等于本身，本身异或本身等于0
+  // 如果某个数出现两次，则结果为0，那么0再去异或出现一次的数则结果为出现一次的数
+  // 推论：任何数异或0的结果再去异或偶数次的任何数，最后还是为0
+  for (let i = 0; i < nums.length; i++) {
+    a ^= nums[i];
+  }
+  return a;
+};
+console.log(singleNumber([2,2,2,2,1,8,8,6,6,6,6])) // 1
+```
+
+2. 出现次数最多的元素
+
+```javascript
+function majorityElement (nums) {
+  // mid获取数组中位数
+  let res = 0, mid = nums.length >> 1;
+  for (let j = 0; j < 32; j++) {
+    let count = 0;
+    for (let i = 0; i < nums.length; i++) {
+      count += nums[i] >> j & 1;
+      if (count > mid) {
+        res += 1 << j;
+        break;
+      }
+    }
+  }
+  return res;
+};
+console.log(majorityElement([2,2,1,1,1,2,2,2,1,1,1])); // 1
+```
+
+### 二进制逆序
+
+```javascript
+function reverseBits (n) {
+  let result = 0;
+  for (let i = 0; i < 32; i++) {
+    console.log(`result二进制：${result.toString(2)}`);
+    console.log(`result << 1: ${result << 1}`);
+    console.log(`n & 1: ${n & 1}`);
+    result = (result << 1) + (n & 1);
+    console.log(`n的二进制：${n.toString(2)}`);
+    n >>= 1;
+    console.log(`n >>=1 之后的二进制：${n.toString(2)}`)
+  }
+  return result >>> 0;
+};
+```
