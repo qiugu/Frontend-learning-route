@@ -56,6 +56,30 @@
 -18 >>> 0 = 4294967278
 ```
 
+## 优先级
+1. 位运算的优先级还要低于相等运算符，也包括 >>=、<<=、&=、|=、^=这样的复合运算，优先级都是最低的.
+2. 位运算中 & 与运算的优先级是最高的，其他运算都是按顺序进行运算的
+
+下面这些运算有括号和没有括号结果是完全不同的
+
+```javascript
+1 & 1 === 1  // 1
+(1 & 1) === 1 // true
+
+1 | 1 === 0 // 1
+(1 | 1) === 0 // false
+
+1 ^ 1 === 1 // 0
+(1 ^ 1) === 1 // false
+
+1 | 0 << 1 & 2 // 1
+(1 | 0) << 1 & 2 // 2
+4 ^ 2 & 1 // 4
+(4 ^ 2) & 1 // 0
+```
+
+**上面所说的优先级都是只在ECMAScript中适用**
+
 ## 运用
 
 ### 变量交换
@@ -77,10 +101,11 @@ num & 1 = 1; // num是奇数
 num & 1 = 0; // num是偶数
 ```
 
-### 数组元素个数计数
+### 计数
 
-1. 只出现一次的元素
+1. 数组中只出现一次的元素
 ```javascript
+// leetcode 136
 function singleNumber (nums) {
   let a = 0;
   // 异或运算
@@ -95,9 +120,10 @@ function singleNumber (nums) {
 console.log(singleNumber([2,2,2,2,1,8,8,6,6,6,6])) // 1
 ```
 
-2. 出现次数最多的元素
+2. 数组中出现次数最多的元素
 
 ```javascript
+// leetcode 169
 function majorityElement (nums) {
   // mid获取数组中位数
   let res = 0, mid = nums.length >> 1;
@@ -116,9 +142,24 @@ function majorityElement (nums) {
 console.log(majorityElement([2,2,1,1,1,2,2,2,1,1,1])); // 1
 ```
 
+3. 二进制数中1的个数
+
+```javascript
+// leetcode 191
+function hammingWeight (n) {
+  let sum = 0;
+  while (n !== 0) {
+    sum++;
+    n &= (n - 1);
+  }
+  return sum;
+};
+```
+
 ### 二进制逆序
 
 ```javascript
+// leetcode 190
 function reverseBits (n) {
   let result = 0;
   for (let i = 0; i < 32; i++) {
