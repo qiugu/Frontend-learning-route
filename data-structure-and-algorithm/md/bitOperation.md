@@ -56,6 +56,30 @@
 -18 >>> 0 = 4294967278
 ```
 
+## 优先级
+1. 位运算的优先级还要低于相等运算符，也包括 >>=、<<=、&=、|=、^=这样的复合运算，优先级都是最低的.
+2. 位运算中 & 与运算的优先级是最高的，其他运算都是按顺序进行运算的
+
+下面这些运算有括号和没有括号结果是完全不同的
+
+```javascript
+1 & 1 === 1  // 1
+(1 & 1) === 1 // true
+
+1 | 1 === 0 // 1
+(1 | 1) === 0 // false
+
+1 ^ 1 === 1 // 0
+(1 ^ 1) === 1 // false
+
+1 | 0 << 1 & 2 // 1
+(1 | 0) << 1 & 2 // 2
+4 ^ 2 & 1 // 4
+(4 ^ 2) & 1 // 0
+```
+
+**上面所说的优先级都是只在ECMAScript中适用**
+
 ## 运用
 
 ### 变量交换
@@ -67,4 +91,86 @@ b = a ^ b;
 a = a ^ b;
 console.log(a); // 17
 console.log(b); // 13
+```
+
+### 判断奇偶
+利用奇数的二进制末位是1，偶数的二进制末位是0的条件来判断奇偶
+
+```javascript
+num & 1 = 1; // num是奇数
+num & 1 = 0; // num是偶数
+```
+
+### 计数
+
+1. 数组中只出现一次的元素
+```javascript
+// leetcode 136
+function singleNumber (nums) {
+  let a = 0;
+  // 异或运算
+  // 任何数异或0等于本身，本身异或本身等于0
+  // 如果某个数出现两次，则结果为0，那么0再去异或出现一次的数则结果为出现一次的数
+  // 推论：任何数异或0的结果再去异或偶数次的任何数，最后还是为0
+  for (let i = 0; i < nums.length; i++) {
+    a ^= nums[i];
+  }
+  return a;
+};
+console.log(singleNumber([2,2,2,2,1,8,8,6,6,6,6])) // 1
+```
+
+2. 数组中出现次数最多的元素
+
+```javascript
+// leetcode 169
+function majorityElement (nums) {
+  // mid获取数组中位数
+  let res = 0, mid = nums.length >> 1;
+  for (let j = 0; j < 32; j++) {
+    let count = 0;
+    for (let i = 0; i < nums.length; i++) {
+      count += nums[i] >> j & 1;
+      if (count > mid) {
+        res += 1 << j;
+        break;
+      }
+    }
+  }
+  return res;
+};
+console.log(majorityElement([2,2,1,1,1,2,2,2,1,1,1])); // 1
+```
+
+3. 二进制数中1的个数
+
+```javascript
+// leetcode 191
+function hammingWeight (n) {
+  let sum = 0;
+  while (n !== 0) {
+    sum++;
+    n &= (n - 1);
+  }
+  return sum;
+};
+```
+
+### 二进制逆序
+
+```javascript
+// leetcode 190
+function reverseBits (n) {
+  let result = 0;
+  for (let i = 0; i < 32; i++) {
+    console.log(`result二进制：${result.toString(2)}`);
+    console.log(`result << 1: ${result << 1}`);
+    console.log(`n & 1: ${n & 1}`);
+    result = (result << 1) + (n & 1);
+    console.log(`n的二进制：${n.toString(2)}`);
+    n >>= 1;
+    console.log(`n >>=1 之后的二进制：${n.toString(2)}`)
+  }
+  return result >>> 0;
+};
 ```

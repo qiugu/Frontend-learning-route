@@ -46,3 +46,6 @@ npm run dev
 npm run dev
 ```
 * 结合本项目的md文件夹中的内容，对比vue源码的执行过程，学习vue的实现
+
+#### 参考文章链接
+[vue-diff算法分析](http://hcysun.me/vue-design/zh/)
