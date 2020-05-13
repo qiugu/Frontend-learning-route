@@ -39,3 +39,48 @@
 - nextElementSibling 指向下一个兄弟元素
 
 <em>这些方法都是为了能准确的找出元素节点，因为浏览器处理DOM元素之间的空白符的方式不一样</em>
+
+**DOM结构的深度优先遍历**
+1. NodeIterator 使用document.createNodeIterator()创建实例
+2. TreeWalker
+
+### 元素大小
+- 偏移量
+1. `offsetHeight` 元素在垂直方向上占用的空间大小
+2. `offsetWidth` 元素在水平方向上占用的空间大小
+3. `offsetLeft` 元素的左外边框到子元素的左内边框之间的距离
+4. `offsetTop`  元素的上外边框到子元素的上内边框之间的距离
+
+- 客户区大小
+1. `clientWidth` 内容区的宽度加上左右的内边距
+2. `clientHeight` 内容区的高度加上上下的内边距
+
+- 滚动大小
+1. `scrollHeight` 没有滚动条的情况下元素内容的高度，即元素可见于不可见的高度和
+2. `scrollWidth` 没有滚动条情况下元素内容的宽度，即元素可见不可见的宽度和
+3. `scrollLeft` 不可见区域的左侧的像素距离
+4. `scrollTop` 不可见区域的上面的像素距离
+
+### 范围
+
+1. 创建范围
+```javascript
+document.createRange()
+
+// ie8以前的浏览中
+document.createTextRange()
+```
+
+### style 对象
+1. 获取某元素的计算样式
+
+```javascript
+window.getComputedStyle(element)
+// ie不支持这个方法，可以使用下面的属性代替
+element.currentStyle
+```
+2. 获取所有引用的样式表
+
+```javascript
+document.styleSheets
+```
