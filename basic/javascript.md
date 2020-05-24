@@ -92,4 +92,49 @@ var event = document.createEventObject('MouseEvents')
 btn.fireEvent('onkeypress', event)
 ```
 
+## 表单
+1. 获取表单
+
+```javascript
+var form = document.getElementById('form')
+
+// 也可以使用document中的属性来获取所有的表单
+var form = document.forms['formname']
+
+// 获取表单中的字段，利用上面得到的表单引用
+form.elements['fieldname']
+```
+
+2. 表单提交与重置
+* 直接利用获得的表单引用，执行submit或reset方法
+* 利用按钮来提交重置，设置按钮的type属性为`submit`、`reset`
+
+3. 表单操作
+* 表单中存在的事件：blur()、focus()、change()
+* 选择文本，当点击输入框时选中输入框中的所有文本，可以使用select()方法，也可以利用HTML5提供的setSectionRange()来选择部分文本
+* 过滤表单，利用keypress过滤按键输入，HTML5约束验证输入，例如required、validity、pattern。注意HTML5的验证属性不会阻止输入，只是提供一个验证方法。禁用验证：novalidate
+* 操作剪切板，一些剪切板相关事件：beforecopy、copy、beforecut、cut、beforepaste、paste
+
+4. 富文本
+- 通过给iframe设置designMode = 'on'来开启富文本输入模式
+- 利用DOM元素的contenteditable属性开启富文本输入
+
+```javascript
+// 通过iframe
+<iframe src="test.html" frameborder="0" name="rich" width="100%" height="100%"></iframe>
+ 
+window.addEventListener('load', () => {
+  frames['rich'].document.designMode = 'on'
+  frames['rich'].document.execCommand('italic', false, null)
+})
+
+// contenteditable
+<div contenteditable></div>
+```
+5. 富文本的操作方法
+- execCommand() 
+
+## canvas
+[canvas的基本使用](./javascript_canvas.md)
+
 ## 错误处理与调试
