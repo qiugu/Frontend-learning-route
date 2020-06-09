@@ -1,11 +1,17 @@
-# 前端知识体系
+# 前端知识体系目录
 
 ![](./assets/front.png)
 
 ## 前言
-一个非科班、学历低的精神小伙前端学习之路
+一个非科班精神小伙前端学习之路
 
 ## 计算机基础
+
+### 操作系统
+待整理
+
+### 计算机网络
+待整理
 
 ### 数据结构与算法
 
@@ -18,8 +24,6 @@
 * [哈希表(散列)](./data-structure-and-algorithm/md/hash.md)
 * [树](./data-structure-and-algorithm/md/tree.md)
 
-<small>逆波兰表达式（后缀表达式）</small>
-
 ## 语言基础
 * [HTML](./language/html.md)
 * [JAVASCRIPT](./language/javascript.md)
@@ -28,7 +32,7 @@
 [概览](./basic/browser.md)
 
 ## 移动端
-暂无
+待整理
 
 ## 框架
 
@@ -38,7 +42,7 @@
 3. vue-router源码学习
 
 ### react
-暂无
+待整理
 
 ## 工程化
 ### webpack
@@ -51,4 +55,4 @@
 [Node学习](./nodejs/nodejs.md)
 
 ## 性能优化
-暂无
+[关于性能优化的一些实践](./basic/performance-optimization.md)

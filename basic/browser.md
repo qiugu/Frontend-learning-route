@@ -36,7 +36,7 @@
 5. DOM解析完之后，`document.readyState = 'interactive'`，此时defer属性的脚本开始顺序执行，执行完毕后触发了DOMContentLoaded事件，标志着程序执行从同步脚本执行阶段转换为事件驱动阶段。
 6. async属性脚本加载完就会执行，不论是在HTML解析阶段还是在DOMContentLoaded之后执行，async属性脚本会阻塞load事件，当所有的async脚本执行完毕，以及img等资源加载完毕，`document.readyState = 'complete'`，window对象会触发load事件。
 
-:::从浏览器绘制页面的过程来看
+### 从浏览器绘制页面的过程来看
 1. 解析HTML元素生成DOM树
 2. 解析CSS生成CSS树，将CSS树和DOM树一起生成Render树
 3. 进行布局Render树，也就是所谓的`Layout`
