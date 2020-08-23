@@ -11,25 +11,25 @@
 待整理
 
 ### 计算机网络
-待整理
+[概览(待更新)](./packages/docs/basic/net.md)
 
-### 数据结构与算法
+### 数据结构与算法(重新再次整理学习)
 
-* [位运算](./data-structure-and-algorithm/md/bitOperation.md)
-* [栈](./data-structure-and-algorithm/code/stack.js)
-* [队列](./data-structure-and-algorithm/code/queue.js)
-* [链表](./data-structure-and-algorithm/code/linkedList.js)
-* [集合](./data-structure-and-algorithm/code/set.js)
-* [字典](./data-structure-and-algorithm/md/dictionary.md)
-* [哈希表(散列)](./data-structure-and-algorithm/md/hash.md)
-* [树](./data-structure-and-algorithm/md/tree.md)
+* [位运算](./packages/docs/data-structure-and-algorithm/bitOperation.md)
+* [栈](./packages/docs/data-structure-and-algorithm/stack.js)
+* [队列](./packages/docs/data-structure-and-algorithm/queue.js)
+* [链表](./packages/docs/data-structure-and-algorithm/linkedList.js)
+* [集合](./packages/docs/data-structure-and-algorithm/set.js)
+* [字典](./packages/docs/data-structure-and-algorithm/dictionary.md)
+* [哈希表(散列)](./packages/docs/data-structure-and-algorithm/hash.md)
+* [树](./packages/docs/data-structure-and-algorithm/tree.md)
 
 ## 语言基础
-* [HTML](./language/html.md)
-* [JAVASCRIPT](./language/javascript.md)
+* [HTML](./packages/docs/basic/html.md)
+* [JAVASCRIPT](./packages/docs/basic/javascript.md)
 
 ## 浏览器
-[概览](./basic/browser.md)
+[概览](./packages/docs/basic/browser.md)
 
 ## 移动端
 待整理
@@ -38,7 +38,7 @@
 
 ### vue
 1. vue源码学习
-2. [vuex源码学习](./vuex-src/readme.md)
+2. [vuex源码学习](./packages/code/vuex-src/readme.md)
 3. vue-router源码学习
 
 ### react
@@ -46,13 +46,13 @@
 
 ## 工程化
 ### webpack
-1. webpack源码学习
+1. [webpack源码学习](./packages/code/webpack/readme.md)
 
 ### git
-[git命令一览](./basic/git.md)
+[git命令一览](./packages/docs/basic/git.md)
 
 ## 服务端
-[Node学习](./nodejs/nodejs.md)
+[Node学习](./packages/code/nodejs/nodejs.md)
 
 ## 性能优化
-[关于性能优化的一些实践](./basic/performance-optimization.md)
+[关于性能优化的一些实践](./packages/docs/basic/performance-optimization.md)
