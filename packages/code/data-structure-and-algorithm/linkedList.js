@@ -142,12 +142,12 @@ LinkedList.prototype.remove = function (element) {
 
 // 单向链表测试
 const linkedList = new LinkedList()
-linkedList.append('abc')
-linkedList.append('def')
-linkedList.append('ghi')
-linkedList.append('jkl')
-linkedList.append('mno')
-linkedList.append('pqr')
+linkedList.append(1)
+linkedList.append(3)
+linkedList.insert(1,2);
+linkedList.get(1);
+linkedList.removeAt(1);
+console.log(linkedList.get(1));
 // console.log(linkedList.toString())
 // linkedList.insert(0, 'stu')
 // linkedList.insert(7, 'wxy')
@@ -157,7 +157,7 @@ linkedList.append('pqr')
 // linkedList.removeAt(0)
 // linkedList.removeAt(1)
 // linkedList.remove('abc')
-// console.log(linkedList.toString())
+console.log(linkedList.toString())
 
 
 // 双向链表
@@ -298,7 +298,7 @@ DoublyLinkedList.prototype.remove = function (element) {
   return this.removeAt(index)
 }
 
-const doublyLinkedList = new DoublyLinkedList()
+// const doublyLinkedList = new DoublyLinkedList()
 // doublyLinkedList.append('a')
 // doublyLinkedList.append('b')
 // doublyLinkedList.append('c')
@@ -309,7 +309,7 @@ const doublyLinkedList = new DoublyLinkedList()
 // doublyLinkedList.insert(3,'f')
 // doublyLinkedList.insert(7,'h')
 // console.log(doublyLinkedList.get(8))
-console.log(doublyLinkedList.toString())
+// console.log(doublyLinkedList.toString())
 // console.log(doublyLinkedList.indexOf('c'))
-console.log(doublyLinkedList.removeAt(0))
-console.log(doublyLinkedList.toString())
+// console.log(doublyLinkedList.removeAt(0))
+// console.log(doublyLinkedList.toString())

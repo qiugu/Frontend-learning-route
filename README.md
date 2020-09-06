@@ -27,6 +27,7 @@
 ## 语言基础
 * [HTML](./packages/docs/basic/html.md)
 * [JAVASCRIPT](./packages/docs/basic/javascript.md)
+* [CSS](./packages/docs/basic/css.md)
 
 ## 浏览器
 [概览](./packages/docs/basic/browser.md)
