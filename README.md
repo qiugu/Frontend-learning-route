@@ -18,15 +18,15 @@
 
 ### 数据结构与算法(重新再次整理学习)
 
-* [位运算](./packages/docs/data-structure-and-algorithm/bitOperation.md)
-* [栈](./packages/docs/data-structure-and-algorithm/stack.js)
-* [队列](./packages/docs/data-structure-and-algorithm/queue.js)
-* [链表](./packages/docs/data-structure-and-algorithm/linkedList.js)
-* [集合](./packages/docs/data-structure-and-algorithm/set.js)
-* [字典](./packages/docs/data-structure-and-algorithm/dictionary.md)
-* [哈希表(散列)](./packages/docs/data-structure-and-algorithm/hash.md)
-* [树](./packages/docs/data-structure-and-algorithm/tree.md)
-* [Boyer-Moore算法（BM算法）](./packages/code/data-structure-and-algorithm/string_BM.js)
+* [位运算](./packages/docs/data_structure_and_algorithm/bitOperation.md)
+* [栈](./packages/docs/data_structure_and_algorithm/stack.js)
+* [队列](./packages/docs/data_structure_and_algorithm/queue.js)
+* [链表](./packages/docs/data_structure_and_algorithm/linkedList.js)
+* [集合](./packages/docs/data_structure_and_algorithm/set.js)
+* [字典](./packages/docs/data_structure_and_algorithm/dictionary.md)
+* [哈希表(散列)](./packages/docs/data_structure_and_algorithm/hash.md)
+* [树](./packages/docs/data_structure_and_algorithm/tree.md)
+* [Boyer-Moore算法（BM算法）](./packages/code/data_structure_and_algorithm/string_BM.js)
 
 ## 语言基础
 
