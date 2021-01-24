@@ -1,6 +1,7 @@
-
+# javascript\_obj
 
 ## 创建对象
+
 在 JavaScript 世界中，创建对象是非常简单的，但如何组织对象却是一个复杂的问题。首先要明确的就是在 JavaScript 中并没有和 Java 中的类那样的机制，即使后面 ES6 出现了 class 这样的类关键字，也不过是一种语法糖罢了。
 
 首先使用创建对象的最普遍的方法就是字面量，虽然字面量创建对象非常的容易，并且好理解，但是如果需要创建大量的对象，那么字面量就显得有些力不从心了。所以就出现了一些改进的方法。
@@ -86,7 +87,7 @@ function Person(name, age, hobby) {
   this.name = name;
   this.age = age;
   this.hobby = ['coding', 'reading', 'writing'];
-  
+
   if (typeof this.say !== 'function') {
     Person.prototype.say = function() {
       console.log(this.name + this.age);
@@ -112,6 +113,7 @@ function SpecialObj(name, age) {
 
 let obj = new SpecialObj('qiugu', 18);
 ```
+
 寄生构造函数模式和工厂模式代码是一模一样的，所以也有工厂模式的缺陷，无法使用 instanceof 操作符判断对象的类型，因为函数创建的对象和函数并没有什么联系。要说区别的话，则是寄生构造函数模式可以创建一个特殊的构造函数，利用他可以在不修改原来的构造函数的情况下，添加一些属性方法。上面的代码给 `Object` 添加一些对象和属性，也可以给`Array`、`String`这样的原生构造函数添加一些属性方法。
 
 那么如果是给原生的构造函数添加属性方法，为什么不使用 `prototype` 来添加呢，这样不是更方便吗？其实还是原型模式带来的问题，原型上所有的属性方法都会共享，因此一旦在原型上添加了属性方法，所有对象会去共享这些方法，这并不是我们想要的结果，另外的原因则是在这些原生构造函数添加属性方法，以后随着 JavaScript 版本迭代万一出现代码中定义的属性方法，则会生成一些难以预料的错误。
@@ -128,6 +130,7 @@ function Person(name, age) {
 
 let obj = new Person('qiugu', 18);
 ```
+
 稳妥构造函数其实就是类似 Java 中的私有成员，如上代码所示，name 属性只能通过 say 方法来访问，这种私有成员的模式是为了防止篡改对象成员，你可以任意添加属性，但是无法修改函数中的原本的成员，这样保证其创建的对象是一个`稳妥对象`。
 
 在ES6以后，可以利用 `proxy` 这个api来代理所有的对象，通过拦截某些属性来达到私有属性的一个实现：
@@ -180,9 +183,7 @@ Person.prototype = {};
 console.log(Person.prototype);
 ```
 
-
 ![](https://imgkr.cn-bj.ufileos.com/1e6dbb46-da4c-4c9e-bbd7-758a116ac11b.png)
-
 
 `__proto__`属性则指向了`Object.prototype`。`__proto__`属性则是下面要说的对象的原型。
 
@@ -195,9 +196,7 @@ console.log(obj) // object
 console.log(obj.toString()) // [object Object]
 ```
 
-
 ![](https://imgkr.cn-bj.ufileos.com/c4e961fb-166d-485e-9570-d33f74a4b938.png)
-
 
 创建一个对象，打印出来可以看到对象中不仅有定义的 name 和 age 的属性，还有 `__proto__` 属性，这个属性就是和函数的`prototype`一样，指向了对象的原型，也符合在函数的`prototype`对象上看到的`__proto__`属性，所以每个创建的对象都有一个内置的`[[prototype]]`属性，`__proto__`就是上文说的一个非标准属性，在ES6就可以利用`getPrototypeOf`这个标准方法来获得对象上的原型。还有类似的方法`setPrototypeOf`、`isPrototypeOf`用来操作原型对象，下面也会用到。
 
@@ -255,6 +254,7 @@ SubType.prototype = {
 原型链继承还有一个问题则是在不影响其他对象的情况下，无法给父函数传递参数，这个也导致原型链继承使用的很少的原因，下面的继承方法正是为了解决这个不足的。
 
 ### 构造函数继承
+
 ```javascript
 function SuperType() {
   this.name = 'qiugu';
@@ -267,6 +267,7 @@ function SubType() {
 构造函数继承就是利用了 call 方法来改变 this 指向，调用父级的构造函数生成子类的对象，如果需要添加参数的话，则可以在 call 里面继续添加参数，也就解决了无法在父类中传参的问题。同理，构造函数也有方法无法复用的缺点，因此一般不会单独使用，结合上面的原型链继承，就有了下面的组合继承的方法。
 
 ### 组合继承
+
 ```javascript
 function SuperType() {
   this.name = 'qiugu';
@@ -284,6 +285,7 @@ SubType.prototype.constructor = SubType;
 下面几种继承的方法，没有使用构造函数来实现继承，而是将继承的逻辑封装在一个普通方法中，在方法中传入对象，返回一个新对象来实现的继承。
 
 ### 原型式继承
+
 ```javascript
 function object(o) {
   function F() {}
@@ -298,6 +300,7 @@ let person = object(new Person());
 再下面的两种继承方法都是原型式继承的一种增强对象功能的方法。
 
 ### 寄生式继承
+
 ```javascript
 function createAnother(origin) {
   const obj = object(origin);
@@ -310,7 +313,8 @@ function createAnother(origin) {
 
 寄生式继承的缺点很明显，就是给对象定义方法时，每个方法都是单独的引用，无法做到方法共用，因此效率会比较低。
 
-### 寄生组合式继承 
+### 寄生组合式继承
+
 ```javascript
 function SuperType() {
   this.name = 'qiugu';
@@ -330,3 +334,4 @@ function parasitic(subType, superType) {
 ```
 
 寄生组合式继承是对于上面常用的组合继承方法的增强，因为组合继承实际上会执行两次父类构造方法，一次是在子类中的调用，另外一次是在改变子类的原型指向的父类实例。两次调用肯定是没有必要的，寄生组合式继承利用原型式继承，将父类的原型传递给 object 方法，返回了一个原型指向父类原型的对象，而不是父类的实例，再将子类的原型指向刚刚返回的对象，这样就只需要实例化一次父类就可以将原型对象指向了父类的原型，同时子类构造函数中调用父类构造函数初始化，这样子类上面就有自己的属性方法，而不是存在于父类上，就解决了原型共享的问题。
+
