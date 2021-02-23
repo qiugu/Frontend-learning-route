@@ -1,6 +1,6 @@
 # interviews
 
-## 原型链
+## 原型
 
 在 JavaScript 中，所有的对象都内置了一个特殊的属性 [[prototype]]，当我们引用对象的某个属性时，如
 
@@ -177,7 +177,7 @@ function inherit(subType, superType) {
 }
 ```
 
-## call/apply/bind和new/instanceof的实现
+## 一些常用API的实现
 
 ### call/apply的实现
 
@@ -233,7 +233,54 @@ Function.prototype.myBind = function(context, args) {
 
 ### new的实现
 
+```JavaScript
+function objFactory(fn, ...args) {
+  // 生成一个空对象
+  const obj = new Object();
+  // 将对象的原型链接到构造函数的原型上，这么做就能使对象访问到构造函数原型上的属性方法
+  obj.__proto__ = fn.prototype;
+  // 执行构造函数，利用call将上下文指向刚刚创建的对象，这样就能访问this上的属性方法
+  const res = fn.call(obj, ...args);
+  // 如果构造函数有返回值的话，需要判断返回值的类型是否是对象，如果是对象就返回这个对象
+  // 如果是基础类型，则还是返回创建的对象
+  return typeof res === 'object' ? res : obj;
+}
+```
+
 ### instanceof的实现
+
+```JavaScript
+// 1.拿到右边构造方法的原型
+// 2. 不停去获取左边的实例的原型进行对比
+// 3. 如果最后左边的原型为空返回false
+// 4. 如果左边原型和右边的原型相等则返回true
+function customInstanceOf(left, right) {
+  const prototype = right.prototype;
+  const proto = left.__proto__;
+  while(true) {
+    if (proto == null) return false;
+    if (proto === prototype) return true;
+    proto = proto.___proto__;
+  }
+}
+```
+
+### 函数柯里化的实现
+
+```JavaScript
+// 利用闭包保存参数，当参数和给定的函数参数数量相等，则执行该函数
+// 否则返回一个包含该参数的包裹给定函数的函数
+function curry(fn) {
+  const judge = function(...args) {
+    return args.length === fn.length
+      ? fn(...args)
+      : arg => judge(...args, arg);
+  }
+  return judge;
+}
+```
+
+## 浮点数精度问题
 
 ## v8的垃圾回收机制
 
@@ -251,7 +298,38 @@ Function.prototype.myBind = function(context, args) {
 
 ## promise
 
-## 异步相关
+## 事件循环
+
+### 浏览器环境
+
+执行栈
+事件队列(Task Queue)
+微任务(Micro Task)
+宏任务(Macro Task)
+
+当前执行栈为空时，会先去处理所有的微任务队列中的事件，然后去宏任务队列中取出一个事件加入栈中执行。所以微任务永远在宏任务的前面执行。
+### NodeJS环境
+
+```
+   ┌───────────────────────┐
+┌─>│        timers         │
+│  └──────────┬────────────┘
+│  ┌──────────┴────────────┐
+│  │     I/O callbacks     │
+│  └──────────┬────────────┘
+│  ┌──────────┴────────────┐
+│  │     idle, prepare     │
+│  └──────────┬────────────┘      ┌───────────────┐
+│  ┌──────────┴────────────┐      │   incoming:   │
+│  │         poll          │<──connections───     │
+│  └──────────┬────────────┘      │   data, etc.  │
+│  ┌──────────┴────────────┐      └───────────────┘
+│  │        check          │
+│  └──────────┬────────────┘
+│  ┌──────────┴────────────┐
+└──┤    close callbacks    │
+   └───────────────────────┘
+```
 
 ## 网络
 
