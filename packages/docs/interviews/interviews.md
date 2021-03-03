@@ -315,11 +315,7 @@ function MyPromise(fn) {
             this.val = val;
             this.status = FULLFILLED;
             // then添加回到以后执行回调，因此放入setTimeout中
-            setTimeout(() => {
-                this.onResolvedCallbacks.forEach(fn => {
-                    fn(this.val);
-                });
-            }, 0);
+            this.onResolvedCallbacks.forEach(fn => fn());
         }
     };
 
@@ -327,11 +323,7 @@ function MyPromise(fn) {
         if (this.status === PENDING) {
             this.val = reason;
             this.status = REJECTED;
-            setTimeout(() => {
-                this.onRejectedCallbacks.forEach(fn => {
-                    fn(this.val);
-                });
-            });
+            this.onRejectedCallbacks.forEach(fn => fn());
         }
     };
 
@@ -434,16 +426,20 @@ MyPromise.prototype.catch = function(onRejected) {
 
 function resolvePromise(promise2, x, resolve, reject) {
     if (promise2 === x) {
-        return reject('循环引用: Chaining cycle detected for promise');
+        // 这里使用TypeError，是promiseA+规范规定，当promise2和x引用了同一个对象时，返回一// reject的TypeError的错误
+        return reject(new TypeError('循环引用: Chaining cycle detected for promise'));
     }
 
+    // 执行完then中的回调获取的返回值判断是否是对象或者是函数
     if (x !== null && (typeof x === 'object' || typeof x === 'function')) {
         // 保证resolve,reject只执行一次
         let called;
         try {
+            // 判断x是否是一个thenable对象
+            // 如果不是的话，直接当成值resolve
             let then = x.then;
-            console.log(then);
             if (typeof then === 'function') {
+                // 如果是一个thennable对象，则调用then方法，递归解析
                 then.call(x, y => {
                     if (called) return;
                     called = true;
@@ -465,6 +461,25 @@ function resolvePromise(promise2, x, resolve, reject) {
         resolve(x);
     }
 }
+```
+
+这里可以使用一个库来测试写出来的promise代码是否正确
+
+```js
+MyPromise.deferred = MyPromise.defer = function(){
+    let dfd = {}
+    dfd.promise = new MyPromise((resolve,reject)=>{
+        dfd.resolve = resolve
+        dfd.reject = reject
+    })
+    return dfd
+}
+
+var promisesAplusTests = require("promises-aplus-tests");
+
+promisesAplusTests(MyPromise, function (err) {
+    console.log(err, 'complete');
+});
 ```
 
 ## 事件循环
@@ -499,6 +514,10 @@ function resolvePromise(promise2, x, resolve, reject) {
 └──┤    close callbacks    │
    └───────────────────────┘
 ```
+
+## CSS相关
+
+包括盒模型、BFC、IFC
 
 ## 网络
 
