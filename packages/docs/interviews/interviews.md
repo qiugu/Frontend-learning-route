@@ -2,38 +2,113 @@
 
 ## 原型
 
-在 JavaScript 中，所有的对象都内置了一个特殊的属性 [[prototype]]，当我们引用对象的某个属性时，如
+原型是一个对象，简单来说在JavaScript中，所有的对象都是由一个对象创建出来的，这个对象就是Object.prototype。在函数中，存在一个`prototype`的属性指向了它的原型，而在一个实例中，它有一个非正式属性`__proto__`指向原型。对原型来说，它存在一个属性`constructor`指向了构造函数
 
 ```javascript
-// myObject.a
+function Person() {}
+const person = new Person()
+
+console.log(Person.prototype === Person.prototype);
+// 实例的原型指向了构造函数的原型
+console.log(person.__proto__ === Person.prototype);
+// 构造函数原型的constructor属性指向了构造函数本身
+console.log(Person.prototype.constructor === Person);
+// 实例对象的constructor属性指向了构造函数本身
+console.log(person.constructor === Person);
+
 ```
 
-会触发 [[get]] 操作，如果在对象中找不到 a 属性，那么就会去 [[prototype]]链中去查找。对于默认的 [[get]] 操作而言，如果在对象本身找不到 a 属性，则会去访问 [[prototype]] 链， 如果在 [[prototype]] 中也找不到属性，那会继续沿着当前的 [[prototype]] 链继续查找，直到找到同名属性或者是返回 undefined。
+实例对象中还有一个constructor属性指向了Person，也就是指向了自己，是可以被修改的，所以在编码不要信任constructor属性，来作为判断条件的依据。
 
-会触发 \[\[get\]\] 操作，如果在对象中找不到 a 属性，那么就会去 \[\[prototype\]\]链中去查找。对于默认的 \[\[get\]\] 操作而言，如果在对象本身找不到 a 属性，则会去访问 \[\[prototype\]\] 链， 如果在 \[\[prototype\]\] 中也找不到属性，那会继续沿着当前的 \[\[prototype\]\] 链继续查找，直到找到同名属性或者是返回 undefined。
+### 原型链
 
-所有的 \[\[prototype\]\] 链最终都会指向 `Object.prototype`，如果到这里还找不到属性，那么就会返回 undefined。
+对象中的关联关系组成的链式结构就是**原型链**
 
-这个 \[\[prototype\]\] 链在对象中，其实就是 `__proto__` 属性，一般可以使用 `Object.getPrototypeOf` 来获取，函数也是对象，但是函数中的 \[\[prototype\]\] 链不是存在函数本身的属性，而是存在函数的 prototype 属性中
+### 继承
+
+> 利用原型让一个引用类型继承另一个引用类型的属性和方法
+
+所谓继承，就是获取了原型链上的属性方法，并不是真正意义上的继承，称之为**委托**更加合理，这也是上面说到所有的对象都是由一个Object.prototype创建出来的原因。
+
+继承可以通过以下方法来实现
+
+1. 原型链继承
 
 ```javascript
-function foo () {}
-
-console.log(foo.prototype)
-
-/*
-foo.protype = {
-  constructor: function foo()
-  __proto__: Object
+function SuperType () {
+  this.colors = ['red', 'white', 'green']
 }
-*/
+function SubType () {}
+
+SubType.prototype = new SuperType()
+const sub = new SubType()
+// 如果往子类的colors中添加一个属性，那么超类中的属性也会改变
+sub.colors.push('black')
+console.log(sub.colors) // ['red', 'white', 'green', 'black']
 ```
 
-函数中除了 [[prototype]] 链以外还有一个 constructor 属性指向了 foo，也就是指向了自己，并且这个是函数的默认属性，因此是可以被修改的，所以在编码不要信任 constructor属性，来作为判断条件的依据。
+1. 借用构造函数
+
+```javascript
+function SuperType () {
+  this.colors = ['red', 'white', 'green']
+}
+function SubType () {
+  // 可以向超类中传递参数
+  SuperType.call(this)
+}
+
+const sub = new SubType()
+console.log(sub.colors) // ['red', 'white', 'green']
+```
+
+2. 原型式继承
+
+```javascript
+function SubType (o) {
+  function F() {}
+  F.prototype = o
+  return new F()
+}
+```
+
+3. 寄生式继承
+
+```javascript
+function SubType (o) {
+  var clone = object(0)
+  clone.sayHi = function () {
+    console.log('Hi')
+  }
+  return clone
+}
+```
+
+4. ES6中的 extends 继承
+
+### 引申
+
+如何实现 ES6 的 extends 的关键字
+
+```javascript
+function inherit(subType, superType) {   
+  subType.prototype = Object.create(superType.prototype, {     
+    constructor: {       
+      enumerable: false,       
+      configurable: true,       
+      writerable: true,       
+      value: subType.constructor     
+    }   
+  })   
+  Object.setPrototypeOf(subType, superType) 
+}
+```
 
 ## 作用域
 
 > 作用域，就是一套规则，用于确定在何处以及如何查找变量
+
+一般说作用域，指的就是函数作用域，在JavaScript中最重要的也就是函数了。函数的作用域在函数创建时就已经确定了，
 
 ## 闭包
 
@@ -97,84 +172,6 @@ var foo = myModules.get('a')
 var bar = myModules.get('b')
 console.log(foo.hello('hippo')) // Let me introduce hippo
 bar.awesome() // LET ME INTRODUCE HIPPO
-```
-
-## 继承
-
-> 利用原型让一个引用类型继承另一个引用类型的属性和方法
-
-继承可以通过以下方法来实现
-
-1. 原型链继承
-
-```javascript
-function SuperType () {
-  this.colors = ['red', 'white', 'green']
-}
-function SubType () {}
-
-SubType.prototype = new SuperType()
-const sub = new SubType()
-// 如果往子类的colors中添加一个属性，那么超类中的属性也会改变
-sub.colors.push('black')
-console.log(sub.colors) // ['red', 'white', 'green', 'black']
-```
-
-1. 借用构造函数
-
-```javascript
-function SuperType () {
-  this.colors = ['red', 'white', 'green']
-}
-function SubType () {
-  // 可以向超类中传递参数
-  SuperType.call(this)
-}
-
-const sub = new SubType()
-console.log(sub.colors) // ['red', 'white', 'green']
-```
-
-1. 原型式继承
-
-```javascript
-function SubType (o) {
-  function F() {}
-  F.prototype = o
-  return new F()
-}
-```
-
-1. 寄生式继承
-
-```javascript
-function SubType (o) {
-  var clone = object(0)
-  clone.sayHi = function () {
-    console.log('Hi')
-  }
-  return clone
-}
-```
-
-1. ES6中的 extends 继承
-
-### 引申
-
-如何实现 ES6 的 extends 的关键字
-
-```javascript
-function inherit(subType, superType) {   
-  subType.prototype = Object.create(superType.prototype, {     
-    constructor: {       
-      enumerable: false,       
-      configurable: true,       
-      writerable: true,       
-      value: subType.constructor     
-    }   
-  })   
-  Object.setPrototypeOf(subType, superType) 
-}
 ```
 
 ## 一些常用API的实现
@@ -492,6 +489,7 @@ promisesAplusTests(MyPromise, function (err) {
 宏任务(Macro Task)
 
 当前执行栈为空时，会先去处理所有的微任务队列中的事件，然后去宏任务队列中取出一个事件加入栈中执行。所以微任务永远在宏任务的前面执行。
+
 ### NodeJS环境
 
 ```
@@ -518,6 +516,19 @@ promisesAplusTests(MyPromise, function (err) {
 ## CSS相关
 
 包括盒模型、BFC、IFC
+
+## JavaScript的模块化
+
+CommonJS和ES6模块化的区别
+
+1. CommonJS导出的是一个值的拷贝，ES6模块化则是导出值的一个引用
+2. CommonJS是运行时加载，ES6模块化是编译时输出接口
+
+## Tree-Shaking
+
+由于JavaScript是动态语言，只有在编译时才能确定代码的作用，因此在初期各种定义的模块规范都无法使用Tree-Shaking。后面出现了ES6的模块化，是一种静态的模块依赖，所以可以在代码运行前确认模块依赖关系，从而分析出来，哪些变量和函数没有用到，从而可以在打包压缩时去掉无用的代码。
+
+不过由于代码中可能会包含一些副作用的代码，类似rollup和webpack无法进行静态分析，所以也会导致Tree-Shaking失效。
 
 ## 网络
 

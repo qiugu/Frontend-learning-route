@@ -1,12 +1,13 @@
 # 前端知识体系目录
 
-![alt](.gitbook/assets/front.png)
+![alt](./assets/front_end.svg)
 
 ## 前言
 
-搭建前端学习知识体系架构，让前端学习不再迷茫和停滞不前。
+前端学习指南
 
 ## 面试相关
+
 [知识点](packages/docs/interviews/interviews.md)
 
 ## 计算机基础
@@ -74,4 +75,3 @@
 ## 性能优化
 
 [关于性能优化的一些实践](packages/docs/basic/performance-optimization.md)
-
