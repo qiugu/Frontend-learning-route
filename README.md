@@ -1,6 +1,6 @@
 # 前端知识体系目录
 
-![alt](.gitbook/assets/front.png)
+![alt](./assets/front.png)
 
 ## 前言
 
