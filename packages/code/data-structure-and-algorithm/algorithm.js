@@ -50,17 +50,21 @@ function selectSort(arr) {
  */
 
 function insertSort(arr) {
-  const len = arr.length
-  // 比较每项的数值和他左边已排序的树进行比较，外层排序次数len - 1
-  for (let i = 0; i < len - 1; i++) {
-    // 内层排序从1开始，和他左边的值进行比较
-    for (let j = i + 1; j > 0; j--) {
-      if (arr[j - 1] > arr[j]) {
-        [arr[j - 1], arr[j]] = [arr[j], arr[j - 1]]
+  for (let i = 1; i < arr.length; i++) {
+    const value = arr[i];
+    let j = i - 1;
+    for (; j >= 0; j--) {
+      if (value < arr[j]) {
+        // 往后移动数据
+        arr[j + 1] = arr[j];
+      } else {
+        break;
       }
     }
+    // 插入数据
+    arr[j + 1] = value;
   }
-  return arr
+  return arr;
 }
 
 /**
@@ -92,7 +96,7 @@ function shellSort1(arr) {
   }
   while (h >= 1) {
     for (let i = h; i < len; i++) {
-      for (j = i; j >= h; j -= h) {
+      for (let j = i; j >= h; j -= h) {
         if (arr[j] < arr[j - h]) {
           [arr[j], arr[j - h]] = [arr[j - h], arr[j]]
         }

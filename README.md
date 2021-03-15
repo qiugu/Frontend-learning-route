@@ -3,7 +3,7 @@
 ![](./assets/front.png)
 
 ## 前言
-搭建前端学习知识体系架构，让前端学习不再迷茫和停滞不前。
+收集整理前端的知识体系，有些是收集到的一些比较好的文章地址，有些是自己发表在掘金上的一些文章。自己的精力终究有限，有些地方分享的可能也并不够，所以还是决定将一些大佬的分享链接拿出来分类整理一下。
 
 ## 计算机基础
 
@@ -23,6 +23,7 @@
 * [字典](./packages/docs/data-structure-and-algorithm/dictionary.md)
 * [哈希表(散列)](./packages/docs/data-structure-and-algorithm/hash.md)
 * [树](./packages/docs/data-structure-and-algorithm/tree.md)
+* [排序算法](./packages/docs/data-structure-and-algorithm/sort.md)
 
 ## 语言基础
 * [HTML](./packages/docs/basic/html.md)
