@@ -293,7 +293,7 @@ function curry(fn) {
 
 老生代空间中存储着大量的存活对象，因此其数量十分庞大，当进行标记的时候，需要遍历空间中的所有对象，耗时特别长，导致浏览器无法响应js的任务。因此又引入了`增量标记`的概念，即将一次遍历的内存，改为多次分批标记，标记完一次之后停下来将执行权还给js线程，然后等待下一次执行标记会从上次标记的地方继续开始执行，这么做就不会导致浏览器执行长任务的时候卡顿无法响应js主线程。
 
-## promise
+## promiseA+的实现
 
 ```JavaScript
 const PENDING = 'pending';
@@ -479,6 +479,71 @@ promisesAplusTests(MyPromise, function (err) {
 });
 ```
 
+## 防抖和节流
+
+```JavaScript
+// 防抖
+function debounce(fn, wait) {
+  let timeout = null;
+  return function() {
+    let context = this, args = arguments;
+
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      fn.apply(context, args);
+    }, wait);
+  }
+}
+
+// 立即执行防抖
+function debounce(fn, wait, immediate) {
+  let timeout = null;
+  return function() {
+    let context = this, args = arguments;
+
+    if(timeout) clearTimeout(timeout);
+    if(immediate) {
+      timeout = setTimeout(() => {
+        // 立即执行完成后，清空timeout
+        timeout = null;
+      });
+      // 保证只调用一次
+      if(!timeout) fn.apply(context, args);
+    } else {
+      timeout = setTimeout(() => {
+        fn.apply(context, args);
+      }, wait);
+    }
+  }
+}
+
+// 节流
+function throttle(fn, wait) {
+  // 利用闭包保存上次时间和定时器的标示id
+  let previous = 0, timeout = null;
+  return function() {
+    let context = this, args = arguments;
+    let now = +new Date();
+    const remaining = wait - (now - previous);
+    // 当时间间隔大于wait或者修改了系统时间（这都能想到？？）
+    if (remaining <= 0 || remaining > wait) {
+      if (timeout) {
+        clearTimeout(timeout);
+        timeout = null;
+      }
+      fn.apply(context, args);
+      previous = now;
+    } else {
+      timeout = setTimeout(() => {
+        previous = +new Date();
+        timeout = null;
+        fn.apply(context, args);
+      }, wait);
+    }
+  }
+}
+```
+
 ## 事件循环
 
 ### 浏览器环境
@@ -513,9 +578,20 @@ promisesAplusTests(MyPromise, function (err) {
    └───────────────────────┘
 ```
 
-## CSS相关
+## BFC
 
-包括盒模型、BFC、IFC
+BFC全称为块级格式化上下文，简单来说就是划分了一个特定的区域，区域里面的元素不会影响到区域外面的元素。构成BFC的元素会有一些特性：
+
+1. 相邻BFC之间不会产生margin折叠
+2. BFC可以包裹浮动元素，防止父元素高度塌陷
+3. BFC内的浮动元素也会计算宽高，让浮动元素在其中占据空间
+
+形成BFC的操作
+1. 根节点body
+2. 浮动元素，即float不为none
+3. 绝对定位元素absolute
+4. display值为inline-block,table-cell,flex
+5. overflow值不为visible的其他值
 
 ## JavaScript的模块化
 
