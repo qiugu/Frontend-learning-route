@@ -1,36 +1,26 @@
 # interviews
 
-## 原型
+## HTML5的新标签section和article的语义
 
-原型是一个对象，简单来说在JavaScript中，所有的对象都是由一个对象创建出来的，这个对象就是Object.prototype。在函数中，存在一个`prototype`的属性指向了它的原型，而在一个实例中，它有一个非正式属性`__proto__`指向原型。对原型来说，它存在一个属性`constructor`指向了构造函数
+## 什么是BFC，以及BFC的作用
 
-```javascript
-function Person() {}
-const person = new Person()
+BFC全称**块级格式化上下文**，就是建立起一个单独的渲染区域，使该渲染区域独立于外面的元素，不会影响到外面的元素，并且BFC内的元素也会有单独的渲染规则。
 
-console.log(Person.prototype === Person.prototype);
-// 实例的原型指向了构造函数的原型
-console.log(person.__proto__ === Person.prototype);
-// 构造函数原型的constructor属性指向了构造函数本身
-console.log(Person.prototype.constructor === Person);
-// 实例对象的constructor属性指向了构造函数本身
-console.log(person.constructor === Person);
+1. BFC会包裹住内部元素，也包括浮动元素，所以可以用来清除浮动。
+2. BFC内的浮动元素会计算高度，也就是说浮动元素不会遮挡其他普通流元素。
+3. 两个纵向排列的BFC，如果有margin属性的话，是不会发生margin折叠的。
 
-```
+触发BFC的一些方法
 
-实例对象中还有一个constructor属性指向了Person，也就是指向了自己，是可以被修改的，所以在编码不要信任constructor属性，来作为判断条件的依据。
+1. 根元素body
+2. float属性不为none的元素
+3. position属性不为static和relative的元素
+4. overflow属性不为visible的元素
+5. display的值为inline-block、table、table-cell、flex等元素
 
-### 原型链
+## CSS选择符的优先级
 
-对象中的关联关系组成的链式结构就是**原型链**
-
-### 继承
-
-> 利用原型让一个引用类型继承另一个引用类型的属性和方法
-
-所谓继承，就是获取了原型链上的属性方法，并不是真正意义上的继承，称之为**委托**更加合理，这也是上面说到所有的对象都是由一个Object.prototype创建出来的原因。
-
-继承可以通过以下方法来实现
+### 继承几种方式
 
 1. 原型链继承
 
@@ -86,9 +76,11 @@ function SubType (o) {
 
 4. ES6中的 extends 继承
 
-### 引申
+```javascript
+class Sub extends Super {}
+```
 
-如何实现 ES6 的 extends 的关键字
+## 实现 ES6 的 extends 的关键字
 
 ```javascript
 function inherit(subType, superType) {   
@@ -104,79 +96,7 @@ function inherit(subType, superType) {
 }
 ```
 
-## 作用域
-
-> 作用域，就是一套规则，用于确定在何处以及如何查找变量
-
-一般说作用域，指的就是函数作用域，在JavaScript中最重要的也就是函数了。函数的作用域在函数创建时就已经确定了，
-
-## 闭包
-
-> 闭包是基于词法作用域书写代码时产生的自然结果，当函数可以记住并访问所在词法作用域时，就产生了闭包，即使函数是在当前词法作用域之外执行。
-> 有权访问另一个函数作用域中的变量的函数
-
-1. 闭包只会保存包含作用域中的任何变量的最后一个值。例如在 for 循环中使用 setTimeout 访问 i
-
-```javascript
-for (var i = 0; i < 10; i++) {
-  setTimeout(() => { console.log(i) }, i * 1000)
-}
-```
-
-此时只能访问 i 的最后一次赋值，也就是10，因此会每次打印出10，要解决这个问题，利用闭包在最外层套上一个立即执行函数，将外部的 i 传递给里面的匿名函数，这样的话，匿名函数和外面包含的立即执行函数形成闭包，引用当前循环的 i 值
-
-1. 在闭包中访问 this 时会有一些意想不到的结果。这是因为内部函数执行时，会生成两个对象，this 和 argements，引擎搜索这两个变量时，只会搜索到该函数的活动对象，而不会去上层的作用域中搜索，所以此时的 this 指的实际是全局变量 window。
-2. 利用闭包设计模块模式
-
-```javascript
-var myModules = (function(){
-  var modules = {}
-
-  function define (name, deps, callback) {
-    for (let i = 0; i < deps.length; i++) {
-      // 将依赖模块的字符串重新赋值为对应的模块
-      deps[i] = modules[deps[i]]
-    }
-    modules[name] = callback.apply(callback, deps)
-  }
-
-  function get(name) {
-    return modules[name]
-  }
-
-  return {
-    define,
-    get
-  }
-})()
-
-myModules.define('a', [], function () {
-  function hello (who) {
-    return `Let me introduce ${who}`
-  }
-
-  return { hello }
-})
-
-myModules.define('b', ['a'], function (a) {
-  var hungry = 'hippo'
-
-  function awesome () {
-    console.log(a.hello(hungry).toUpperCase())
-  }
-
-  return { awesome }
-})
-
-var foo = myModules.get('a')
-var bar = myModules.get('b')
-console.log(foo.hello('hippo')) // Let me introduce hippo
-bar.awesome() // LET ME INTRODUCE HIPPO
-```
-
-## 一些常用API的实现
-
-### call/apply的实现
+## call/apply的实现
 
 ```JavaScript
 // call的实现
@@ -208,7 +128,7 @@ Function.prototype.myApply = function(context, args) {
 }
 ```
 
-### bind的实现
+## bind的实现
 
 ```JavaScript
 Function.prototype.myBind = function(context, args) {
@@ -228,7 +148,7 @@ Function.prototype.myBind = function(context, args) {
 }
 ```
 
-### new的实现
+## new的实现
 
 ```JavaScript
 function objFactory(fn, ...args) {
@@ -244,7 +164,7 @@ function objFactory(fn, ...args) {
 }
 ```
 
-### instanceof的实现
+## instanceof的实现
 
 ```JavaScript
 // 1.拿到右边构造方法的原型
@@ -262,7 +182,7 @@ function customInstanceOf(left, right) {
 }
 ```
 
-### 函数柯里化的实现
+## 函数柯里化的实现
 
 ```JavaScript
 // 利用闭包保存参数，当参数和给定的函数参数数量相等，则执行该函数
@@ -276,8 +196,6 @@ function curry(fn) {
   return judge;
 }
 ```
-
-## 浮点数精度问题
 
 ## v8的垃圾回收机制
 
@@ -544,6 +462,153 @@ function throttle(fn, wait) {
 }
 ```
 
+## EventEmit的实现
+
+```javascript
+function EventEmit() {
+  this.listeners = {};
+}
+
+EventEmit.prototype.on = function(eventName, cb) {
+  // 因为事件是可以重复注册的，所以需要用一个数组来存储事件回调的队列
+  if (!this.listeners[eventName]) {
+    this.listeners[eventName] = [cb];
+  } else {
+    this.listeners[eventName].push(cb);
+  }
+}
+
+EventEmit.prototype.once = function(eventName, cb) {
+  if (!this.listeners[eventName]) {
+    this.listeners[eventName] = [cb];
+  } else {
+    this.listeners[eventName].push(cb);
+  }
+  // 使用一个标记来标明这是一个一次性的事件回调
+  this.listeners[eventName].once = true;
+}
+
+EventEmit.prototype.off = function(eventName) {
+  if (this.listeners[eventName]) {
+    this.listeners[eventName] = null;
+  }
+}
+
+EventEmit.prototype.emit = function(eventName, args) {
+  if (this.listeners[eventName]) {
+    this.listeners[eventName].forEach(fn => fn.apply(this, args));
+    // 如果这个是一次性的事件的话，执行完成后销毁该事件
+    if (this.listeners[eventName].once) this.off(eventName);
+  }
+}
+
+```
+
+## 数组去重的方法
+
+1. 双重for循环
+
+```javascript
+function unique(arr) {
+  if (!Array.isArray(arr)) return;
+  let res = arr[0];
+  for(let i = 1; i < arr.length; i++) {
+    let flag = true;
+    for(let j = 0; j < res.length; j++) {
+      flag = true;
+      if (arr[i] === res[j]) break;
+    }
+    if (flag) res.push(arr[i]);
+  }
+  return res;
+}
+```
+
+2. indexOf
+
+```javascript
+function unique(arr) {
+  if (!Array.isArray(arr)) return;
+  let res = [];
+  for(let i = 0; i < arr.length; i++) {
+    if (res.indexOf(arr[i]) !== -1) {
+      res.push(arr[i]);
+    }
+  }
+  return res;
+}
+```
+
+3. filter
+
+```javascript
+function unique(arr) {
+  if (!Array.isArray(arr)) return;
+  return arr.filter((item, index) => arr.indexOf(item) === index);
+}
+```
+
+4. sort
+
+```javascript
+function unique(arr) {
+  if (!Array.isArray(arr)) return;
+  arr.sort();
+  let res = [];
+  for(let i = 0; i < arr.length; i++) {
+    if (arr[i] !== arr[i-1]) res.push(arr[i]);
+  }
+  return res;
+}
+```
+
+5. reduce
+
+```javascript
+function unique(arr) {
+  if (!Array.isArray(arr)) return;
+  return arr.reduce((prev, cur) => {
+    return prev.includes(cur) : prev : [...prev, cur];
+  }, []);
+}
+```
+
+6. Set
+
+```javascript
+function unique(arr) {
+  if (!Array.isArray(arr)) return;
+  return [...new Set(arr)];
+}
+
+// 也可以使用Array.from来把Set转成数组
+function unique(arr) {
+  if (!Array.isArray(arr)) return;
+  return Array.from(new Set(arr));
+}
+
+```
+
+7. 使用对象或者Map去重
+
+```javascript
+function unique(arr) {
+  if (!Array.isArray(arr)) return;
+  let obj = {}, res = [];
+  for(let i = 0; i < arr.length; i++) {
+    if (!obj[arr[i]]) {
+      res.push(arr[i]);
+      obj[arr[i]] = 1;
+    } else {
+      obj[arr[i]]++;
+    }
+  }
+  return res;
+}
+```
+
+[参考来源](https://juejin.cn/post/6844903602197102605)
+
 ## 事件循环
 
 ### 浏览器环境
@@ -578,22 +643,7 @@ function throttle(fn, wait) {
    └───────────────────────┘
 ```
 
-## BFC
-
-BFC全称为块级格式化上下文，简单来说就是划分了一个特定的区域，区域里面的元素不会影响到区域外面的元素。构成BFC的元素会有一些特性：
-
-1. 相邻BFC之间不会产生margin折叠，BFC内部的元素垂直方向上存在margin折叠
-2. BFC可以包裹浮动元素，防止父元素高度塌陷
-3. BFC内的浮动元素也会计算宽高，让浮动元素在其中占据空间，所以浮动元素不会遮挡其他元素
-
-形成BFC的操作
-1. 根节点body
-2. 浮动元素，即float不为none
-3. 绝对定位元素absolute
-4. display值为inline-block,table-cell,flex
-5. overflow值不为visible的其他值
-
-## CSS选择器的优先级
+## TypeScript中的any和unknown的区别
 
 ## JavaScript的模块化
 
@@ -602,16 +652,46 @@ CommonJS和ES6模块化的区别
 1. CommonJS导出的是一个值的拷贝，ES6模块化则是导出值的一个引用
 2. CommonJS是运行时加载，ES6模块化是编译时输出接口
 
-## Tree-Shaking
+## Hooks的实现，以及为什么采用这种方式实现
 
-由于JavaScript是动态语言，只有在编译时才能确定代码的作用，因此在初期各种定义的模块规范都无法使用Tree-Shaking。后面出现了ES6的模块化，是一种静态的模块依赖，所以可以在代码运行前确认模块依赖关系，从而分析出来，哪些变量和函数没有用到，从而可以在打包压缩时去掉无用的代码。
+## Hooks中useState的状态怎么存储的
 
-不过由于代码中可能会包含一些副作用的代码，类似rollup和webpack无法进行静态分析，所以也会导致Tree-Shaking失效。
+## 算法题
 
-## CORS的一些细节
+```javascript
+/**
+ * 把一日划分为48段，每段是半个小时，用一个48位的位图表示一日中的多个工作时间段
+ * 按如下输入输出设计一个方案，计算一日中的有效工作时间段
+ * 输入'110011100000000000000000111100000000000000000000'
+ * 输出['00:00-01:00', '02:00-03:30', '12:00-02:00']
+ */
+function solution(bitmap) {
+    let p = 0, res = [], ans = [];
+    for(let i = 0; i < bitmap.length; i++) {
+        if (bitmap[i] === '0') p++;
+        else if (bitmap[i] === '1' && (bitmap[i+1] === '0' || !bitmap[i+1])) {
+            res.push([p, i]);
+            p = i+1;
+        }
+    }
+    const format = (left, right) => {
+        const timeZone = new Date().getTimezoneOffset() * 60 * 1000;
+        const leftTime = new Date(left / 2 * 60 * 60 * 1000 + timeZone);
+        const leftHours = leftTime.getHours() < 10 ? '0' + leftTime.getHours() : leftTime.getHours() + '';
+        const leftMinus = leftTime.getMinutes() < 10 ? '0' + leftTime.getMinutes(): leftTime.getMinutes() + '';
+        const leftStr = `${leftHours}:${leftMinus}`;
+        const rightTime = new Date((right / 2 + 0.5) * 60 * 60 * 1000 + timeZone);
+        const rightHours = rightTime.getHours() < 10 ? '0' + rightTime.getHours() : rightTime.getHours() + '';
+        const rightMinus = rightTime.getMinutes() < 10 ? '0' + rightTime.getMinutes(): rightTime.getMinutes() + '';
+        const rightStr = `${rightHours}:${rightMinus}`;
+        return [leftStr, rightStr];
+    }
+    for(let i = 0; i < res.length; i++) {
+        const item = format(res[i][0], res[i][1]);
+        ans.push(item);
+    }
+    return ans;
+}
+console.log(solution('110011100000000000000000111100000000000000000011'));
 
-简单请求和非简单请求（预检请求）
-
-## 网络
-
-cookie SameSite属性有三个值Strict，Lax，None
+```
