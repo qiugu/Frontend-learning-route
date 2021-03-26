@@ -1,6 +1,6 @@
 # 前端学习路线
 
-![知识图谱](./docs/assets/front_end.svg)
+![知识图谱](./docs/front_end.svg)
 
 - 前端基础
   - [CSS](css.md)
