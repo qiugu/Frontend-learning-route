@@ -98,7 +98,7 @@ function inherit(subType, superType) {
 
 ## call/apply的实现
 
-```JavaScript
+```javascript
 // call的实现
 Function.prototype.myCall = function(context, args) {
   // 获取上下文，如果为null的话则指向window
@@ -130,7 +130,7 @@ Function.prototype.myApply = function(context, args) {
 
 ## bind的实现
 
-```JavaScript
+```javascript
 Function.prototype.myBind = function(context, args) {
   const self = this;
   const params = Array.prototype.slice.call(arguments, 1);
@@ -150,7 +150,7 @@ Function.prototype.myBind = function(context, args) {
 
 ## new的实现
 
-```JavaScript
+```javascript
 function objFactory(fn, ...args) {
   // 生成一个空对象
   const obj = new Object();
@@ -166,7 +166,7 @@ function objFactory(fn, ...args) {
 
 ## instanceof的实现
 
-```JavaScript
+```javascript
 // 1.拿到右边构造方法的原型
 // 2. 不停去获取左边的实例的原型进行对比
 // 3. 如果最后左边的原型为空返回false
@@ -184,7 +184,7 @@ function customInstanceOf(left, right) {
 
 ## 函数柯里化的实现
 
-```JavaScript
+```javascript
 // 利用闭包保存参数，当参数和给定的函数参数数量相等，则执行该函数
 // 否则返回一个包含该参数的包裹给定函数的函数
 function curry(fn) {
@@ -213,7 +213,7 @@ function curry(fn) {
 
 ## promiseA+的实现
 
-```JavaScript
+```javascript
 const PENDING = 'pending';
 const FULLFILLED = 'fullFilled';
 const REJECTED = 'rejected';
@@ -380,7 +380,7 @@ function resolvePromise(promise2, x, resolve, reject) {
 
 这里可以使用一个库来测试写出来的promise代码是否正确
 
-```js
+```javascript
 MyPromise.deferred = MyPromise.defer = function(){
     let dfd = {}
     dfd.promise = new MyPromise((resolve,reject)=>{
@@ -399,7 +399,7 @@ promisesAplusTests(MyPromise, function (err) {
 
 ## 防抖和节流
 
-```JavaScript
+```javascript
 // 防抖
 function debounce(fn, wait) {
   let timeout = null;

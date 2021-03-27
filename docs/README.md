@@ -2,4 +2,4 @@
 
 完善前端知识体系，让所学能够串联起来
 
-![知识图谱](./front_end.svg)
+![知识图谱](./images/front_end.svg)
