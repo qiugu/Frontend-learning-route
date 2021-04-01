@@ -5,7 +5,8 @@
 - 计算机基础
   - [网络](net.md)
 - 面试相关
-  - [面试](interviews.md)
+  - [API原理实现](api_implements.md)
+  - [面试问题记录](interview_records.md)
 - WEBGL
   - [基础篇](base.md)
   - [数学篇](math.md)
