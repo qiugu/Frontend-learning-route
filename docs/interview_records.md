@@ -93,8 +93,8 @@ sequeceExcution([
 
 ```js
 function dispatch(i, p = Promise.resolve()) {
-  if (!arr[i]) return Promise.resolve()
-  return p.then(() => dispatch(i + 1, delay(arr[i])))
+  if (!arr[i]) return Promise.resolve();
+  return p.then(() => dispatch(i + 1, arr[i]));
 }
 
 dispatch(0);
