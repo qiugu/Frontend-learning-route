@@ -42,6 +42,67 @@ BFC全称**块级格式化上下文**，就是一块拥有独特的渲染规则�
 }
 ```
 
+### promise数组如何串行执行
+
+所谓串行执行，其实就是按顺序执行，这里按顺序执行，假设promise数组中不存在下一个执行依赖上一个执行的情况，考虑使用reduce来实现
+
+```js
+const arr = [
+    new Promise(resolve => {
+        console.log(1);
+        resolve();
+    }),
+    new Promise(resolve => {
+        console.log(2);
+        resolve();
+    }),
+    new Promise(resolve => {
+        console.log(3);
+        resolve();
+    })
+];
+
+function sequeceExcution(arr) {
+    arr.reduce((prev, cur) => prev.then(val => cur)}, Promise.resolve());
+}
+
+sequeceExcution(arr);
+```
+
+这样执行的结果为1, 2, 3，这么做是否是顺序执行了呢，可以使用定时器来看看。假设每个promise中都有一个定时器，第一个定时器3s以后执行，第二个2s以后执行，第三个1s，那么可以这么写：
+
+```js
+const createPromise = (time, id) => new Promise(resolve => {
+    setTimeout(() => {
+      console.log("promise", id);
+      resolve();
+    }, time);
+});
+
+sequeceExcution([
+    createPromise(3000, 1),
+    createPromise(2000, 2),
+    createPromise(1000, 3)
+]);
+
+```
+
+最后可以得到3s以后打印出1，然后2s后打印2,1s以后打印出3，确实按照我们设置的顺序执行了。
+
+除此之外，也可以使用递归来做:
+
+```js
+function dispatch(i, p = Promise.resolve()) {
+  if (!arr[i]) return Promise.resolve()
+  return p.then(() => dispatch(i + 1, delay(arr[i])))
+}
+
+dispatch(0);
+```
+
+其他的还有利用async、await的方法，或者是利用for-of、for-await-of循环等比较普遍的写法，这里就不一一展开了。
+
+
 ## 框架
 
 ### React 的 setState是同步还是异步
