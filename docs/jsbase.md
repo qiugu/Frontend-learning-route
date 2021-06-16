@@ -2,6 +2,8 @@
 
 ## 原型
 
+首先得从 JavaScript 这门语言说起，严格来说 JavaScript 是没有继承的机制的，所谓继承不过就是存在一个指针指向了其委托的对象。怎么理解呢，在 JavaScript 的世界中，对象并不是通过`类`来创建的，众所周知，JavaScript 中的类不过是一种语法糖，并不是真正的类。所有的对象，除了 null 以外，可以发现对象其实通过另外一个对象创建的，而另外一个对象则是由另一个对象创建，最终所有的对象都是由`Object.prototype`这个对象所创建，再其上，则不在有对象了。可以这么理解，JavaScript 世界中，除了 null 以外的一切对象的“追根溯源”都是`Object.prototype`。
+
 原型是一个对象，简单来说在JavaScript中，所有的对象都是由一个对象创建出来的，这个对象就是Object.prototype。在函数中，存在一个`prototype`的属性指向了它的原型，而在一个实例中，它有一个非正式属性`__proto__`指向原型。对原型来说，它存在一个属性`constructor`指向了构造函数
 
 ```javascript
@@ -47,7 +49,7 @@ function bar() {
 bar(); // 结果是1，原因就是foo的作用域创建时就决定了其value是1
 ```
 
-## 作用域链
+### 作用域链
 
 > 由多个执行上下文的变量对象构成的链表就是作用域链
 
@@ -115,8 +117,31 @@ console.log(foo.hello('hippo')) // Let me introduce hippo
 bar.awesome() // LET ME INTRODUCE HIPPO
 ```
 
+## 变量提升
+
+## this指向
+
+## 立即执行函数
+
+## instanceof的原理
+
+## bind实现
+
+## apply和call
+
+## 柯里化
+
+## v8的垃圾回收机制
+
 ## 浮点数精度问题
 
+## new操作符
+
+## 事件循环机制
+
+## promise原理
+
+## generator原理
 ## Tree-Shaking
 
 由于JavaScript是动态语言，只有在编译时才能确定代码的作用，因此在初期各种定义的模块规范都无法使用Tree-Shaking。后面出现了ES6的模块化，是一种静态的模块依赖，所以可以在代码运行前确认模块依赖关系，从而分析出来，哪些变量和函数没有用到，从而可以在打包压缩时去掉无用的代码。
