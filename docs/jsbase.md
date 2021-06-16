@@ -26,6 +26,129 @@ console.log(person.constructor === Person);
 
 对象中的关联关系组成的链式结构就是**原型链**
 
+## 继承
+
+### 原型链继承
+
+```javascript
+function SuperType() {
+  this.name = 'qiugu';
+}
+function SubType() {}
+SubType.prototype = new SuperType();
+
+let instance = new SubType();
+console.log(sub.constructor === SuperType); // true
+```
+
+原型链继承就是让一个函数的原型指向另外一个函数的实例，这样做实际就是上面所说的改变了原来的函数的原型，让他指向了一个新的对象，此时的 sub 对象的`[[prototype]]`属性就指向了 SuperType 的实例对象，也就拥有了其上的 name 属性。同时因为改变了 SubType 的默认的原型，现在 SubType 生成的对象的`constructor`属性不再指向`SubType`，而是指向了`SuperType`，也就证明了上面所说的，在 JavaScript 中并没有构造一说，`constructor`也并不是构造函数，他只不过是原型上的一个可以被改变的属性而已。
+
+虽然现在`constructor`的属性指向的不是原来的函数了，但是所需要的关键功能`继承`还是存在的，可以用 instanceof 的操作符来测试一下：
+
+```javascript
+console.log(instance instanceof SubType); // true
+console.log(instance instanceof SuperType); // true
+console.log(instance instanceof Object); // true
+```
+
+可以看到确实如我们所愿，instance现在确实是 SuperType 类型的，也是 Object 类型的，所有的对象都继承自 Object，这个也是没有问题的。但是原型链继承还是有上文原型模式同样的缺点，一旦在原型上定义了引用类型的属性，那么修改这个属性，会影响到所有继承自这个类的对象，另外则是如果不小心改变了原型的指向，那么上面所有的继承关系都会被断开。
+
+```javascript
+// ...
+SubType.prototype = {
+  sex: 'male',
+  say: function() {
+    console.log(this.sex);
+  }
+}
+```
+
+如代码展示，如果直接改变了原型的引用，原型再一次被重写，原来继承自 SuperType 的实例现在指向了一个新对象，继承关系自然也就不复存在了。
+
+原型链继承还有一个问题则是在不影响其他对象的情况下，无法给父函数传递参数，这个也导致原型链继承使用的很少的原因，下面的继承方法正是为了解决这个不足的。
+
+### 构造函数继承
+
+```javascript
+function SuperType() {
+  this.name = 'qiugu';
+}
+function SubType() {
+  SuperType.call(this);
+}
+```
+
+构造函数继承就是利用了 call 方法来改变 this 指向，调用父级的构造函数生成子类的对象，如果需要添加参数的话，则可以在 call 里面继续添加参数，也就解决了无法在父类中传参的问题。同理，构造函数也有方法无法复用的缺点，因此一般不会单独使用，结合上面的原型链继承，就有了下面的组合继承的方法。
+
+### 组合继承
+
+```javascript
+function SuperType() {
+  this.name = 'qiugu';
+}
+function SubType() {
+  SuperType.call(this);
+}
+SubType.prototype = new SuperType();
+// 修正原型的constructor属性
+SubType.prototype.constructor = SubType;
+```
+
+组合继承就是融合上面两种方法，也是 JavaScript 中常用的继承方法。注意这里修复了子类的`constructor`属性指向父类的构造函数的问题，让他重新指向了子类的构造方法，也就符合了一般面向类编程的一个习惯，并且防止出现需要`constructor`作为判断条件时的问题。
+
+下面几种继承的方法，没有使用构造函数来实现继承，而是将继承的逻辑封装在一个普通方法中，在方法中传入对象，返回一个新对象来实现的继承。
+
+### 原型式继承
+
+```javascript
+function object(o) {
+  function F() {}
+  F.prototype = o;
+  return new F();
+}
+let person = object(new Person());
+```
+
+这种继承虽然很少见，但其实后来是被规范化了，出现了 Object.create 的API就是这个原理，当然 Object.create 不仅仅是为了继承，还有很多其他的功能。这里其实就是内部定义了一个构造函数，指定其原型指向，最后返回这个构造函数的实例，思路和上面几种是一样的，只是他将逻辑都封装到了方法里面了，使用的时候也就不需要 new 来调用方法了。
+
+再下面的两种继承方法都是原型式继承的一种增强对象功能的方法。
+
+### 寄生式继承
+
+```javascript
+function createAnother(origin) {
+  const obj = object(origin);
+  obj.say = function() {
+    console.log('hello');
+  };
+  return obj;
+}
+```
+
+寄生式继承的缺点很明显，就是给对象定义方法时，每个方法都是单独的引用，无法做到方法共用，因此效率会比较低。
+
+### 寄生组合式继承
+
+```javascript
+function SuperType() {
+  this.name = 'qiugu';
+}
+function SubType() {
+  SuperType.call(this);
+}
+SubType.prototype = new SuperType();
+// 修正原型的constructor属性
+SubType.prototype.constructor = SubType;
+
+function parasitic(subType, superType) {
+  const proto = object(superType.prototype);
+  proto.constructor = subType;
+  subType.prototype = proto;
+}
+```
+
+寄生组合式继承是对于上面常用的组合继承方法的增强，因为组合继承实际上会执行两次父类构造方法，一次是在子类中的调用，另外一次是在改变子类的原型指向的父类实例。两次调用肯定是没有必要的，寄生组合式继承利用原型式继承，将父类的原型传递给 object 方法，返回了一个原型指向父类原型的对象，而不是父类的实例，再将子类的原型指向刚刚返回的对象，这样就只需要实例化一次父类就可以将原型对象指向了父类的原型，同时子类构造函数中调用父类构造函数初始化，这样子类上面就有自己的属性方法，而不是存在于父类上，就解决了原型共享的问题。
+
 ## 作用域
 
 > 作用域是指程序源代码中定义变量的区域。
