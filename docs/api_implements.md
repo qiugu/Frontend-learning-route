@@ -443,27 +443,25 @@ EventEmit.prototype.on = function(eventName, cb) {
   }
 }
 
-EventEmit.prototype.once = function(eventName, cb) {
-  if (!this.listeners[eventName]) {
-    this.listeners[eventName] = [cb];
-  } else {
-    this.listeners[eventName].push(cb);
-  }
-  // 使用一个标记来标明这是一个一次性的事件回调
-  this.listeners[eventName].once = true;
+EventEmit.prototype.once = function(eventName, onceCb) {
+  const cb = (...args) => {
+    onceCb.apply(this, args);
+    this.off(eventName, onceCb);
+  };
+  this.on(eventName, cb);
 }
 
-EventEmit.prototype.off = function(eventName) {
+EventEmit.prototype.off = function(eventName, cb) {
   if (this.listeners[eventName]) {
-    this.listeners[eventName] = null;
+    const index = this.listeners[eventName].findIndex(event => event == cb);
+    this.listeners[eventName].splice(index, 1);
+    if (!this.listeners[eventName].length) delete this.listeners[eventName];
   }
 }
 
 EventEmit.prototype.emit = function(eventName, args) {
   if (this.listeners[eventName]) {
     this.listeners[eventName].forEach(fn => fn.apply(this, args));
-    // 如果这个是一次性的事件的话，执行完成后销毁该事件
-    if (this.listeners[eventName].once) this.off(eventName);
   }
 }
 
