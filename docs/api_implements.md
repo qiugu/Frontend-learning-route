@@ -194,9 +194,7 @@ class MyPromise {
       if (this.state === PENDING) {
         this.state = FULLFILLED;
         this.value = val;
-        while (this.onFullfilledCallbacks.length) {
-          this.onFullfilledCallbacks.shift()(val);
-        }
+        this.onFullfilledCallbacks.forEach(cb => cb(val));
       }
     }
 
@@ -204,9 +202,7 @@ class MyPromise {
       if (this.state === PENDING) {
         this.state = REJECTED;
         this.value = reason;
-        while (this.onRejectedCallbacks.length) {
-          this.onRejectedCallbacks.shift()(reason);
-        }
+        this.onRejectedCallbacks.forEach(cb => cb(reason));
       }
     }
 
