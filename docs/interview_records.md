@@ -132,6 +132,20 @@ dispatch(0);
 
 其他的还有利用async、await的方法，或者是利用for-of、for-await-of循环等比较普遍的写法，这里就不一一展开了。
 
+## 除了 setTimeout 和 setInterval 以外还有没有其他方式实现轮询
+
+可以利用 requestAnimationFrame 来实现轮询
+
+```js
+let start = 0;
+function poll (timestamp) {
+    if (timestamp - start >= 3000) {
+        start = timestamp;
+    }
+    requestAnimationFrame(poll);
+}
+```
+
 
 ## 框架
 
