@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>背景&边框</title>
+  <style>
+    .example1 {
+      /* border: 10px solid hsla(0, 0%, 100%, .5); */
+      border: 10px solid rgba(0, 255, 0, .5);
+      background: black;
+      background-clip: padding-box;
+      width: 200px;
+      height: 200px;
+    }
+    .example2 {
+      border: 10px solid rgba(0, 255, 0, .5); /* 边框是可以贴合圆角 */
+      outline: 10px solid rgba(255, 0, 0, .5); /* 描边不会贴合圆角属性，所以会产品空隙 */
+      background: black;
+      background-clip: padding-box;
+      width: 200px;
+      height: 200px;
+      border-radius: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="example1"></div>
+  <div class="example2"></div>
+</body>
+</html>

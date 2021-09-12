@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>多重边框</title>
+  <style>
+    .example {
+      background: yellowgreen;
+      box-shadow: 0 0 0 10px #655;
+      height: 20px;
+      margin-bottom: 100px;
+    }
+    .example2 {
+      background: yellowgreen;
+      box-shadow: 0 0 0 10px #655, 0 0 0 15px deeppink, 0 2px 5px 15px rgba(0,0,0,.6);
+      height: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="example"></div>
+  <div class="example2"></div>
+</body>
+</html>

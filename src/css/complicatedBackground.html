@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>复杂背景图案</title>
+  <style>
+    div {
+      width: 200px;
+      height: 200px;
+      display: inline-block;
+    }
+    .example {
+      /* 网格图案，写法参照上节的DRY写法，改动颜色只需要改动一处 */
+      background: white;
+      background-image: linear-gradient(90deg, rgba(200,0,0,.5) 50%, transparent 0),
+      linear-gradient(rgba(200,0,0,.5) 50%, transparent 0);
+      background-size: 30px 30px;
+    }
+    .example1 {
+      /* 使用固定宽度形成宽度可控的网格图案 */
+      background: #58a;
+      background-image: linear-gradient(90deg, white 1px, transparent 0),
+      linear-gradient(white 1px, transparent 0);
+      background-size: 30px 30px;
+    }
+    .example2 {
+      /* 更加复杂的网格图案，由多个网格拼凑而成 */
+      background: #58a;
+      background-image: linear-gradient(white 2px, transparent 0),
+      linear-gradient(90deg,white 2px, transparent 0),
+      linear-gradient(hsla(0, 0%, 100%, .3) 1px, transparent 0),
+      linear-gradient(90deg,hsla(0, 0%, 100%, .3) 1px, transparent 0);
+      background-size: 75px 75px, 75px 75px, 15px 15px, 15px 15px;
+    }
+    .example3 {
+      /* 波点图案 */
+      background: #655;
+      background-image: radial-gradient(tan 30%, transparent 0);
+      background-size: 30px 30px;
+    }
+    .example4 {
+      /* 升级版波点图案 */
+      background: #655;
+      background-image: radial-gradient(tan 30%, transparent 0),
+      radial-gradient(tan 30%, transparent 0);
+      background-size: 30px 30px;
+      /* 这里的偏移位置需要为background-size设置的一半，也就是每个贴片偏移到中间位置 */
+      background-position: 0 0, 45px 45px;
+    }
+    .example5 {
+      /* 棋盘图案，这里使用了透明度来表示棋盘的深浅色，替换background主色即可改变其他色系的棋盘 */
+      background: #eee;
+      background-image: linear-gradient(45deg, rgba(0,0,0,.25) 25%, transparent 0),
+      linear-gradient(45deg, transparent 75%, rgba(0,0,0,.25) 0),
+      linear-gradient(45deg, rgba(0,0,0,.25) 25%, transparent 0),
+      linear-gradient(45deg, transparent 75%, rgba(0,0,0,.25) 0);
+      background-position: 0 0, 15px 15px, 15px 15px, 30px 30px;
+      background-size: 30px 30px;
+    }
+    .example6 {
+      /* 利用角向渐变创建的色轮 */
+      background: conic-gradient(red,yellow,lime,aqua,blue,fuchsia,red);
+    }
+    .example7 {
+      /* 角向渐变轻松创建棋盘图案，注意兼容性 */
+      background: #58a repeating-conic-gradient(rgba(0,0,0,.25) 0 25%, rgba(0,0,0,.5) 0 50%);
+      background-size: 30px 30px;
+    }
+    .example8 {
+      background:#eee url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" fill-opacity=".5">\
+          <rect x="100" width="100" height="100" />\
+          <rect y="100" width="100" height="100" />\
+        </svg>');
+      background-size: 30px 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="example"></div>
+  <div class="example1"></div>
+  <div class="example2"></div>
+  <div class="example3"></div>
+  <div class="example4"></div>
+  <div class="example5"></div>
+  <div class="example6"></div>
+  <div class="example7"></div>
+  <!-- svg实现棋盘 -->
+  <div class="example8"></div>
+</body>
+</html>

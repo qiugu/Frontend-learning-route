@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>边框内圆角</title>
+  <style>
+    .example {
+      background: tan;
+      border-radius: .8em;
+      padding: 1em;
+      outline: .6em solid #655;
+      width: 300px;
+      height: 100px;
+      margin: 100px auto;
+    }
+    /* 会出现缝隙 */
+    .example1 {
+      background: tan;
+      border-radius: .8em;
+      padding: 1em;
+      box-shadow: 0 0 0 .6em #655; /* 添加投影来弥补圆角时出现的缝隙 */
+      outline: .6em solid #655;
+      width: 300px;
+      height: 100px;
+      margin: 100px auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="example">Yes!</div>
+  <div class="example1">Yes!</div>
+</body>
+</html>

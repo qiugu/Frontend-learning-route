@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>连续的图像边框</title>
+  <style>
+    html,body {
+      margin: 0;
+      height: 100vh;
+    }
+    div {
+      width: 200px;
+      line-height: 300px;
+      text-align: center;
+      display: inline-block;
+    }
+    .example {
+      padding: 3em;
+      border: 3em solid transparent;
+      background: linear-gradient(white, white), url(./css-border.jpg);
+      background-size: cover;
+      /* 注意这里需要改变图片的延申区域，默认为padding-box，想要让边框显示背景的话，需要将裁切背景设置为border-box */
+      background-clip: padding-box, border-box;
+    }
+    .example1 {
+      padding: 3em;
+      border: 3em solid transparent;
+      background: linear-gradient(white, white), url(./css-border.jpg);
+      background-size: cover;
+      background-clip: padding-box, border-box;
+      /* 需要添加这句声明，原因就是因为background-origin默认是padding-box，背景默认显示在padding的左上角，否则图片border拼接有问题 */
+      background-origin: border-box;
+      /* 简写属性 */
+      background: linear-gradient(white, white) padding-box, url(./css-border.jpg) border-box 0 / cover;
+    }
+    .example2 {
+      width: 300px;
+      line-height: 180px;
+      padding: 1em;
+      /* border来控制边框的厚度 */
+      border: 2em solid transparent;
+      /* 通过改变background-size控制条纹大小 */
+      background: linear-gradient(white, white) padding-box,
+      repeating-linear-gradient(-45deg, red 0, red 12.5%, transparent 0, transparent 25%, #58a 0, #58a 37.5%, transparent 0, transparent 50%)
+      0 / 4em 4em;
+    }
+    .example3 {
+      width: 300px;
+      line-height: 180px;
+      padding: 1em;
+      /* 
+       * 与上面相比，改变边框厚度需要同时修改两个地方，border宽度以及border-image-slice设置的宽度
+       * 另外border-image-slice属性只支持像素或者百分比，无法使用相对单位
+       * 条纹宽度都是固定的，修改的话需要修改四个地方
+      */
+      border: 100px solid transparent;
+      border-image: 100 repeating-linear-gradient(-45deg, red 0, red 1em, 
+      transparent 0, transparent 2em, 
+      #58a 0, #58a 3em, 
+      transparent 0, transparent 4em);
+    }
+    .example4 {
+      width: 300px;
+      line-height: 180px;
+      padding: 1em;
+      border: 1em solid transparent;
+      background: linear-gradient(white, white) padding-box,
+      repeating-linear-gradient(-45deg, red 0, red 12.5%, transparent 0, transparent 25%, #58a 0, #58a 37.5%, transparent 0, transparent 50%)
+      0 / 6em 6em;
+      animation: ants 5s linear infinite;
+    }
+    @keyframes ants {
+      to {background-position: 100%;}
+    }
+  </style>
+</head>
+<body>
+  <div class="example">有问题的拼接</div>
+  <div class="example1">完好的边框拼接</div>
+  <div class="example2">信封</div>
+  <div class="example3">border-image实现信封</div>
+  <div class="example4">蚂蚁行军图</div>
+</body>
+</html>

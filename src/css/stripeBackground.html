@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>条纹背景</title>
+  <style>
+    div {
+      width: 200px;
+      height: 200px;
+      display: inline-block;
+    }
+    .example {
+      /* 渐变后面的颜色范围比前面的范围小，则默认会取前面颜色的范围，这里0默认取了50% */
+      background: linear-gradient(#fb3 50%, #58a 0);
+    }
+    .example1 {
+      background: linear-gradient(#fb3 50%, #58a 0);
+      /* 条纹背景利用了背景平铺的效果加上渐变色 */
+      background-size: 100% 30px;
+    }
+    .example2 {
+      /* 垂直条纹背景同理 */
+      background: linear-gradient(to right, #fb3 50%, #58a 0);
+      background-size: 30px 100%;
+    }
+    .example3 {
+      /* 多色条纹则是利用渐变色可以有多个颜色来形成 */
+      background: linear-gradient(#fb3 33.3%, #58a 0, #58a 66.6%, yellowgreen 0);
+      background-size: 100% 45px;
+    }
+    .example4 {
+      /* 如果想要一个斜向的条纹，改变渐变的角度，最终的结果并不是我们想要的 */
+      background: linear-gradient(45deg, #fb3 50%, #58a 0);
+      background-size: 30px 30px;
+    }
+    .example5 {
+      /* 上面的做法不能得到斜向条纹，原因在于每个背景贴片，应该包含有四次渐变，上面只有两次，所以得到的结果是 */
+      /* 最后一次默认到100%的位置，所以省略掉了 */
+      background: linear-gradient(45deg,#fb3 25%, #58a 0, #58a 50%, #fb3 0, #fb3 75%, #58a 0);
+      background-size: 30px 30px;
+    }
+    .example6 {
+      /* 使用新的repeating-linear-gradient可以达到同样的斜向条纹背景，并且可以任意调整角度，而上面的则无法达成 */
+      background: repeating-linear-gradient(15deg, #fb3, #fb3 15px, #58a 0, #58a 30px);
+    }
+    .example7 {
+      /* 同色系的条纹背景 */
+      background: repeating-linear-gradient(30deg, #79b, #79b 15px, #58a 0, #58a 30px);
+    }
+    .example8 {
+      /* 同色系的条纹背景的简化写法，注意浏览器兼容性 */
+      background: repeating-linear-gradient(35deg, #79b 0 15px, #58a 0 30px);
+    }
+    .example9 {
+      /* 也可以这么写，可以在不支持的浏览器中优雅回退，最重要的是只需要改变background颜色值，就可以得到同色系背景了 */
+      background: #fb3;
+      background-image: repeating-linear-gradient(40deg, hsla(0,0%,100%,.1) 0 15px, transparent 0 30px);
+    }
+  </style>
+</head>
+<body>
+  <div class="example"></div>
+  <div class="example1"></div>
+  <div class="example2"></div>
+  <div class="example3"></div>
+  <div class="example4"></div>
+  <div class="example5"></div>
+  <div class="example6"></div>
+  <div class="example7"></div>
+  <div class="example8"></div>
+  <div class="example9"></div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>椭圆</title>
+  <style>
+    /* 使用border-radius指定圆的半径如果超过宽高的一半，用户代理会将其进行减小 */
+    div {
+      display: inline-block;
+      background-color: red;
+      color: #fff;
+      text-align: center;
+      width: 200px;
+      line-height: 130px;
+    }
+    .example {
+      /* border-radius的百分比是基于宽度和高度来计算的，而不是只根据宽度，所以可以生成一个自适应的椭圆 */
+      border-radius: 50%;
+    }
+    .example1 {
+      border-radius: 50% / 100% 100% 0 0;
+    }
+    .example2 {
+      border-radius: 100% 0 0 100% / 50%;
+    }
+    .example3 {
+      border-radius: 0 100% 100% 0 / 50%;
+    }
+    .example4 {
+      border-radius: 100% 0 0 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="example">自适应的椭圆</div>
+  <div class="example1">横轴劈开的半椭圆</div>
+  <div class="example2">纵轴劈开的半椭圆</div>
+  <div class="example3">纵轴劈开的半椭圆的另一半</div>
+  <div class="example4">四分之一椭圆</div>
+</body>
+</html>

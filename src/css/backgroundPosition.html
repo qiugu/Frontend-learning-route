@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>背景定位</title>
+  <style>
+    html, body {
+      margin: 0;
+    }
+    .example {
+      background: url(./css-example1.png) no-repeat bottom right #58a;
+      background-position: right 20px bottom 10px;
+      max-width: 100%;
+      height: 80px;
+      background-size: auto 80px;
+      padding: 3em;
+      background-origin: content-box;
+    }
+    .example2 {
+      background: url(./css-example1.png) no-repeat bottom right #58a;
+      background-position: calc(100% - 20px) calc(100% - 10px); /* 可以使用calc进行背景偏移位置计算 */
+      max-width: 100%;
+      height: 80px;
+      background-size: auto 80px;
+      padding: 3em;
+      background-origin: content-box;
+    }
+  </style>
+</head>
+<body>
+  <div class="example"></div>
+  <div class="example2"></div>
+</body>
+</html>
