@@ -9,7 +9,7 @@
   - 数据结构
   - [计算机网络](net.md)
 - 前端基础
-  - [CSS](css.md)
+  - [CSS](./src/css/README.md)
   - JavaScript语言基础
   - [浏览器架构](browser.md)
   - 工程化
