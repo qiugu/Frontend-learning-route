@@ -7,11 +7,11 @@
 - 计算机基础
   - 操作系统
   - 数据结构
-  - [计算机网络](net.md)
+  - [计算机网络](./docs/net.md)
 - 前端基础
   - [CSS](./src/css/README.md)
   - JavaScript语言基础
-  - [浏览器架构](browser.md)
+  - [浏览器架构](./docs/browser.md)
   - 工程化
 - 框架
   - React相关
@@ -19,7 +19,7 @@
 - Nodejs
 - 设计模式
 - 面试相关
-  - [面试](interviews.md)
+  - [面试](./docs/interview_records.md)
 - WEBGL
-  - [基础篇](base.md)
-  - [数学篇](math.md)
+  - [基础篇](./docs/base.md)
+  - [数学篇](./docs/math.md)
