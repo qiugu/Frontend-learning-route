@@ -1,6 +1,6 @@
-# css
+# css基础扫盲
 
-![](../../../.gitbook/assets/css_mindgraphy.png)
+![](../assets/css_mindgraphy.png)
 
 CSS远比我们想象的更复杂、他的任意一个点拿出来可能都可以写出一篇篇幅不小的文章，往往就能见微知著。所以CSS不仅仅局限于他的名字，层叠样式表，更像是一个世界，一个网页中必不可少的重要组成部分。
 
