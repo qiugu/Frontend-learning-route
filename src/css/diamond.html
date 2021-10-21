@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>菱形</title>
+  <style>
+    html,body {
+      margin: 0;
+      padding: 100px 20px;
+    }
+    div, img {
+      width: 400px;
+      display: inline-block;
+    }
+    .example {
+      transform: rotate(45deg);
+      overflow: hidden;
+    }
+    .example > img {
+      /* 这里和外部div相等的宽度会导致一个八边形的剪裁 */
+      max-width: 100%;
+      transform: rotate(-45deg);
+    }
+    .example2 > img {
+      /* max-width: 142%; 这么写理论上可以，但是实际展示的图形有问题 */
+      max-width: 100%;
+      transform: rotate(-45deg) scale(1.42);
+    }
+    /* 以上方法更多算是一种hack，因为多添加了一个无用的div */
+    .example3 {
+      /* polygon就是类似svg的一种路径参数，可以想象一下下面的参数构成了一个菱形 */
+      clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+      /* 同样裁剪可以有渐变效果 */
+      transition: 1s clip-path;
+    }
+    .example3:hover {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+  </style>
+</head>
+<body>
+  <div class="example">
+    <img src="./status.jpeg" alt="">
+  </div>
+  <div class="example example2">
+    <img src="./status.jpeg" alt="">
+  </div>
+  <img class="example3" src="./status.jpeg" alt="">
+</body>
+</html>
