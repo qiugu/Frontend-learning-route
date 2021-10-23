@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>平行四边形</title>
+  <style>
+    html,body {
+      margin: 0;
+      padding: 100px;
+    }
+    div {
+      width: 200px;
+      line-height: 70px;
+      display: inline-block;
+      background-color: #58a;
+      text-align: center;
+    }
+    .example {
+      /* 利用transform变形生成平行四边形，但是其中存在文字会导致文字也被变形 */
+      transform: skewX(-45deg);
+    }
+    .example1 {
+      transform: skewX(-45deg);
+    }
+    .example1 a {
+      /* 这里多嵌套了一层dom结构，虽然实现了，但这么做影响了html的结构 */
+      display: block;
+      transform: skewX(45deg);
+    }
+    .example2 {
+      position: relative;
+      background-color: transparent;
+      margin-top: 10px;
+    }
+    /* 利用伪元素定位在父元素的下方，设置伪元素的transform不会影响到父元素 */
+    .example2::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background-color: #58a;
+      transform: skewX(-45deg);
+      z-index: -1;
+    }
+  </style>
+</head>
+<body>
+  <div class="example">按钮click</div>
+  <div class="example1">
+    <a>按钮click</a>
+  </div>
+  <div class="example2">按钮click</div>
+</body>
+</html>
