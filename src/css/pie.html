@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>饼图</title>
+  <style>
+    html,body {
+      margin: 0;
+      padding: 20px;
+    }
+    div {
+      width: 100px;
+      height: 100px;
+      display: inline-block;
+      border-radius: 50%;
+      background-color: yellowgreen;
+      margin: 10px;
+      color: #fff;
+    }
+    .example {
+      background-image: linear-gradient(to right, transparent 50%, #655 0);
+    }
+    /* 利用伪元素覆盖在上面，形成一个百分比的效果 */
+    .example::before {
+      content: '';
+      display: block;
+      height: 100%;
+      background-color: inherit;
+      margin-left: 50%;
+      border-radius: 0 100% 100% 0 / 50%;
+    }
+    .percent20::before {
+      /* 超过50%的比例会有问题，绿色部分占据了超过50%的部分，因此反过来处理即可 */
+      transform: rotate(.2turn);
+      transform-origin: left;
+    }
+    .percent75::before {
+      /* 设置一个和饼图相反的颜色，0.1就对应50%+0.1，也就是60% */
+      background-color: #655;
+      transform: rotate(.1turn);
+      transform-origin: left;
+    }
+    @keyframes spin {
+      to { transform: rotate(.5turn) }
+    }
+    @keyframes bg {
+      50% { background: #655; }
+    }
+    .animate::before {
+      transform-origin: left;
+      animation: spin 3s linear infinite,
+      bg 6s step-end infinite;
+    }
+  </style>
+</head>
+<body>
+  <div class="example">100%</div>
+  <div class="example percent20">20%</div>
+  <div class="example percent75">60%</div>
+  <div class="example animate"></div>
+</body>
+</html>

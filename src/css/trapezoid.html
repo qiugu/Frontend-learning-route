@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>梯形</title>
+  <style>
+    html,body {
+      margin: 0;
+      padding: 20px;
+    }
+    div {
+      display: inline-block;
+      position: relative;
+      padding: .5em 1em .35em;
+      color: #fff;
+    }
+    .example::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      /* 利用3d变化后的二维视角形成一个梯形，但同时存在内部文本位置不正确的问题 */
+      /* 使用scaleY来放大高度消除文本位置不正确的问题 */
+      transform: scaleY(1.3) perspective(.3em) rotateX(5deg);
+      background: #58a;
+      z-index: -1;
+      /* 固定3d旋转的底部，绕底部进行旋转 */
+      transform-origin: bottom;
+    }
+    .example2::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      /* 利用3d变化后的二维视角形成一个梯形，但同时存在内部文本位置不正确的问题 */
+      /* 使用scaleY来放大高度消除文本位置不正确的问题 */
+      transform: scaleY(1) perspective(.3em) rotateX(5deg);
+      background: #58a;
+      z-index: -1;
+      /* 固定3d旋转的底部，绕底部进行旋转 */
+      transform-origin: left;
+    }
+  </style>
+</head>
+<body>
+  <div class="example">我是一个梯形</div>
+  <div class="example2">我是一个单边倾斜梯形</div>
+</body>
+</html>
