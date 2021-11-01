@@ -17,7 +17,6 @@
       border-radius: 50%;
       background-color: yellowgreen;
       margin: 10px;
-      color: #fff;
     }
     .example {
       background-image: linear-gradient(to right, transparent 50%, #655 0);
@@ -53,12 +52,101 @@
       animation: spin 3s linear infinite,
       bg 6s step-end infinite;
     }
+    .animatePause {
+      position: relative;
+      /* 文字设置为透明，隐藏文字 */
+      color: red;
+      text-align: center;
+      line-height: 100px;
+    }
+    .animatePause::before {
+      /* 这里绝对定位会导致伪元素位置不对，暂未知 */
+      /* position: absolute; */
+      top: 0;
+      left: 50%;
+      width: 50%;
+      height: 100%;
+      background-color: inherit;
+      transform-origin: left;
+      animation: spin 50s linear infinite,
+      bg 100s step-end infinite;
+      /* 巧用继承，伪元素继承父元素设置的行内样式 */
+      animation-delay: inherit;
+      animation-play-state: paused;
+    }
+    svg {
+      transform: rotate(-90deg);
+      background: yellowgreen;
+      border-radius: 50%;
+    }
+    circle {
+      fill: yellowgreen;
+      stroke: #655;
+      stroke-width: 50;
+      stroke-dasharray: 50 158;
+    }
+    @keyframes fillup {
+      to {
+        /* 此属性从 0 158 变成了 158 158，实际就是扇形从0到360°的变化，注意158表示圆的周长，2*Π*r = 2 * 3.1415 * 25 */
+        stroke-dasharray: 158 158;
+      }
+    }
+    .svg-animation {
+      fill: yellowgreen;
+      stroke: #655;
+      stroke-width: 50;
+      /* 该属性表示虚线描边的宽度设置，第一个值为描边的宽度，第二个值为描边的间隔 */
+      stroke-dasharray: 0 158;
+      animation: fillup 5s linear infinite;
+    }
+    .example2 {
+      width: 100px;
+      height: 100px;
+    }
+    .svg-circle2 {
+      fill: yellowgreen;
+      stroke: #655;
+      stroke-width: 32;
+      stroke-dasharray: 38 100;
+    }
+    .example3 {
+      line-height: 100px;
+      text-align: center;
+      /* 利用角向渐变，实现更加简单，注意兼容性问题，IE全部不支持 */
+      background: conic-gradient(#655 80%, yellowgreen 0);
+    }
+    .example4 {
+      line-height: 100px;
+      text-align: center;
+      /* 谷歌75不支持这种写法 */
+      /* background: conic-gradient(#655 attr(data-value%), yellowgreen 0); */
+    }
+    .example5 {
+      /* 三种颜色也可以轻易完成 */
+      background: conic-gradient(deeppink 20%, #fb3 0, #fb3 30%, yellowgreen 0);
+    }
   </style>
 </head>
 <body>
-  <div class="example">100%</div>
-  <div class="example percent20">20%</div>
-  <div class="example percent75">60%</div>
+  <div class="example"></div>
+  <div class="example percent20"></div>
+  <div class="example percent75"></div>
   <div class="example animate"></div>
+  <!-- 利用动画暂停，以及动画负延迟的技术实现指定比率的饼图 -->
+  <div class="example animatePause" style="animation-delay: -20s;">20%</div>
+  <div class="example animatePause" style="animation-delay: -60s;">60%</div>
+  <svg width="100" height="100">
+    <circle r="25" cx="50" cy="50"></circle>
+  </svg>
+  <svg width="100" height="100">
+    <circle class="svg-animation" r="25" cx="50" cy="50"></circle>
+  </svg>
+  <svg class="example2" viewBox="0 0 32 32">
+    <!-- 这里取16的半径，是希望周长为100，这样计算比例的时候，直接就可以得到，不需要进行计算 -->
+    <circle class="svg-circle2" r="16" cx="16" cy="16"></circle>
+  </svg>
+  <div class="example3">80%</div>
+  <div class="example4" data-value="40">40%</div>
+  <div class="example5"></div>
 </body>
 </html>
