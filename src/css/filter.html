@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>染色</title>
+  <style>
+    html,body {
+      margin: 0;
+      padding: 20px;
+    }
+    div {
+      display: inline-block;
+      width: 200px;
+      height: 300px;
+      font-size: 0;
+    }
+    div > img {
+      width: 100%;
+      object-fit: contain;
+      cursor: pointer;
+    }
+    .example {
+      transition: .5s filter;
+      /* 使用滤镜来进行染色，滤镜也是可以使用过渡动画的 */
+      filter: sepia(1) saturate(4) hue-rotate(295deg);
+    }
+    .example:hover,
+    .example:focus {
+      filter: none;
+    }
+    .example2 {
+      background: hsl(335, 100%, 50%);
+    }
+    .example2 > img {
+      /* 使用混合模式，不支持过渡动画 */
+      mix-blend-mode: luminosity;
+    }
+    .example3 {
+      background: url(./test.jpg);
+      background-size: cover;
+      background-color: hsl(335, 100%, 50%);
+      /* 使用背景混合，改变背景颜色来实现过渡 */
+      background-blend-mode: luminosity;
+      transition: .3s background-color;
+    }
+    .example3:hover {
+      background-color: transparent;
+    }
+  </style>
+</head>
+<body>
+  <div class="example">
+    <img src="./test.jpg" alt="">
+  </div>
+  <div class="example2">
+    <img src="./test.jpg" alt="">
+  </div>
+  <div class="example3"></div>
+</body>
+</html>
