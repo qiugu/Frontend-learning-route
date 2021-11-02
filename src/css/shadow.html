@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>投影</title>
+  <style>
+    html,body {
+      margin: 0;
+      padding: 20px;
+    }
+    div {
+      display: inline-block;
+      width: 100px;
+      height: 100px;
+      background: #58a;
+      margin: 20px;
+    }
+    .example {
+      /* 利用第四个参数扩张半径，能将阴影的四个方向上进行缩小形成单侧投影 */
+      box-shadow: 0 5px 4px -4px black;
+    }
+    .example2 {
+      /* 邻边投影也是利用扩张半径来实现，只有相邻的两条边有投影效果 */
+      /* 没有扩张投影也有相邻两条边的效果，感觉区别不大 */
+      box-shadow: 3px 3px 6px -3px black;
+    }
+    .example3 {
+      /* 和多重背景类似，两个box-shadow形成两侧投影 */
+      box-shadow: 5px 0 5px -5px black,
+      -5px 0 5px -5px black;
+    }
+  </style>
+</head>
+<body>
+  <div class="example"></div>
+  <div class="example2"></div>
+  <div class="example3"></div>
+</body>
+</html>
