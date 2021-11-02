@@ -48,6 +48,44 @@
     .example3:hover {
       background-color: transparent;
     }
+    /* 毛玻璃效果 */
+    .frosted {
+      width: 400px;
+      height: 300px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      /* 注意这里必须要设置z-index，否则下面模糊背景会被当前层覆盖 */
+      z-index: 0;
+    }
+    .example4,
+    .example4 > div::before {
+      background: url(http://csssecrets.io/images/tiger.jpg) center / cover;
+    }
+    .example4 > div {
+      width: 300px;
+      height: 150px;
+      text-align: center;
+      text-indent: 2em;
+      border-radius: 15px;
+      padding: 15px;
+      position: relative;
+      background: hsla(0, 0%, 100%, 0.25) border-box;
+      font-size: 14px;
+      overflow: hidden;
+    }
+    /* 使用模糊后的伪元素放在容器下面 */
+    .example4 > div::before {
+      content: '';
+      position: absolute;
+      z-index: -1;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      filter: blur(20px);
+    }
   </style>
 </head>
 <body>
@@ -58,5 +96,8 @@
     <img src="./test.jpg" alt="">
   </div>
   <div class="example3"></div>
+  <div class="example4 frosted">
+    <div>在传统的平面设计中，这个问题的解决方案通常是把文本层所覆盖的那部分图片区域作模糊处理。模糊的背景看起来不那么花哨，因此在它之上的文本就相对比较易读了。过去，由于模糊运算的性能消耗极其巨大，以致于这个技巧在网页设计和 UI 设计中鲜有用武之地。不过，随着 GPU 的不断进化以及硬件加速的不断普及，眼下这个技巧已经逐渐流行起来。在过去这几年里...</div>
+  </div>
 </body>
 </html>
