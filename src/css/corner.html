@@ -83,6 +83,37 @@
       /* 此属性当前不支持 */
       /* corner-shape: bevel; */
     }
+    .example8 {
+      background: #58a;
+      /* 折角就是利用上面的切角原理，再添加一层渐变背景覆盖在对应位置，形成折叠的效果 */
+      background: linear-gradient(to left bottom, transparent 50%, rgba(0,0,0,.4) 0) no-repeat 100% 0 / 2em 2em,
+      linear-gradient(-135deg, transparent 1.5em, #58a 0);
+    }
+    .example9 {
+      background: #58a;
+      /* 非45°角的话，这里就是30-60-90的直角三角形，需要利用三角函数计算两个直角边的大小 */
+      /* 计算公式，长直角边 = 半径1.5 * sin30° = 1.5 / 0.5 = 3 短直角边 = 半径1.5 * 2 / 根号3 = 根号3 约等于1.73  */
+      background: linear-gradient(to left bottom, transparent 50%, rgba(0,0,0,.4) 0) no-repeat 100% 0 / 3em 1.73em,
+      linear-gradient(-150deg, transparent 1.5em, #58a 0);
+    }
+    .example10 {
+      position: relative;
+      background: #58a;
+      background: linear-gradient(-150deg, transparent 1.5em, #58a 0);
+      border-radius: .5em;
+    }
+    .example10::before {
+      content: '';
+      position: absolute;
+      top: 0;right: 0;
+      background: linear-gradient(to left bottom, transparent 50%, rgba(0,0,0,.2) 0, rgba(0,0,0,.4)) 100% 0 no-repeat;
+      border-bottom-left-radius: inherit;
+      box-shadow: -.2em .2em .3em -.1em rgba(0,0,0,.15);
+      width: 1.73em;
+      height: 3em;
+      transform: translateY(-1.3em) rotate(-30deg);
+      transform-origin: bottom right;
+    }
   </style>
 </head>
 <body>
@@ -93,5 +124,8 @@
   <div class="example5">我是四个切角我是四个切角我是四个切角我是四个切角我是四个切角</div>
   <div class="example6">我是四个切角我是四个切角我是四个切角我是四个切角我是四个切角</div>
   <div class="example7">corner-shape</div>
+  <div class="example8">135°的折角</div>
+  <div class="example9">150°的折角</div>
+  <div class="example10">真实世界的150°的折角</div>
 </body>
 </html>
