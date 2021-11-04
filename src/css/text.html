@@ -1,17 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>文本</title>
-  <style>
-    html,body {
-      margin: 0;
-    }
-  </style>
-</head>
-<body>
-  <div class="example"></div>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>文本</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 20px;
+      }
+      div {
+        display: inline-block;
+        width: 200px;
+        height: 180px;
+      }
+      dt, dd {
+        margin: 0;
+        display: inline;
+      }
+      .example dd::after {
+        /* \A表示换行，利用伪元素可以精确控制换行 */
+        content: '\A';
+        white-space: pre;
+      }
+      .example2 {
+        padding: .5em;
+        line-height: 1.5;
+        background: beige;
+        /* 在多行文本中使用条纹背景 */
+        background-image: linear-gradient(rgba(0,0,0,.2) 50%, transparent 0);
+        background-size: 100% 3em;
+        background-origin: content-box;
+      }
+      .example3 {
+        /* 线性渐变实现下划线，换行就不行了? */
+        background: linear-gradient(gray, gray) no-repeat;
+        background-size: 100% 1px;
+        background-position: 0 1.15em;
+      }
+      .example4 {
+        /* 也可以用虚线下划线 */
+        background: linear-gradient(90deg, gray 66%, transparent 0) repeat-x;
+        background-size: .2em 2px;
+        background-position: 0 1em;
+        /* 用来避免下划线穿过某些字母，如p和y的降部 */
+        text-shadow: .05em 0 white, -.05em 0 white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="example">
+      <dl>
+        <dt>Name</dt>
+        <dd>qiugu</dd>
+        <dt>Age</dt>
+        <dd>18</dd>
+      </dl>
+    </div>
+    <div class="example2"></div>
+    <div class="example3">为什么不把所有与背景相关的值都以简写的方式写进 background 属性中？因为那样的话，
+    我们还得为旧版浏览器再写一行回退样式，这意味着我们需要把 beige 写两遍，这显然有
+    违 DRY 原则。</div>
+    <div class="example4">为什么不把所有与背景相关的值都以简写的方式写进 background 属性中？因为那样的话，
+      我们还得为旧版浏览器再写一行回退样式，这意味着我们需要把 beige 写两遍，这显然有
+      违 DRY 原则。</div>
+  </body>
 </html>
