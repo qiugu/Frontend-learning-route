@@ -48,6 +48,103 @@
         /* 用来避免下划线穿过某些字母，如p和y的降部 */
         text-shadow: .05em 0 white, -.05em 0 white;
       }
+      /* 凸版印刷字体效果 */
+      .example5 {
+        padding: .3em;
+        background: hsl(210, 13%, 40%);
+        color: hsl(210, 13%, 75%);
+        text-shadow: 0 -1px 1px black;
+      }
+      .example6 {
+        text-align: center;
+        background: deeppink;
+        color: white;
+        font-size: 70px;
+        /* 空心文字，需要添加偏移量 */
+        text-shadow: 1px 1px black, -1px -1px black,
+        1px -1px black, -1px 1px black;
+      }
+      .example7 {
+        text-align: center;
+        background: deeppink;
+        color: white;
+        font-size: 70px;
+        /* 空心文字，通过重叠阴影，不需要添加偏移量，但是当阴影比较大的时候，重叠部分显示有问题 */
+        text-shadow: 0 0 1px black, 0 0 1px black,
+        0 0 1px black, 0 0 1px black,
+        0 0 1px black, 0 0 1px black;
+      }
+      /* svg方式更加完美，不过多了很多svg的层级 */
+      .example8 {
+        font: 500%/1 Rockwell, serif;
+        background: deeppink;
+        color: white;
+      }
+      .example8 text {
+        fill: currentColor;
+      }
+      .example8 svg {
+        overflow: visible;
+      }
+      .example8 use {
+        stroke: black;
+        stroke-width: 8;
+        stroke-linejoin: round;
+      }
+      /* 文字发光效果 */
+      .example9 {
+        cursor: pointer;
+        font-size: 60px;
+        background: #203;
+        color: white;
+        text-shadow: 0 0 .1em white, 0 0 .3em white;
+      }
+      .example10 {
+        cursor: pointer;
+        font-size: 60px;
+        background: #203;
+        color: white;
+        transition: 1s;
+      }
+      .example10:hover {
+        /* 在不支持text-shadow的浏览器无法平稳退化 */
+        color: transparent;
+        text-shadow: 0 0 .1em white, 0 0 .3em white;
+      }
+      /* 文字凸起效果 */
+      .example11 {
+        font-size: 60px;
+        background: #58a;
+        color: #fff;
+        text-shadow: 0 1px hsl(0,0%,85%),
+        0 2px hsl(0,0%,80%),
+        0 3px hsl(0,0%,75%),
+        0 4px hsl(0,0%,70%),
+        0 5px hsl(0,0%,65%),
+        0 5px 10px black;
+      }
+      .example12 {
+        font-size: 60px;
+        color: white;
+        background: hsl(0,50%,45%);
+        text-shadow: 1px 1px black, 2px 2px black,
+        3px 3px black, 4px 4px black,
+        5px 5px black, 6px 6px black,
+        7px 7px black, 8px 8px black;
+      }
+      /* 环形文字效果 */
+      .example13 {
+        width: 10em;
+        height: 10em;
+        margin: 3em auto;
+      }
+      .example13 path {
+        fill: none;
+      }
+      .example13 svg {
+        display: block;
+        overflow: visible;
+      }
     </style>
   </head>
   <body>
@@ -66,5 +163,26 @@
     <div class="example4">为什么不把所有与背景相关的值都以简写的方式写进 background 属性中？因为那样的话，
       我们还得为旧版浏览器再写一行回退样式，这意味着我们需要把 beige 写两遍，这显然有
       违 DRY 原则。</div>
+    <div class="example5">This only way to get rid of a temperation is to yield to it</div>
+    <div class="example6">CSS</div>
+    <div class="example7">CSS</div>
+    <div class="example8">
+      <svg width="2em" height="1.2em">
+        <use xlink:href="#css" />
+        <text id="css" y="1em">CSS</text>
+      </svg>
+    </div>
+    <div class="example9">Glow</div>
+    <div class="example10">Dizzy</div>
+    <div class="example11">CSS3d</div>
+    <div class="example12">RETRO</div>
+    <div class="example13">
+      <svg viewBox="0 0 100 100">
+        <path d="M 0,50 a 50,50 0 1,1 0,1 z" id="circle" />
+        <text><textPath xlink:href="#circle">
+          circular reasoning works because absolu
+          </textPath></text>
+      </svg>
+    </div>
   </body>
 </html>
