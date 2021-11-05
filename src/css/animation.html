@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>动画</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+      }
+      body::after {
+        content: "";
+        position: relative;
+        top: 400px;
+        display: block;
+        width: 100%;
+        height: 1px;
+        background: black;
+        box-shadow: 10px 1px 10px black;
+      }
+      div {
+        display: inline-block;
+        margin: 20px;
+      }
+      @keyframes bounce {
+        60%,
+        80%,
+        to {
+          transform: translateY(400px);
+          animation-timing-function: ease-out;
+        }
+        70% {
+          transform: translateY(250px);
+        }
+        90% {
+          transform: translateY(300px);
+        }
+      }
+      .example {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: #58a;
+        animation: bounce 1s cubic-bezier(0.1, 0.25, 1, 0.25);
+      }
+      @keyframes elastic-grow {
+        from {
+          transform: scale(0);
+        }
+        70% {
+          transform: scale(1.1);
+          animation-timing-function: cubic-bezier(0.1, 0.25, 1, 0.25);
+        }
+      }
+      .example2 > label {
+        display: block;
+        width: min-content;
+      }
+      .example2 input {
+        position: relative;
+        display: block;
+      }
+      .example2 .callout {
+        background: blanchedalmond;
+        display: block;
+        border-radius: 5px;
+        box-sizing: border-box;
+        padding: 0.3em;
+        margin-top: 3px;
+        box-shadow: 3px 3px 5px #ccc;
+        text-align: left;
+      }
+      .example2 input:not(:focus) + .callout {
+        transform: scale(0);
+        transition: 0.25s transform;
+      }
+      .example2 input:focus + .callout {
+        animation: elastic-grow 0.5s;
+      }
+      .example2 .callout {
+        position: relative;
+        transition: 0.5s cubic-bezier(0.25, 0.1, 0.3, 1.5) transform;
+        transform-origin: 1.4em -0.4em;
+      }
+      .example2 .callout::before {
+        content: "";
+        position: absolute;
+        left: 10%;
+        bottom: 100%;
+        width: 0;
+        height: 0;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-bottom: 10px solid blanchedalmond;
+        border-top: 6px solid transparent;
+      }
+      /* 逐帧动画 */
+      @keyframes loader {
+        to {
+          background-position: -800px 0;
+        }
+      }
+      .example3 {
+        width: 100px;
+        height: 100px;
+        text-indent: 999px;
+        overflow: hidden;
+        background: url(http://dabblet.com/img/loader.png) 0 0;
+        /* 必须加上steps，否则会出现每一帧切换的场景，导致不连续 */
+        animation: loader 1s infinite steps(8);
+      }
+      /* 闪烁动画 */
+      @keyframes blink-1 {
+        50% {
+          color: transparent;
+        }
+      }
+      @keyframes blink-2 {
+        to {
+          color: transparent;
+        }
+      }
+      .example4 > p {
+        padding: 1em;
+        background: gold;
+      }
+      .example4 > .blink-smooth-1 {
+        animation: 1s blink-1 3;
+      }
+      .example4 > .blink-smooth-2 {
+        animation: 0.5s blink-2 6;
+        animation-direction: alternate;
+      }
+      .example4 > .blink {
+        animation: 1s blink-1 3 steps(1);
+      }
+      /* 打字效果 */
+      @keyframes typing {
+        from { width: 0; }
+      }
+      @keyframes caret {
+        50% { border-color: transparent; }
+      }
+      .example5 {
+        display: block;
+        width: 10ch;
+        animation: typing 10s steps(15),
+        caret 1s steps(1) infinite;
+        overflow: hidden;
+        white-space: nowrap;
+        border-right: .05em solid;
+      }
+      /* 平滑动画 */
+      @keyframes panoramic {
+        to { background-position: 100% 0; }
+      }
+      .example6 {
+        width: 150px;
+        height: 350px;
+        background: url(http://c3.staticflickr.com/3/2671/3904743709_74bc76d5ac_b.jpg);
+        background-size: auto 100%;
+        animation: panoramic 10s linear infinite alternate;
+        animation-play-state: paused;
+      }
+      .example6:hover,
+      .example:focus {
+        animation-play-state: running;
+      }
+      /* 沿环形路径运动的动画 */
+      @keyframes spin {
+        to { transform: rotate(1turn); }
+      }
+      .example7 {
+        display: block;
+        width: 300px;
+        height: 300px;
+        background: gold;
+        border-radius: 50%;
+        padding: 50px;
+      }
+      .example7 > .avatar {
+        margin: 0;
+        animation: spin 3s infinite linear;
+        transform-origin: 150px 150px; /* 150是容器的半径 */
+      }
+      .example7 img {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 50%;
+        /* 抵消图片转动 */
+        animation: inherit;
+        animation-direction: reverse;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="example"></div>
+    <div class="example2">
+      <label>
+        Your username: <input id="username" autocomplete="off" />
+        <span class="callout">
+          Only letters, numbers, underscores (_) and hyphens (-) allowed!
+        </span>
+      </label>
+    </div>
+    <div class="example3">Loading...</div>
+    <div class="example4">
+      <p class="blink-smooth-1">Blink..............................</p>
+      <p class="blink-smooth-2">Blink..............................</p>
+      <p class="blink">Blink........................................</p>
+    </div>
+    <div class="example5">
+      Bacon ipsum dolor amet beef boudin turducken, tri-tip strip steak short
+      loin meatball ground round venison salami landjaeger shankle. 
+    </div>
+    <div class="example6"></div>
+    <div class="example7">
+      <div class="avatar">
+        <img src="./test.jpg" alt="">
+      </div>
+    </div>
+    <script>
+      const text = document.querySelector('.example5');
+      const len = text.textContent.length;
+      const s = text.style;
+      s.width = len + 'ch';
+      s.animationTimingFunction = 'steps(' + len + '),steps(1)';
+    </script>
+  </body>
+</html>

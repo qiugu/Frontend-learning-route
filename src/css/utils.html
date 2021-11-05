@@ -94,21 +94,35 @@
             background-clip: content-box;
             cursor: ew-resize;
         }
+        /* 带滑动控制的图片对比 */
         .example4 {
             position: relative;
             display: inline-block;
         }
         .example4 > div {
             position: absolute;
-            top: 0;left: 0;bottom: 0;bottom: 0;
+            top: 0;left: 0;bottom: 0;
             width: 50%;
-            height: 400px;
             overflow: hidden;
         }
         .example4 img {
             width: 400px;
             display: block;
             user-select: none;
+        }
+        .example4 input {
+            position: absolute;
+            left: 0;
+            bottom: 10px;
+            width: 100%;
+            margin: 0;
+            /* 让滑块在视觉上和控件更加统一 */
+            filter: contrast(.5);
+            mix-blend-mode: luminosity;
+            /* 放大滑块的操作区域，提升使用体验 */
+            width: 50%;
+            transform: scale(2);
+            transform-origin: left bottom;
         }
     </style>
 </head>
@@ -134,10 +148,10 @@
     <script>
         const slider = document.querySelector('.example4');
         const div = document.createElement('div');
-        const img = document.querySelector('img');
+        const imgs = slider.querySelectorAll('img');
         slider.appendChild(div);
-        slider.insertBefore(img, div);
-        div.appendChild(img);
+        div.appendChild(imgs[0]);
+        slider.insertBefore(div, imgs[1]);
 
         const range = document.createElement('input');
         range.type = 'range';

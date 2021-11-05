@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>布局</title>
+  <style>
+    html,body {
+      margin: 0;
+      padding: 20px;
+    }
+    /* 我们希望figure的宽度能够根据内部图片的宽度来决定 */
+    /* 一般情况下，可以把figure设置为inline-block，或者也可以把figure设置为浮动元素，这些都会改变了布局 */
+    .example > figure {
+      padding: .3em;
+      border: 1px solid black;
+      /* 平稳退化写法 */
+      max-width: 300px;
+      /* 完美解决以上问题，并且下面figcaption也不需要做额外处理，就是取最小元素的宽度作为父元素的宽度 */
+      width: min-content;
+      margin: auto;
+    }
+    .example img {
+      max-width: inherit;
+    }
+    /* 页脚紧贴页面底部，无论内容多少 */
+    .example2 {
+      display: flex;
+      flex-flow: column;
+      min-height: 100vh;
+    }
+    .example2 > main {
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="example">
+    <p>Some text text text text text text text text text text text text text text text text text text text text text text text text text text</p>
+    <figure>
+      <img src="./adamcatlace.jpg" />
+      <figcaption>
+        The great Sir Adam Catlace was named after
+        Countess Ada Lovelace, the first programmer.
+      </figcaption>
+    </figure>
+    <p>More text text text text text text text text text text text text text text text text text text text text text text text text text text text text.</p>
+  </div>
+  <div class="example2">
+    <header>
+      <h1>Site name</h1>
+     </header>
+     <main>
+       <p>只有一行</p>
+      <!-- <p>Bacon Ipsum dolor sit amet Bacon ipsum dolor amet jowl shankle pig, boudin hamburger picanha venison pork loin chuck meatball pork belly corned beef. Meatball t-bone drumstick, cupim capicola boudin tail cow ham hock chicken pancetta pork loin pork belly pork. Alcatra cupim buffalo pork rump turducken tenderloin t-bone fatback. Tail salami capicola turducken.
+
+        Kielbasa beef ribs pastrami, short loin ribeye pork cupim landjaeger cow. Cupim alcatra spare ribs, pork belly frankfurter corned beef boudin. Burgdoggen doner pork chop kielbasa. Tri-tip strip steak fatback, andouille short loin spare ribs drumstick cupim porchetta burgdoggen shankle. Shoulder jerky chuck ham pork belly.
+        
+        Corned beef shank rump venison cupim salami, pig flank kevin t-bone andouille pork belly burgdoggen. </p>
+        <p>T-bone kevin tail, beef bresaola sausage buffalo jerky chicken fatback pig tongue pork loin porchetta. Beef jerky t-bone fatback pancetta sausage chicken turducken flank venison bacon ball tip meatball hamburger pig. Shoulder spare ribs bacon, pastrami burgdoggen porchetta pork doner sirloin ground round drumstick prosciutto salami tongue. Tail meatball ham t-bone. Picanha corned beef jerky, prosciutto sirloin leberkas capicola sausage.
+        
+          Andouille chicken tri-tip chuck doner ground round kevin cupim. Venison pork belly meatloaf chislic beef short ribs shankle. Chislic kielbasa chicken, kevin ball tip jowl meatloaf pastrami swine tri-tip. Prosciutto venison doner beef ribs short loin burgdoggen corned beef tri-tip shank alcatra t-bone tail rump ham turducken. Short loin picanha beef ribs, capicola pork chop spare ribs hamburger ham hock bacon fatback chuck.
+          
+          Sirloin swine beef ribs, venison ham t-bone ribeye pancetta pork chop. Cupim capicola pork loin, buffalo pig beef pork belly tri-tip jerky pancetta doner shank hamburger ribeye. Filet mignon boudin beef ribs strip steak kevin, turkey pastrami fatback prosciutto. Bacon tail filet mignon pork, hamburger tri-tip beef ribs chuck frankfurter ground round rump buffalo. Pork chop short ribs venison spare ribs drumstick picanha burgdoggen doner porchetta. Salami pork chop ham hock, burgdoggen shankle ground round bacon porchetta sausage. Meatball beef ribs cow cupim leberkas.
+          
+          Does your lorem ipsum text long for something a little meatier? Give our generator a try… it’s tasty!</p>
+          <p>Venison pork belly meatloaf chislic beef short ribs shankle. Chislic kielbasa chicken, kevin ball tip jowl meatloaf pastrami swine tri-tip. Prosciutto venison doner beef ribs short loin burgdoggen corned beef tri-tip shank alcatra t-bone tail rump ham turducken. Short loin picanha beef ribs, capicola pork chop spare ribs hamburger ham hock bacon fatback chuck.
+          
+            Sirloin swine beef ribs, venison ham t-bone ribeye pancetta pork chop. Cupim capicola pork loin, buffalo pig beef pork belly tri-tip jerky pancetta doner shank hamburger ribeye. Filet mignon boudin beef ribs strip steak kevin, turkey pastrami fatback prosciutto. Bacon tail filet mignon pork, hamburger tri-tip beef ribs chuck frankfurter ground round rump buffalo. Pork chop short ribs venison spare ribs drumstick picanha burgdoggen doner porchetta. Salami pork chop ham hock, burgdoggen shankle ground round bacon porchetta sausage. Meatball beef ribs cow cupim leberkas.
+            
+            Does your lorem ipsum text long for something a little meatier? Give our generator a try… it’s tasty!</p> -->
+     </main>
+     <footer>
+      <p>© 2015 No rights reserved.</p>
+      <p>Made with ♥ by an anonymous pastafarian.</p>
+     </footer>
+  </div>
+</body>
+</html>
