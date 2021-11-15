@@ -81,13 +81,126 @@ div {
 
 另外可维护性还体现在简写属性上，这个也是显而易见的，简写属性为几个属性的复合写法，不但减少了代码量，同时修改起来也会非常的方便，
 
-说完了这些，下面就来看看大佬是怎么去写 CSS 的。
+说完了这些，来看看在实际项目中如何写出一个好的 CSS 呢。
 
 ## CSS复杂背景的应用
 
-提到CSS的背景，大家就可以想到`background`这么一个复合属性，在实际的应用中，可能就是简单的添加一个背景图片，背景颜色等。如果现在要让你写一个复杂的背景，有多复杂呢，比如条纹背景，网格背景、棋盘背景等等。你可能会想，这有啥难的，搞个对应的图片不就行了吗，整那些花里胡哨的东西干啥，开发中哪有时间去折腾这些。
+![image.png](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a83e98fcaa1745f6947c035b58a58245~tplv-k3u1fbpfcp-watermark.image?)
+
+如何写出上图所示的复杂的背景呢，条纹背景，网格背景、棋盘背景等等。除了用图片来替代这些背景，我们也可以使用纯 CSS 来实现，这样就不需要额外的图片结构，不需要多余的带宽，也符合上面提到的能用 CSS 来解决的就不要使用一些影响页面结构的 DOM 元素来解决。
+
+办法就是一个平时可能很少用到的一个属性：线性渐变 linear-gradient。这里就是利用了渐变属性 linear-gradient 的一个特性，**后一个渐变颜色的范围如果是0的话，那么这个渐变颜色将不会有过渡，而是直接从前一个颜色到后一个颜色**。什么意思呢，来看一个条纹背景的实现思路就明白了。
+
+```css
+background: linear-gradient(#fb3 50%, #58a 0);
+```
+
+就这么简单，一行足以，来看看效果
+
+![image.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/dcf4ec4de5f44c99a724d1ce84bc13ed~tplv-k3u1fbpfcp-watermark.image?)
+
+好像不是我们要的条纹，修改一下
+
+```css
+background: linear-gradient(#fb3 50%, #58a 0);
+/* 利用了背景平铺的效果 */
+background-size: 100% 30px;
+```
+
+![image.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bd4b1247ab1d4825bdbac440fdd86c16~tplv-k3u1fbpfcp-watermark.image?)
+
+是不是有点意思了，想要个垂直的条纹呢，改变下渐变的方向就可以了
+
+```css
+background: linear-gradient(to right, #fb3 50%, #58a 0);
+background-size: 30px 100%;
+```
+
+![image.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b9802ea071034cc8abc23153f3849b75~tplv-k3u1fbpfcp-watermark.image?)
+
+也成了，那如果想要一个斜向的条纹呢，是不是像下面这么写就可以了：
+
+```css
+background: linear-gradient(45deg, #fb3 50%, #58a 0);
+background-size: 30px 30px;
+```
+
+![image.png](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/04c8ff5567f247d388b00c084b1cbad7~tplv-k3u1fbpfcp-watermark.image?)
+
+不对啊，为什么会是这样的呢？这和我们想象的不一样啊。实际渐变中旋转的45度，只是旋转了当前的一小块背景的45度
+
+![image-20211113134217014](/Users/qiugu/Library/Application Support/typora-user-images/image-20211113134217014.png)
+
+就是上面红色框选出来的一小段的45度，我们需要的效果应该是这样的
+
+![image-20211113134519254](/Users/qiugu/Library/Application Support/typora-user-images/image-20211113134519254.png)
+
+可以看到红色框中的颜色变化了4次，并不是两次，找到了问题所在，改下上面的代码
+
+```css
+background: linear-gradient(45deg,#fb3 25%, #58a 0, #58a 50%, #fb3 0, #fb3 75%, #58a 0);
+background-size: 30px 30px;
+```
+
+![image.png](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c1bdf7bbf83843fab41387587151f9c8~tplv-k3u1fbpfcp-watermark.image?)
+
+好了，大功告成，所以有时候写 CSS 还得有一颗细心观察的心。
+
+然后再说到网格背景、棋盘背景，波点背景什么的，心里是不是有底了。这里就不在去深入分析，不过注释上面会提到一些值得注意的地方，可以照着下面的代码，自己敲一敲感受一下。
+
+- 网格背景
+
+  ```css
+  /* 网格图案，写法参照DRY，改动颜色只需要改动background-image这里就可以 */
+  background: white;
+  /* 利用了background-image多重背景，一个是横向的渐变，一个是纵向的渐变 */
+  /* 另外这里的长度都是百分比单位，也可以写成像素单位，这样就变成了最开始的第二个图案 */
+  background-image: linear-gradient(90deg, rgba(200,0,0,.5) 50%, transparent 0),
+  linear-gradient(rgba(200,0,0,.5) 50%, transparent 0);
+  background-size: 30px 30px;
+  ```
+
+- 波点图案
+
+  ```css
+  /* 波点图案则是使用了径向渐变来实现 */
+  background: #655;
+  background-image: radial-gradient(tan 30%, transparent 0),
+  radial-gradient(tan 30%, transparent 0);
+  background-size: 30px 30px;
+  /* 这里做了偏移，否则就是第一个波点图案了 */
+  /* 这里的偏移位置需要为background-size设置的一半，也就是每个贴片偏移到中间位置 */
+  background-position: 0 0, 45px 45px;
+  ```
+
+- 棋盘图案
+
+  ```css
+  /* 棋盘图案，这里使用了透明度来表示棋盘的深浅色，替换background主色即可改变其他色系的棋盘 */
+  background: #eee;
+  background-image: linear-gradient(45deg, rgba(0,0,0,.25) 25%, transparent 0),
+  linear-gradient(45deg, transparent 75%, rgba(0,0,0,.25) 0),
+  linear-gradient(45deg, rgba(0,0,0,.25) 25%, transparent 0),
+  linear-gradient(45deg, transparent 75%, rgba(0,0,0,.25) 0);
+  background-position: 0 0, 15px 15px, 15px 15px, 30px 30px;
+  background-size: 30px 30px;
+  ```
+
+- 角向渐变创建棋盘图案
+
+  ```css
+  /* 角向渐变轻松创建棋盘图案，注意兼容性 */
+  background: #58a repeating-conic-gradient(rgba(0,0,0,.25) 0 25%, rgba(0,0,0,.5) 0 50%);
+  background-size: 30px 30px;
+  ```
 
 ## CSS复杂图形
+
+所谓复杂图形，就是一些不规则的图形，例如平行四边形，菱形、椭圆以及切角图形等。都是在日常开发中比较常遇到的。来看看纯 CSS 如何去实现呢？
+
+先在脑海中想象一下平行四边形的样子，然后发现其实不就是一个矩形再加两个三角形吗。确实可以这么做，在你没有其他更好的办法的时候，这也是个办法。但是今天就有一个意想不到的方法，利用 transform 变形这个属性来做。
+
+想象一下，把矩形放在三维空间，然后绕 z 轴旋转一定角度，然后从二维空间旋转；
 
 ## 动画
 
