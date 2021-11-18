@@ -318,6 +318,105 @@ border-radius: 100% 0 0 0;
 
 ![image.png](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/100cd4ce4e864f919c8a1f548373cf59~tplv-k3u1fbpfcp-watermark.image?)
 
+### 饼图
+
+饼图应该是比上面的图形都要常用的，平时开发的时候，一般直接都是用图表库来实现的，但是如果就是简单展示一个百分比的饼图，引入一个图表库又没有必要，这个时候就可以选择用 CSS 来实现
+
+```css
+div {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  /* 这里的效果就是左边一半是黄绿色，右边一半是渐变实现的#655的颜色 */
+  background-color: yellowgreen;
+  background-image: linear-gradient(to right, transparent 50%, #655 0);
+}
+/* 利用伪元素覆盖在上面，形成一个百分比的效果 */
+div::before {
+  content: '';
+  display: block;
+  /* 必须要有高度，不然显示不出来 */
+  height: 100%;
+  background-color: inherit;
+  margin-left: 50%;
+  /* 就是上面的椭圆的实现原理实现的一个半圆遮罩 */
+  border-radius: 0 100% 100% 0 / 50%;
+  /* 超过50%的比例会有问题，绿色部分占据了超过50%的部分，因此反过来处理即可 */
+  transform: rotate(.2turn);
+  transform-origin: left;
+}
+```
+
+![image.png](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b63a878a04d441849146bd61b9bfa675~tplv-k3u1fbpfcp-watermark.image?)
+
+这个是我们的最终效果图，先来一步一步看看这个效果是如何实现的。首先去掉伪元素 before 的样式：
+
+![image.png](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/38ebbc0908da4876aa2ba030713b4398~tplv-k3u1fbpfcp-watermark.image?)
+
+就如上面注释所说，是 yellowgreen 和 #655 各占 50% 的分布，接下来写上 before 的基本配置，display、height、background-color，为了方便理解，把 background-color 改成红色，再来看看是什么样子的：
+
+![image.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7af08d4c2868483ea3113e58ddb6644c~tplv-k3u1fbpfcp-watermark.image?)
+
+就是一个红色的矩形覆盖在原本的 div 上面，然后加上 margin、border-radius再来看看
+
+![image.png](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b6f42894e72d4e58af21bca47221c590~tplv-k3u1fbpfcp-watermark.image?)
+
+上图左边就是加上了 margin-left 的效果，右边则是又加上了 border-radius 的效果，关于这个半圆，是不是就用到了上面的椭圆实现呢。
+
+![image.png](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/794077e785134791863bfc8574576b6a~tplv-k3u1fbpfcp-watermark.image?)
+
+最后加上了 rotate 旋转一下，改变一下旋转的中心点，改到左边，就完成了，最后背景颜色改成 yellowgreen 其实就是一开始的效果了。不过这种实现也存在问题，就是对于超过 50% 比例的饼图这么写就无能为力了，考虑下面的方法来修复一下：
+
+```css
+/* 设置一个和饼图相反的颜色，0.1就对应50%+0.1，也就是60% */
+background-color: #655;
+transform: rotate(.1turn);
+transform-origin: left;
+```
+
+这看起来还是比较繁琐的，有没有简单一点的呢？有，用 svg 也可以实现，看起来也非常容易理解：
+
+```html
+<svg viewBox="0 0 32 32">
+  <!-- 这里取16的半径，是希望周长为100，这样计算比例的时候，直接就可以得到，不需要进行计算 -->
+  <circle r="16" cx="16" cy="16"></circle>
+</svg>
+```
+
+```css
+svg {
+  /* 旋转一下位置，让顶部成为饼图的起点位置 */
+  transform: rotate(-90deg);
+  background: yellowgreen;
+  border-radius: 50%;
+}
+circle {
+  fill: yellowgreen;
+  stroke: #655;
+  /* 32就是圆的直径，也就是形成一个半圆 */
+  stroke-width: 32;
+  /* 第一个参数表示虚线边框的长度，第二个参数则表示每个虚线段之间的距离，这里就是圆的周长 2 * Π * 16约等于100 */
+  stroke-dasharray: 38 100;
+}
+```
+
+这里简单解释下实现原理，利用 circle 的虚线边框，设置 stroke 的宽度为圆的直径，这样边框就占据了整个圆，然后调整虚线段的长度，以及保持虚线段的间隔为一整个圆，这样只会有一条虚线段，通过调整虚线段的宽度，就是饼图中灰色的比例了。看起来还是挺复杂的，看个动图来理解一下就明白了：
+
+![2.gif](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/54d518ba61854c25b921bc45a5ba54a7~tplv-k3u1fbpfcp-watermark.image?)
+
+这样的话，当需要改变饼图比例的时候，只需要调整 stroke-dasharray 的第一个参数就可以了，要比上面的写法更容易维护了，但是用到了 svg 的结构，还是不太好。还有更简单的方法了吗？
+
+有，就是角向渐变，非常简单，就是存在兼容性问题。
+
+```css
+div {
+  line-height: 100px;
+  text-align: center;
+  /* 利用角向渐变，实现更加简单，注意兼容性问题，IE全部不支持 */
+  background: conic-gradient(#655 80%, yellowgreen 0);
+}
+```
+
 ### 切角折角
 
 先看下什么是折角
@@ -334,114 +433,62 @@ border-radius: 100% 0 0 0;
 
 ![image.png](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/81f4be4fdf0144bfae6725a4d703a0a7~tplv-k3u1fbpfcp-watermark.image?)
 
-## 动画
+还记得上面提到的斜向条纹吗，切角的实现原理和它是类似的
 
-### 平滑动画
-### 逐帧动画
-### 闪烁动画
+![image.png](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b8f514dbbd3240c0b754b97bc19bb2fe~tplv-k3u1fbpfcp-watermark.image?)
 
-
-## 实际应用
-
-### 自定义的checkbox
-
-```html
-<input type="checkbox" id="awesome">
-<label for="awesome">Awesome!</label>
-```
-```css
-/* 自定义多选框 */
-input[type="checkbox"] + label::before {
-  content: '\a0';
-  display: inline-block;
-  vertical-align: .2em;
-  width: .8em;
-  height: .8em;
-  margin-right: .2em;
-  border-radius: .2em;
-  background: silver;
-  text-indent: .15em;
-  line-height: .65;
-}
-input[type="checkbox"]:checked + label::before {
-  content: '\2713';
-  background: yellowgreen;
-}
-input[type="checkbox"] {
-  position: absolute;
-  clip: rect(0,0,0,0);
-}
-input[type="checkbox"]:focus + label::before {
-  box-shadow: 0 0 .1em .1em #58a;
-}
-input[type="checkbox"]:disabled + label::before {
-  background: gray;
-  box-shadow: none;
-  color: #555;
-}
-```
-
-### 图片对比工具
-
-```html
-<div class="container">
-  <img src="./adamcatlace-before.jpg" alt="Before">
-  <img src="./status.jpeg" alt="After">
-</div>
-```
+只要把右下角那一块变成 transparent 就能实现切角了：
 
 ```css
-.container {
-  position: relative;
-  display: inline-block;
-}
-.container > div {
-  position: absolute;
-  top: 0;left: 0;bottom: 0;
-  width: 50%;
-  overflow: hidden;
-}
-.container img {
-  width: 400px;
-  display: block;
-  user-select: none;
-}
-.container input {
-  position: absolute;
-  left: 0;
-  bottom: 10px;
-  width: 100%;
-  margin: 0;
-  /* 让滑块在视觉上和控件更加统一 */
-  filter: contrast(.5);
-  mix-blend-mode: luminosity;
-  /* 放大滑块的操作区域，提升使用体验 */
-  width: 50%;
-  transform: scale(2);
-  transform-origin: left bottom;
-}
+/* 作为一种回退机制，如果渐变效果无用，则使用普通的背景 */
+background: #58a;
+/* 一个切角的效果 */
+background: linear-gradient(-45deg, transparent 15px, #58a 0);
 ```
 
-```js
-const slider = document.querySelector('.container');
-const div = document.createElement('div');
-const imgs = slider.querySelectorAll('img');
-slider.appendChild(div);
-div.appendChild(imgs[0]);
-slider.insertBefore(div, imgs[1]);
+还有多个切角的效果，则是利用了多重背景来实现
 
-const range = document.createElement('input');
-range.type = 'range';
-range.oninput = function() {
-    div.style.width = this.value + '%';
-};
-slider.appendChild(range);
+```css
+background: #58a;
+background: linear-gradient(45deg, transparent 15px, #58a 0) bottom left,
+linear-gradient(-45deg, transparent 15px, #58a 0) bottom right,
+linear-gradient(135deg, transparent 15px, #58a 0) top left,
+linear-gradient(-135deg, transparent 15px, #58a 0) top right;
+/* 四个切角则每个背景占据1/4 */
+background-size: 50% 50%;
+/* 还要关闭平铺效果，不然重复平铺还是会导致覆盖 */
+background-repeat: no-repeat;
 ```
 
-### 毛玻璃
+而折角和切角原理是一样的，只是多了一层背景：
 
-### 文字效果
+```css
+background: #58a;
+/* 折角就是利用上面的切角原理，再添加一层渐变背景覆盖在对应位置，形成折叠的效果 */
+background: linear-gradient(to left bottom, transparent 50%, rgba(0,0,0,.4) 0) no-repeat 100% 0 / 2em 2em,
+linear-gradient(-135deg, transparent 1.5em, #58a 0);
+```
+
+上面实现的切角折角都是45°的角，对于非45°的角则需要进行计算：
+
+```css
+background: #58a;
+/* 非45°角的话，这里就是30-60-90的直角三角形，需要利用三角函数计算两个直角边的大小 */
+/* 计算公式，长直角边 = 半径1.5 * sin30° = 1.5 / 0.5 = 3 短直角边 = 半径1.5 * 2 / 根号3 = 根号3 约等于1.73  */
+background: linear-gradient(to left bottom, transparent 50%, rgba(0,0,0,.4) 0) no-repeat 100% 0 / 3em 1.73em,
+linear-gradient(-150deg, transparent 1.5em, #58a 0);
+```
 
 ## 结尾
 
-[上面demo的地址仓库](https://github.com/qiugu/Front-end-learning-route/tree/master/src/css)
+写着写着，发现内容有点太多了，就删除了很多内容，像动画和文字效果等，不过整个学习的笔记还是记录下来了，放在了下面的仓库中，大家可以参考一下。还有很多书中提及的一些有趣的例子，比如有之前看到过的图片对比工具，像下面这样的：
+
+![2.gif](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3781e9376af94364822103bc5b6c4adf~tplv-k3u1fbpfcp-watermark.image?)
+
+还有经常可以在终端中看到的毛玻璃的效果：
+
+![image.png](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f4bbf02908cf4c179c6a639ae0eace12~tplv-k3u1fbpfcp-watermark.image?)
+
+最后想了一下，这篇文章算什么呢，读后感，导读，还是其他什么都不重要了，重要的是，我在其中有了自己的理解，CSS 永远比我们想象的能做的多的多，有些属性以为它只有一个作用，实际能做的事非常多。另外 CSS 的`原则`也很重要，也是自己从这本书中总结出来的，它确实打破了我以前写 CSS 随意任性的想法，写出来的 CSS 代码繁琐冗余不说，维护起来更是痛不欲生。如果真的把这些原则融会贯通，那这本书的价值就体现出来了吧。
+
+<small>[完整的demo地址](https://github.com/qiugu/Front-end-learning-route/tree/master/src/css)</small>
