@@ -16,7 +16,7 @@
         }
         /* 自定义多选框 */
         .example > input[type="checkbox"] + label::before {
-            content: '\a0';
+            content: '\a0'; /* 不换行的空格 */
             display: inline-block;
             vertical-align: .2em;
             width: .8em;
@@ -46,6 +46,8 @@
         /* 开关 */
         .example2 > input[type="checkbox"] {
             position: absolute;
+            /* 这里用了一个白色矩形盖住了原生的input */
+            /* 也可以使用opacity:0，隐藏input，个人觉得这种会更好吧，不会遮挡原来的颜色 */
             clip: rect(0,0,0,0);
         }
         .example2 > input[type="checkbox"] + label {
