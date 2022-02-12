@@ -65,14 +65,66 @@ class Sub extends Super {}
 function inherit(subType, superType) {   
   subType.prototype = Object.create(superType.prototype, {     
     constructor: {       
-      enumerable: false,       
-      configurable: true,       
-      writerable: true,       
-      value: subType.constructor     
+      enumerable: false,   
+      configurable: true,
+      writerable: true,     
+      value: subType.constructor
     }   
   })   
-  Object.setPrototypeOf(subType, superType) 
+  Object.setPrototypeOf(subType, superType)
 }
+```
+## 判断数据类型
+
+```js
+function type (obj) {
+  // 兼容ie6,ie6下面null和undefined执行Object.prototype.toString返回object
+  if (obj == null) {
+     return obj + '';
+  }
+  if (typeof obj === 'object' || typeof obj === 'function') {
+    return Object.prototype.toString.call(obj)
+      .split(' ')[1]
+      .slice(0, -1)
+      .toLowerCase();
+  } else {
+    return typeof obj;
+  }
+}
+```
+
+## 判断是否是纯对象
+
+```js
+function isPlainObject (obj) {
+  var toString = Object.prototype.toString;
+  var hasOwn = Object.prototype.hasOwnProperty;
+  var proto, Ctor;
+
+  if (!obj || toString.call(obj) !== '[object Object]') return false;
+
+  // 获取对象的原型
+  proto = Object.getPrototypeOf(obj);
+  if (!proto) return true; // 诸如Object.create(null)得到的就是一个没有原型的纯对象
+
+  // 获取对象的构造函数
+  Ctor = hasOwn.call(proto, 'constructor') && proto.constructor;
+  return typeof Ctor === 'function' && hasOwn.toString.call(Ctor) === hasOwn.toString.call(Object);
+}
+
+// 而在redux中也定义了一个判断纯对象的方法
+function isPlainObject (obj) {
+  if (typeof obj !== 'object' || obj === null) return false;
+
+  var proto = obj;
+  while (Object.getPrototypeOf(proto) !== null) {
+    proto = Object.getPrototypeOf(proto);
+  }
+
+  return Object.getPrototypeOf(obj) === proto;
+}
+
+// 两者的区别就是在于使用 Object.create(null) 创建的对象是否是纯对象
 ```
 
 ## call/apply的实现
