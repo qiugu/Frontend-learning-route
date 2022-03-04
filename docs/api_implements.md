@@ -165,6 +165,7 @@ Function.prototype.myApply = function(context, args) {
 Function.prototype.myBind = function(context, args) {
   const self = this;
   const params = Array.prototype.slice.call(arguments, 1);
+  // 设置了一个空方法
   function FNO() {}
   function Fn() {
     const bindParams = Array.prototype.slice.call(arguments);
@@ -172,7 +173,9 @@ Function.prototype.myBind = function(context, args) {
     return self.call(this instanceof Fn ? this : context, params.concat(bindParams));
   }
 
+  // 空方法的原型绑定到调用方法的原型上
   FNO.prototype = this.prototype;
+  // bind返回函数的原型指向空方法的实例，主要是为了防止修改调用方法原型时会影响到返回函数的原型
   Fn.prototype = new FNO();
 
   return Fn;

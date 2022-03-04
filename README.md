@@ -1,27 +1,25 @@
-# 前端学习路线
+# 前端修行录
 
-搭建学习知识系统，包括前端学习基础资源(网站链接和学习书籍)，以及面试相关资源，还有一些笔者觉得不错的文章，都会整合进来。
+> 路漫漫其修远兮
 
-**希望这里可以找到你想要学习的东西**
-
-## 内容目录
-
-- 计算机基础
-  - 操作系统
-  - [数据结构算法](./src/data-structure-and-algorithm/README.md)
-  - [计算机网络](./docs/net.md)
 - 前端基础
-  - [CSS](./src/css/README.md)
-  - JavaScript语言基础
-  - [浏览器架构](./docs/browser.md)
-  - 工程化
+  - [CSS](css.md)
+  - [JavaScript](jsbase.md)
+  - [浏览器架构](browser.md)
+  - [WEBPACK学习](webpack.md)
+- 计算机基础
+  - [网络](net.md)
+- 数据结构与算法
+  - [树结构](tree.md)
+- [性能优化](performace.md)
 - 框架
-  - React相关
-  - Vue相关
-- Nodejs
-- 设计模式
+  - [React](react.md)
+- 编程题
+  - [API原理实现](api_implements.md)
 - 面试相关
-  - [面试](./docs/interview_records.md)
+  - [面试问题记录](interview_records.md)
 - WEBGL
-  - [基础篇](./docs/base.md)
-  - [数学篇](./docs/math.md)
+  - [基础篇](base.md)
+  - [数学篇](math.md)
+
+![知识图谱](./images/front_end.svg)
