@@ -11,7 +11,7 @@
   - [网络](net.md)
 - 数据结构与算法
   - [树结构](tree.md)
-- [性能优化](performace.md)
+- [性能优化](performance.md)
 - 框架
   - [React](react.md)
 - 编程题
