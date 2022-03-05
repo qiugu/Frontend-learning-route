@@ -2,9 +2,13 @@
 
 ## 原型
 
-首先得从 JavaScript 这门语言说起，严格来说 JavaScript 是没有继承的机制的，所谓继承不过就是存在一个指针指向了其委托的对象。怎么理解呢，在 JavaScript 的世界中，对象并不是通过`类`来创建的，众所周知，JavaScript 中的类不过是一种语法糖，并不是真正的类。所有的对象，除了 null 以外，可以发现对象其实通过另外一个对象创建的，而另外一个对象则是由另一个对象创建，最终所有的对象都是由`Object.prototype`这个对象所创建，再其上，则不在有对象了。可以这么理解，JavaScript 世界中，除了 null 以外的一切对象的“追根溯源”都是`Object.prototype`。
+> 每一个 JavaScript 对象（null除外）在创建的时候就会与之关联另外一个对象，这个对象就是所说的原型。每一个对象都会从原型继承属性
 
-原型是一个对象，简单来说在JavaScript中，所有的对象都是由一个对象创建出来的，这个对象就是Object.prototype。在函数中，存在一个`prototype`的属性指向了它的原型，而在一个实例中，它有一个非正式属性`__proto__`指向原型。对原型来说，它存在一个属性`constructor`指向了构造函数
+关于原型需要知道的三个属性
+
+- `constructor`
+- `__proto__`
+- `prototype`
 
 ```javascript
 function Person() {}
@@ -20,13 +24,13 @@ console.log(person.constructor === Person);
 
 ```
 
-实例对象中还有一个constructor属性指向了Person，也就是指向了自己，是可以被修改的，所以在编码不要信任constructor属性，来作为判断条件的依据。
+[来源](https://github.com/mqyqingfeng/Blog/issues/2)
 
 ### 原型链
 
 对象中的关联关系组成的链式结构就是**原型链**
 
-## 继承
+## 继承的几种方法
 
 ### 原型链继承
 
