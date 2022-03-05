@@ -30,6 +30,8 @@ console.log(person.constructor === Person);
 
 对象中的关联关系组成的链式结构就是**原型链**
 
+![proto](./images/proto.png)
+
 ## 继承的几种方法
 
 ### 原型链继承
