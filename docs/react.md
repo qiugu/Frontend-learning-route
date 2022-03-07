@@ -32,3 +32,12 @@ class Child extends PureComponent {
 ```
 
 答案就是子组件也会重新 render，原因就在于每次传给子组件的 props 都是一个新的引用，浅比较的结果都不想等，所以会重新 render，如果想要取消这种 render，改用 Component 以后，使用 shouldComponentUpdate 手动比较具体的 props 值是否相等来决定 render。
+
+## 性能优化
+
+1. 优化加载性能
+
+- 根元素添加 loading，使用prerender-spa-plugin，都是为了减少白屏时间
+- 利用缓存、动态polyfill、代码分割、tree-shaking
+- 看需要是否需要把代码编译到ES5，不需要的话，直接使用ES6+的代码，减少编译时间和代码体积
+- 使用懒加载和骨架屏
