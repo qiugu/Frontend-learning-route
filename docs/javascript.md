@@ -157,6 +157,8 @@ function parasitic(subType, superType) {
 
 ## 执行上下文
 
+![context](./images/excute_context_stack.png)
+
 ## 作用域
 
 > 作用域是指程序源代码中定义变量的区域。
