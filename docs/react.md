@@ -33,6 +33,10 @@ class Child extends PureComponent {
 
 答案就是子组件也会重新 render，原因就在于每次传给子组件的 props 都是一个新的引用，浅比较的结果都不想等，所以会重新 render，如果想要取消这种 render，改用 Component 以后，使用 shouldComponentUpdate 手动比较具体的 props 值是否相等来决定 render。
 
+## diff算法
+
+
+
 ## 性能优化
 
 1. 优化加载性能

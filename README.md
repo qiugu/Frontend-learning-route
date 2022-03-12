@@ -10,7 +10,7 @@
   - [工程化](webpack.md)
 - 框架
   - [React](react.md)
-  - [Redux]()
+  - [Redux](redux.md)
   - [Vue]()
 - 计算机基础
   - [操作系统]()
