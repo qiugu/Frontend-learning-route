@@ -4,6 +4,7 @@
   - [JavaScript](javascript.md)
   - [浏览器](browser.md)
   - [工程化](webpack.md)
+  - [性能优化](performance.md)
 - 框架
   - [React](react.md)
   - [Redux](redux.md)
@@ -14,9 +15,11 @@
 - 数据结构与算法
   - [栈]()
   - [队列]()
+  - [堆]()
   - [链表]()
   - [哈希表]()
-  - [树]()
+  - [树](tree.md)
+  - [排序](sort.md)
   - [回溯]()
   - [动态规划]()
   - [贪心算法]()
@@ -38,8 +41,8 @@
   - [MVC]()
   - [MVVM]()
   - [MVP]()
-- [性能优化](performance.md)
 - CD/CI
+- [用户体验](user_experience.md)
 - 面试相关
   - [面试题](interview_records.md)
   - [常见手写题](api.md)

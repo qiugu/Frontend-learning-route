@@ -1,3 +1,4 @@
+![performance](./images/performance.png)
 ## 调试工具
 
 ### Network面板

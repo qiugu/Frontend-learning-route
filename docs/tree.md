@@ -26,3 +26,51 @@
 * 层序遍历（广度优先遍历）
 
 因为树的特殊结构就是一个标准的递归结构，因此一般深度优先遍历都是使用递归。递归的特点：首先要有退出条件，另外就是自己调用自己，可以想象成自底向上的过程，退出条件就是base case，从这个case开始逐渐向上计算，得到最终的结果。
+
+## 字典树（Trie树）
+
+```js
+class TrieNode {
+  constructor (data) {
+    // 存储的字符
+    this.data = data;
+    // 子节点
+    this.children = new Arrary(26).fill(new TrieNode);
+    // 标记是否到达字符串的结尾
+    this.isEndingChar = false;
+  }
+}
+
+class Trie {
+  constructor () {
+    this.root = new TrieNode('/');
+  }
+
+  insert (text) {
+    let p = this.root;
+    for (let i = 0; i < text.length; i++) {
+      // 找到插入字符在26个字母中的位置
+      const index = text[i].charCodeAt() - 'a'.charCodeAt();
+      if (p.children == null) {
+        const newNode = new TrieNode(text[i]);
+        p.children[index] = newNode;
+      }
+      // 当前存在子节点的话，继续遍历子节点
+      p = p.children[index];
+    }
+    // 改变结束标记
+    p.isEndingChar = true;
+  }
+
+  find (pattern) {
+    let p = this.root;
+    for (let i = 0; i < pattern.length; i++) {
+      const index = pattern[i].charCodeAt() - 'a'.charCodeAt();
+      if (p.children[index] == null) return false;
+      p = p.children[index];
+    }
+    if (p.isEndingChar) return true;
+    else return false;
+  }
+}
+```
