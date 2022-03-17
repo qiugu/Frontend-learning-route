@@ -44,32 +44,15 @@ function SubType() {}
 SubType.prototype = new SuperType();
 
 let instance = new SubType();
-console.log(sub.constructor === SuperType); // true
-```
-
-原型链继承就是让一个函数的原型指向另外一个函数的实例，这样做实际就是上面所说的改变了原来的函数的原型，让他指向了一个新的对象，此时的 sub 对象的`[[prototype]]`属性就指向了 SuperType 的实例对象，也就拥有了其上的 name 属性。同时因为改变了 SubType 的默认的原型，现在 SubType 生成的对象的`constructor`属性不再指向`SubType`，而是指向了`SuperType`，也就证明了上面所说的，在 JavaScript 中并没有构造一说，`constructor`也并不是构造函数，他只不过是原型上的一个可以被改变的属性而已。
-
-虽然现在`constructor`的属性指向的不是原来的函数了，但是所需要的关键功能`继承`还是存在的，可以用 instanceof 的操作符来测试一下：
-
-```javascript
+// 现在 SubType 生成的对象的`constructor`属性不再指向`SubType`，而是指向了`SuperType`
+// 证明了上面所说的，在 JavaScript 中并没有构造一说，`constructor`也并不是构造函数，他只不过是原型上的/// 一个可以被改变的属性而已
+console.log(instance.constructor === SuperType); // true
 console.log(instance instanceof SubType); // true
 console.log(instance instanceof SuperType); // true
 console.log(instance instanceof Object); // true
 ```
 
-可以看到确实如我们所愿，instance现在确实是 SuperType 类型的，也是 Object 类型的，所有的对象都继承自 Object，这个也是没有问题的。但是原型链继承还是有上文原型模式同样的缺点，一旦在原型上定义了引用类型的属性，那么修改这个属性，会影响到所有继承自这个类的对象，另外则是如果不小心改变了原型的指向，那么上面所有的继承关系都会被断开。
-
-```javascript
-// ...
-SubType.prototype = {
-  sex: 'male',
-  say: function() {
-    console.log(this.sex);
-  }
-}
-```
-
-如代码展示，如果直接改变了原型的引用，原型再一次被重写，原来继承自 SuperType 的实例现在指向了一个新对象，继承关系自然也就不复存在了。
+原型链继承还是有上文原型模式同样的缺点，一旦在原型上定义了引用类型的属性，那么修改这个属性，会影响到所有继承自这个类的对象，另外则是如果不小心改变了原型的指向，那么上面所有的继承关系都会被断开。
 
 原型链继承还有一个问题则是在不影响其他对象的情况下，无法给父函数传递参数，这个也导致原型链继承使用的很少的原因，下面的继承方法正是为了解决这个不足的。
 
@@ -84,7 +67,7 @@ function SubType() {
 }
 ```
 
-构造函数继承就是利用了 call 方法来改变 this 指向，调用父级的构造函数生成子类的对象，如果需要添加参数的话，则可以在 call 里面继续添加参数，也就解决了无法在父类中传参的问题。同理，构造函数也有方法无法复用的缺点，因此一般不会单独使用，结合上面的原型链继承，就有了下面的组合继承的方法。
+构造函数也有方法无法复用的缺点，因此一般不会单独使用，结合上面的原型链继承，就有了下面的组合继承的方法。
 
 ### 组合继承
 
@@ -100,8 +83,6 @@ SubType.prototype = new SuperType();
 SubType.prototype.constructor = SubType;
 ```
 
-组合继承就是融合上面两种方法，也是 JavaScript 中常用的继承方法。注意这里修复了子类的`constructor`属性指向父类的构造函数的问题，让他重新指向了子类的构造方法，也就符合了一般面向类编程的一个习惯，并且防止出现需要`constructor`作为判断条件时的问题。
-
 下面几种继承的方法，没有使用构造函数来实现继承，而是将继承的逻辑封装在一个普通方法中，在方法中传入对象，返回一个新对象来实现的继承。
 
 ### 原型式继承
@@ -114,10 +95,6 @@ function object(o) {
 }
 let person = object(new Person());
 ```
-
-这种继承虽然很少见，但其实后来是被规范化了，出现了 Object.create 的API就是这个原理，当然 Object.create 不仅仅是为了继承，还有很多其他的功能。这里其实就是内部定义了一个构造函数，指定其原型指向，最后返回这个构造函数的实例，思路和上面几种是一样的，只是他将逻辑都封装到了方法里面了，使用的时候也就不需要 new 来调用方法了。
-
-再下面的两种继承方法都是原型式继承的一种增强对象功能的方法。
 
 ### 寄生式继承
 
@@ -252,7 +229,13 @@ bar.awesome() // LET ME INTRODUCE HIPPO
 
 ## 变量提升
 
+JavaScript 在解释执行代码前会先进行预编译，把所有`var`声明的变量以及`function`声明的函数提到代码的最前面。其实就是在生成 AST 的时候，生成了执行上下文，其中包含了声明的变量，只是此时代码还未执行，所以变量都是未赋值的，当然函数声明已经是存在了。
+
+![excute](./images/js_excute_process.png)
+
 ## this指向
+
+
 
 ## 立即执行函数
 
