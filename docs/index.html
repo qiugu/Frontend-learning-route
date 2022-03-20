@@ -27,7 +27,10 @@
         placeholder: '请输入搜索的内容',
         noData: '找不到结果',
       },
-      formatUpdated: '{YYYY}/{MM}/{DD} {HH}:{mm}'
+      formatUpdated: '{YYYY}/{MM}/{DD} {HH}:{mm}',
+      formatUpdated: function(time) {
+        return time;
+      },
     }
   </script>
   <!-- Docsify v4 -->
