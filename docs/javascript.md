@@ -235,7 +235,38 @@ JavaScript 在解释执行代码前会先进行预编译，把所有`var`声明�
 
 ## this指向
 
+**this 是和执行上下文绑定的**，而执行上下文有以下三种：
 
+- 全局执行上下文
+- 函数执行上下文
+- eval执行上下文（基本不使用，忽略）
+
+全局执行上下文中的 this 指向的就是 window。而函数执行上下文中的 this 存在以下几种情况：
+
+1. 直接调用时 this 指向了全局的 window
+2. 作为对象的方法调用时，方法内部的 this 指向了对象
+3. 使用 call/apply 时，this 指向了方法的第一个参数指向的上下文
+4. 方法作为构造函数调用时，构造函数中的 this 会指向新对象。如果构造函数返回了一个对象，this 还是会指向构造函数默认的对象
+
+```js
+function Foo() {
+  this.name = 'a';
+  this.age = 20;
+  console.log(this); // Foo {}，也就是去掉return语句时new出来的对象
+  return {
+    x: 1
+  };
+}
+var f = new Foo(); // {x:1}
+```
+
+使用 this 时需要注意的几点：
+
+- this 的指向不会像作用域链一样继承，换句话说就是嵌套函数中的 this 指向取决于该函数是如何调用的，如果是直接调用，那么其 this 指向了 window
+- this 在严格模式下指向了 undefined 而不是 window
+- 箭头函数没有执行上下文，所以不存在 this，箭头函数中的 this 就是其外部函数
+
+[从另外一个角度看this](https://github.com/mqyqingfeng/Blog/issues/7)
 
 ## 立即执行函数
 

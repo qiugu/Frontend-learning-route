@@ -1,41 +1,23 @@
 # React
 
-## Component & PureComponent
+## React Fiber
 
-Component 就是 React 组件的基类，PureComponent 也是一样的，不同的地方在于 PureComponent 会对 state 和 `props` 做一个浅比较，需要注意的是，子组件使用 PureComponent，并且从父组件传递 props 时，即使 props 并没有改变，也会发生子组件重新 render 的情况。
+1. 把原有的递归更新架构改为可中断更新
+2. DOM节点抽象成普通对象，称之为Vituial DOM，React中也可以叫做fiber
+3. fiber就是一个时间切片，并且提供了任务优先级的调度
 
-```jsx
-class Father extends Component {
+现在的架构分为三层
+- Scheduler调度器，负责任务优先级的调度
+- Reconciler协调器，找出fiber中变化的部分
+- Renderer渲染器，将变化的部分渲染到页面上
 
-  state = {
-    count: 0
-  }
+> [React技术揭秘](https://react.iamkasong.com/preparation/newConstructure.html#react16%E6%9E%B6%E6%9E%84)
 
-  render () {
-    return (
-      <div>
-        <h1>父组件</h1>
-        <Child count={count}/>
-      </div>
-    )
-  }
-}
+## Hooks原理
 
-// 这里子组件会不会重新渲染？
-class Child extends PureComponent {
-  render () {
-    return (
-      <div>我是子组件-我是从父组件带过来的props：{this.props.count}</div>
-    )
-  }
-}
-```
-
-答案就是子组件也会重新 render，原因就在于每次传给子组件的 props 都是一个新的引用，浅比较的结果都不想等，所以会重新 render，如果想要取消这种 render，改用 Component 以后，使用 shouldComponentUpdate 手动比较具体的 props 值是否相等来决定 render。
+![hooks](./images/hooks.png)
 
 ## diff算法
-
-
 
 ## 性能优化
 
