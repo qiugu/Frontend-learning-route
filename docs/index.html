@@ -31,11 +31,10 @@
       plugins: [
         function(hook, vm) {
           hook.beforeEach(function(html) {
-
             return (
               html +
               '\n----\n' +
-              'Last modified {docsify-updated} '
+              '**Last modified {docsify-updated}**'
             );
           });
         }
