@@ -292,6 +292,16 @@ JavaScript 在运行过程中的数据存储如上图所示。一般对象都是
 
 ## 事件循环机制
 
+浏览器端的事件循环
+
+![browser](./images/event_loop_browser.png)
+
+Nodejs中的事件循环
+
+![nodejs](./images/event_loop_nodejs.png)
+
+[Nodejs事件循环官方解释](https://nodejs.org/zh-cn/docs/guides/event-loop-timers-and-nexttick/)
+
 ## promise原理
 
 ## generator原理
