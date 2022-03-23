@@ -1,5 +1,9 @@
 # React
 
+## React 生命周期
+
+![lifecycle](./images/react_lifecycle.png)
+
 ## React Fiber
 
 1. 把原有的递归更新架构改为可中断更新

@@ -304,6 +304,22 @@ Nodejs中的事件循环
 
 ## promise原理
 
+1. Promise 中为什么要引入微任务？
+
+Promise 通过 then 来收集回调方法，当在 Promise 的构造函数中调用 resolve 的时候，才会去执行 then 中注册的回调方法。如果在构造函数中采用同步方式，等到异步任务完成以后调用 then，会阻塞线程执行。而如果把 then 回调放到宏任务队列中，如果任务队列执行时间过长，导致 then 中的任务得不到执行，依然会产生阻塞。为了解决这个问题，也是为了**延迟绑定**的需求，引入了新的微任务队列。
+
+2. Promise 中是如何实现回调函数返回值穿透？
+
+Promise 将 resolve 的值保存在实例属性中，then 中注册的回调会引用到这个实例的属性，并且会返回一个包装注册回调方法的Promise对象。此时又分为三种情况：
+
+第一种，then 中不传回调方法，Promise 会设置一个默认的回调方法`v => v`，此时会把实例中绑定的值传给这个磨人方法，实现了空参值穿透。
+第二种，then 中的回调方法没有返回值，此时包装的回调方法中等于`resolve(undefined)`，因此后面注册的回调再去执行时，拿到的值就是 undefined
+第三种则是 then 中的回调有返回值，Promise 会对返回值进行解析，判断
+
+3. Promise 出错后，是怎么通过“冒泡”传递给最后那个捕获异常的函数？
+
+promise源码实现可点击[这里](https://qiugu.github.io/Frontend-learning-route/#/api?id=promisea%e7%9a%84%e5%ae%9e%e7%8e%b0)
+
 ## generator原理
 
 ## 浮点数精度问题
