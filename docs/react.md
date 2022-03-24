@@ -41,8 +41,6 @@ React 中的 diff 算法实际就是两颗树的diff，current 指针，指向�
 
 ![single_diff](./images/react_single_diff.png)
 
-[参考链接](https://react.iamkasong.com/diff/prepare.html)
-
 2. 多节点diff
 
 - 节点更新前后，数量相等，可能节点类型、属性发生变化
@@ -54,7 +52,7 @@ React 中的 diff 算法实际就是两颗树的diff，current 指针，指向�
 
 ![multi_diff](./images/react_diff_multi.png)
 
-
+[参考链接](https://react.iamkasong.com/diff/prepare.html)
 ## 性能优化
 
 1. 优化加载性能

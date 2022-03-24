@@ -1,5 +1,4 @@
-- [掘金](https://juejin.cn/user/2277843824032936)
-- [Github仓库](https://github.com/qiugu)
+- [博客](https://juejin.cn/user/2277843824032936)
 - 图形学
   - [WebGL入门](https://www.bilibili.com/video/BV14T4y1G7P8)
   - [WebGL基础](https://webglfundamentals.org/webgl/lessons/zh_cn/webgl-fundamentals.html)
