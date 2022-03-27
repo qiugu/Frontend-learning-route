@@ -320,6 +320,3 @@ Promise 将 resolve 的值保存在实例属性中，then 中注册的回调会�
 
 promise源码实现可点击[这里](https://qiugu.github.io/Frontend-learning-route/#/api?id=promisea%e7%9a%84%e5%ae%9e%e7%8e%b0)
 
-## generator原理
-
-## 浮点数精度问题

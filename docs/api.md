@@ -635,3 +635,16 @@ function deepClone(obj, hash = new WeakMap()) {
   return cloneObj;
 }
 ```
+
+## 数组乱序
+
+```js
+function shuffle(nums) {
+  for (let i = nums.length; i > 0; i--) {
+    let j = Math.random() * i | 0;
+    [nums[i-1], nums[j]] = [nums[j], nums[i-1]];
+  }
+}
+```
+
+[参考链接](https://github.com/mqyqingfeng/Blog/issues/51)
