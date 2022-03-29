@@ -1,5 +1,7 @@
 # 工程化
 
+![engineering](./images/engineering.png)
+
 ## 模块化
 
 ### CommonJS
@@ -28,6 +30,6 @@ ES Module 是浏览器端的模块化规范，也是未来的浏览器的模块�
 
 ES Module 和 CommonJS 最重要的区别就是 ES Module 导出的是值的引用，而 CommonJS 则是值的拷贝。这里引用的意思就是无论导出的值是什么类型，模块内部修改都会影响到模块外部。另外 ES Module 是编译时输出，而 CommonJS 则是运行时加载。
 
-## Webpack
-
 ## Babel
+
+## Webpack

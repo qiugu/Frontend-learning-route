@@ -11,9 +11,6 @@ const SIZE = 256;
  * @param {number[]} 存储字符的散列表
  */
 function generateBC(b, m, bc) {
-    for (let i = 0; i < SIZE; i++) {
-        bc[i] = -1;
-    }
     for (let i = 0; i < m; i++) {
         const code = b[i].charCodeAt();
         bc[code] = i;
@@ -28,7 +25,7 @@ function generateBC(b, m, bc) {
  * @param {number} m 模式字符串的长度
  */
 function bm(a, n, b, m) {
-    const bc = new Array(SIZE);
+    const bc = new Array(SIZE).fill(-1);
     generateBC(b, m, bc);
     
     // 表示主字符串与模式串对齐的第一个字符
@@ -37,7 +34,7 @@ function bm(a, n, b, m) {
         // 表示模式字符串的最后一个位置
         let j;
         // 从模式字符串最后一个位置向前查找坏字符
-        for (let j = m - 1; j >= 0; j--) {
+        for (j = m - 1; j >= 0; j--) {
             if (a[i+j] !== b[j]) break;
         }
         // 表示模式字符串匹配了主字符串，返回开始匹配的位置
@@ -59,11 +56,6 @@ function bm(a, n, b, m) {
  * @param {boolean[]} prefix 前缀子串匹配结果
  */
 function generateGS(b, m, suffix, prefix) {
-    // 初始化sffix数组和prefix数组分别为-1和false
-    for(let i = 0; i < m; i++) {
-        suffix[i] = -1;
-        prefix[i] = false;
-    }
     // 用b[0, i]和b[0, m - 1]求公共后缀子串
     for (let i = 0; i < m - 1; i++) {
         // k表示公共后缀子串的长度
@@ -71,6 +63,7 @@ function generateGS(b, m, suffix, prefix) {
         while(j >= 0 && b[j] === b[m-1-k]) {
             j--;
             k++;
+            // 实际当前公共后缀子串的起始位置是j+1，因为j已经j--了，所以需要+1，才是原来匹配的位置
             suffix[k] = j + 1;
         }
         if (j === -1) prefix[k] = true;
@@ -101,10 +94,10 @@ function moveByGS(j, m, suffix, prefix) {
  * @param {number} m 模式字符串的长度
  */
 function bm(a, n, b, m) {
-    const bc = new Array(SIZE);
+    const bc = new Array(SIZE).fill(-1);
     generateBC(b, m, bc);
-    const suffix = new Array(m);
-    const prefix = new Array(m);
+    const suffix = new Array(m).fill(-1);
+    const prefix = new Array(m).fill(false);
     generateGS(b, m, suffix, prefix);
     
     // 表示主字符串与模式串对齐的第一个字符
