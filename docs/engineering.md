@@ -32,4 +32,7 @@ ES Module 和 CommonJS 最重要的区别就是 ES Module 导出的是值的引�
 
 ## Babel
 
+![babel](./images/babel.png)
+[图片来源](https://bobi.ink/2019/10/01/babel/)
+
 ## Webpack
