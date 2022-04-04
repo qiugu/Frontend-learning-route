@@ -14,7 +14,6 @@
 function Person() {}
 const person = new Person()
 
-console.log(Person.prototype === Person.prototype);
 // 实例的原型指向了构造函数的原型
 console.log(person.__proto__ === Person.prototype);
 // 构造函数原型的constructor属性指向了构造函数本身
