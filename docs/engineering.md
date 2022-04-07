@@ -37,6 +37,8 @@ ES Module 和 CommonJS 最重要的区别就是 ES Module 导出的是值的引�
 
 ## Webpack
 
+![process](./images/webpack_process.png)
+
 ### 一些重要的概念
 
 > Module 模块，即每个单独的文件代表一个模块
