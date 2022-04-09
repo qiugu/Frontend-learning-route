@@ -225,7 +225,7 @@ function curry(fn) {
   const judge = function(...args) {
     return args.length === fn.length
       ? fn(...args)
-      : arg => judge(...args, arg);
+      : (...arg) => judge(...args, ...arg);
   }
   return judge;
 }
