@@ -13,6 +13,26 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.txt$/i,
+        use: [
+          path.resolve(__dirname, 'loaders', 'a-loader.js'),
+        ],
+        enforce: 'post'
+      },
+      {
+        test: /\.txt$/i,
+        use: [
+          path.resolve(__dirname, 'loaders', 'b-loader.js'),
+        ],
+      },
+      {
+        test: /\.txt$/i,
+        use: [
+          path.resolve(__dirname, 'loaders', 'c-loader.js')
+        ],
+        enforce: 'post'
+      },
+      {
         test: /\.less$/,
         use: [
           path.resolve(__dirname,'loaders','style-loader.js'),
@@ -29,10 +49,10 @@ module.exports = {
     //   template: './index.html',
     //   filename: 'index.html'
     // }),
-    new DonePlugin(),
-    new DashboardPlugin({
-      type: 'progress',
-      keepAlive: false
-    })
+    // new DonePlugin(),
+    // new DashboardPlugin({
+    //   type: 'progress',
+    //   keepAlive: false
+    // })
   ]
 }

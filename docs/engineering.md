@@ -53,6 +53,26 @@ ES Module 和 CommonJS 最重要的区别就是 ES Module 导出的是值的引�
 
 [概念来源](https://webpack.docschina.org/concepts/under-the-hood/)
 
+### Loaders
+
+loader 的分类:
+
+1. pre loader
+2. post loader
+3. inline loader
+4. normal loader
+5. pitch loader
+
+loader 执行分为两个阶段:
+
+- Pitch 阶段，执行 loader 上的 pitch 方法，按照 post、inline、normal以及 pre 的顺序调用。
+- Normal 阶段，loader 上的常规方法，按照 pre、normal、inline以及 post 的顺序调用。
+
+关于 loader 如何使用，参照[文档](https://webpack.docschina.org/configuration/module/#ruleenforce)
+
+![loaders](./images/loaders.png)
+[图片来源](https://www.teqng.com/2021/08/11/%E5%A4%9A%E5%9B%BE%E8%AF%A6%E8%A7%A3%EF%BC%8C%E4%B8%80%E6%AC%A1%E6%80%A7%E6%90%9E%E6%87%82webpack-loader/)
+
 ### Plugins
 
 > **compiler 对象代表了完整的 webpack 环境配置。这个对象在启动 webpack 时被一次性建立，并配置好所有可操作的设置，包括 options，loader 和 plugin。当在 webpack 环境中应用一个插件时，插件将收到此 compiler 对象的引用。可以使用它来访问 webpack 的主环境。**
