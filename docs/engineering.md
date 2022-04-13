@@ -80,3 +80,14 @@ loader 执行分为两个阶段:
 > **compilation 对象代表了一次资源版本构建。当运行 webpack 开发环境中间件时，每当检测到一个文件变化，就会创建一个新的 compilation，从而生成一组新的编译资源。一个 compilation 对象表现了当前的模块资源、编译生成资源、变化的文件、以及被跟踪依赖的状态信息。compilation 对象也提供了很多关键时机的回调，以供插件做自定义处理时选择使用。**
 
 [摘自文档](https://www.webpackjs.com/contribute/writing-a-plugin/)
+
+### HMR 工作原理
+
+1. 使用 webpack-dev-server 托管静态资源，往浏览器注入 HMR Runtime 代码
+2. 浏览器加载页面，与 webpack-dev-server 建立 websocket 连接
+3. webpack 监听到文件变化后，重新编译更新的模块，通过 websocket 发送 hash 事件
+4. 浏览器收到 hash 事件后，请求 manifest 资源文件，确认更新范围
+5. 浏览器加载发生更新的模块
+6. webpack 运行时触发更新模块的 module.hot.accept 的回调方法
+
+![hmr](./images/hmr.png)
