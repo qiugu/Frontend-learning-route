@@ -16,15 +16,7 @@
 - 计算机基础
   - [操作系统]()
   - [网络](net.md)
-- 数据结构与算法
-  - [栈]()
-  - [队列]()
-  - [链表]()
-  - [哈希表]()
-  - [树]()
-  - [回溯]()
-  - [动态规划]()
-  - [贪心算法]()
+- [数据结构与算法](https://github.com/trekhleb/javascript-algorithms)
 - [设计模式](design_pattern.md)
 - CD/CI
 - 编程题
