@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "node examples/server.js",
     "doc": "docsify serve docs",
-    "copyFile": "node scripts/updateDocs.js"
+    "copyFile": "node scripts/updateDocs.js",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -37,10 +38,5 @@
     "webpack-cli": "^3.3.12",
     "webpack-dev-middleware": "^3.7.3",
     "webpack-hot-middleware": "^2.25.2"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run copyFile"
-    }
   }
 }
