@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "commonjs",
+    "lib": ["DOM","ESNext"],
+    "baseUrl": ".",
+    "rootDir": ".",
+    "allowJs": true
+  },
+  "exclude": [
+    ".github",
+    ".husky",
+    ".vscode",
+    "bin",
+    "node_modules",
+    "public",
+    "scripts",
+    "docs"
+  ],
+  "include": ["src/**/*"]
+}
