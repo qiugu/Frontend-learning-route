@@ -1,8 +1,16 @@
-FROM node:latest
+FROM node:16-buster-slim
+
 LABEL description="A demo Dockerfile for build Docsify."
-WORKDIR /docs
+
+COPY . /var/web/
+
 RUN set -x \
-  && ls \
-  && node -v
-# EXPOSE 5001
-# ENTRYPOINT docsify serve .
+  && cd /var/web \
+  && npm install \
+  && npm run build
+
+FROM nginx:1.23.1-alpine
+
+# EXPOSE 80
+COPY --from=0 /var/web/docs /usr/share/nginx/html
+CMD [ "nginx", "-g", "daemon off;" ]

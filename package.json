@@ -4,9 +4,8 @@
   "description": "resource learning",
   "main": "index.js",
   "scripts": {
-    "dev": "node examples/server.js",
     "build": "webpack --mode production",
-    "doc": "docsify serve docs",
+    "dev": "docsify serve docs",
     "copyFile": "node scripts/updateDocs.js",
     "prepare": "husky install"
   },
@@ -15,6 +14,9 @@
     "url": "git+https://github.com/qiugu/Front-end-knowledge-system.git"
   },
   "keywords": [],
+  "engines": {
+    "node": ">=14.17.5"
+  },
   "author": "qiugu",
   "license": "ISC",
   "bugs": {
@@ -29,6 +31,7 @@
     "@babel/core": "^7.19.1",
     "babel-loader": "^8.2.5",
     "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^11.0.0",
     "docsify-cli": "^4.4.4",
     "html-webpack-plugin": "^5.5.0",
     "husky": "^8.0.1",
