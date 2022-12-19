@@ -1,5 +1,7 @@
 .github/
 .husky/
+.vscode/
 bin/
 node_modules/
 docs/
+scripts/

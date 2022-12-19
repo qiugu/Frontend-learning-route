@@ -16,11 +16,11 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Build docker image
-        run: docker build -t blog -f Dockerfile .
+        run: docker build -t docify/blog -f Dockerfile .
 
       # Runs a set of commands using the runners shell
       - name: Create container by image
-        run: docker run -d -p 80:80 blog --name blog:v1
+        run: docker run -d -p 80:80 --name blog docify/blog
 
       - name: Start container log
         run: docker container ls
