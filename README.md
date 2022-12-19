@@ -2,7 +2,7 @@
 
 关注[前端修行录]，分享前端修行路
 
-![前端修行录公众号](./images/qrcode.jpg)
+![前端修行录公众号](./docs/images/qrcode.jpg)
 
 > 路漫漫其修远兮
 
