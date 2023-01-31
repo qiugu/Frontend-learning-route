@@ -26,4 +26,4 @@ function copyFile (src, target, cb) {
   console.log('文件复制完成');
 }
 
-copyFile(path.resolve(__dirname, '../docs/README.md'), path.resolve(__dirname, '../README.md'));
+copyFile(path.resolve(__dirname, '../docs/README.md'), path.resolve(__dirname, '../README.md'), () => {});

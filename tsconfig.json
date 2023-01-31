@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "ESNext",
+    "lib": ["DOM", "ESNext"],
+    "allowJs": true,
+    "esModuleInterop": true,
+    "baseUrl": "."
+  },
+  "exclude": [".gihub", ".husky", "docs"]
+}
