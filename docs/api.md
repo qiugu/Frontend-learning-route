@@ -62,15 +62,15 @@ class Sub extends Super {}
 ## 实现 ES6 的 extends 的关键字
 
 ```javascript
-function inherit(subType, superType) {   
-  subType.prototype = Object.create(superType.prototype, {     
-    constructor: {       
-      enumerable: false,   
+function inherit(subType, superType) {
+  subType.prototype = Object.create(superType.prototype, {
+    constructor: {
+      enumerable: false,
       configurable: true,
-      writerable: true,     
+      writerable: true,
       value: subType.constructor
-    }   
-  })   
+    }
+  })
   Object.setPrototypeOf(subType, superType)
 }
 ```
@@ -271,7 +271,7 @@ class MyPromise {
   then (onFullFilled, onRejected) {
     onFullFilled = typeof onFullFilled === 'function' ? onFullFilled : v => v;
     onRejected = typeof onRejected === 'function' ? onRejected : err => { throw err };
-  
+
     const promise2 = new MyPromise((resolve, reject) => {
       const fullfilledCb = () => {
         setTimeout(() => {
@@ -283,7 +283,7 @@ class MyPromise {
           }
         });
       }
-    
+
       const rejectedCb = () => {
         setTimeout(() => {
           try {
@@ -294,7 +294,7 @@ class MyPromise {
           }
         })
       };
-  
+
       if (this.state === PENDING) {
         this.onFullfilledCallbacks.push(fullfilledCb);
         this.onRejectedCallbacks.push(rejectedCb);
@@ -306,7 +306,7 @@ class MyPromise {
         rejectedCb();
       }
     });
-  
+
     return promise2;
   }
 }
@@ -536,7 +536,7 @@ function unique(arr) {
   if (!Array.isArray(arr)) return;
   let res = [];
   for(let i = 0; i < arr.length; i++) {
-    if (res.indexOf(arr[i]) !== -1) {
+    if (res.indexOf(arr[i]) === -1) {
       res.push(arr[i]);
     }
   }
