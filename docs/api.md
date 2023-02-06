@@ -193,6 +193,8 @@ Function.prototype.myBind = function(context, args) {
 }
 ```
 
+> 博主在最新版的 Chrome 浏览中发现，无论是 bind 方法返回的函数（返回函数上不存在 prototype 属性了）、还是 bind 绑定的函数，二者的原型更改均不会互相影响，也就是说在 bind 实现中，通过将返回函数的原型指向了中间函数的实例这种做法已经不需要了，可以作为面试中的一个亮点提出
+
 ## new的实现
 
 ```javascript
