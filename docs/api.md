@@ -224,7 +224,7 @@ function customInstanceOf(left, right) {
   while(true) {
     if (proto == null) return false;
     if (proto === prototype) return true;
-    proto = proto.___proto__;
+    proto = proto.__proto__;
   }
 }
 ```
