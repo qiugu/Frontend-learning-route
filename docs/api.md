@@ -198,16 +198,19 @@ Function.prototype.myBind = function(context, args) {
 ## new的实现
 
 ```javascript
-function objFactory(fn, ...args) {
+function objFactory() {
+  // 从参数中拿到构造函数，注意此时arguments只剩下剩余传入构造函数的参数了
+  var constructor = [].shift.call(arguments);
   // 生成一个空对象
-  const obj = new Object();
+  var obj = new Object();
   // 将对象的原型链接到构造函数的原型上，这么做就能使对象访问到构造函数原型上的属性方法
-  obj.__proto__ = fn.prototype;
+  obj.__proto__ = constructor.prototype;
   // 执行构造函数，利用call将上下文指向刚刚创建的对象，这样就能访问this上的属性方法
-  const res = fn.call(obj, ...args);
+  var res = constructor.apply(obj, arguments);
   // 如果构造函数有返回值的话，需要判断返回值的类型是否是对象，如果是对象就返回这个对象
   // 如果是基础类型，则还是返回创建的对象
-  return typeof res === 'object' ? res : obj;
+  // 如果函数返回null，因为null的类型也是object，所以会返回null，实际为null的时候应该返回新对象
+  return result !== null && typeof result === 'object' ? result : obj;
 }
 ```
 
