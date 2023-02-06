@@ -21,9 +21,9 @@
   - [树](tree.md)
   - [排序](sort.md)
   - [字符串匹配](string_match.md)
-  - [回溯]()
-  - [动态规划]()
-  - [贪心算法]()
+  - [回溯](backtrace.md)
+  - [动态规划](dp.md)
+  - [贪心算法](greedy.md)
 - [设计模式](design_pattern.md)
 - CD/CI
 - [用户体验](user_experience.md)
