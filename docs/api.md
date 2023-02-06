@@ -62,15 +62,15 @@ class Sub extends Super {}
 ## 实现 ES6 的 extends 的关键字
 
 ```javascript
-function inherit(subType, superType) {   
-  subType.prototype = Object.create(superType.prototype, {     
-    constructor: {       
-      enumerable: false,   
+function inherit(subType, superType) {
+  subType.prototype = Object.create(superType.prototype, {
+    constructor: {
+      enumerable: false,
       configurable: true,
-      writerable: true,     
+      writerable: true,
       value: subType.constructor
-    }   
-  })   
+    }
+  })
   Object.setPrototypeOf(subType, superType)
 }
 ```
@@ -131,31 +131,42 @@ function isPlainObject (obj) {
 
 ```javascript
 // call的实现
-Function.prototype.myCall = function(context, args) {
-  // 获取上下文，如果为null的话则指向window
-  context = context || window;
-  // 获取函数的参数，利用argments对象截取从第一位往后的参数
-  const params = [...arguments].slice(1);
-  // 利用Symbol生成一个唯一的属性名
-  const symbol = Symbol('fn');
-  // 把属性挂到上下文上，执行该方法
-  context[symbol] = this;
-  const res = context[symbol](...params);
-  // 执行完成后删除生成的这个属性
-  delete context[symbol];
-
-  return res;
+Function.prototype.myCall = function(context) {
+    // globalThis 兼容浏览器和NodeJS环境下的全局变量
+    context = context || globalThis;
+    // 尽量保证key是唯一的，防止和对象原有属性冲突
+    var key = 'key' + Date.now();
+    context[key] = this;
+    var args = [];
+    // call,apply 都是ES3的方法，实现时尽量使用ES3的API
+    for (var i = 1; i < arguments.length; i++) {
+        args.push('arguments[' + i + ']');
+    }
+    var result = eval('context.fn(' + args + ')');
+    delete context[key];
+    return result;
 }
 
-// apply的实现
 Function.prototype.myApply = function(context, args) {
-  context = context || window;
-  const symbol = Symbol('fn');
-  context[symbol] = this;
-  const res = context[symbol](...args);
-  delete context[symbol];
+    context = context || globalThis;
+    var key = 'key' + Date.now();
+    context[key] = this;
+    var result;
+    if (!args) {
+        result = eval('context.fn()');
+        // 第二个参数不是对象类型会报错
+    } else if (typeof args !== 'object') {
+        throw new Error('args is called on non-object')
+    } else {
+        var params = [];
+        for (var i = 0; i < args.length; i++) {
+            params.push('args[' + i + ']');
+        }
+        result = eval('context.fn(' + params + ')');
+    }
 
-  return res;
+    delete context[key];
+    return result;
 }
 ```
 
@@ -271,7 +282,7 @@ class MyPromise {
   then (onFullFilled, onRejected) {
     onFullFilled = typeof onFullFilled === 'function' ? onFullFilled : v => v;
     onRejected = typeof onRejected === 'function' ? onRejected : err => { throw err };
-  
+
     const promise2 = new MyPromise((resolve, reject) => {
       const fullfilledCb = () => {
         setTimeout(() => {
@@ -283,7 +294,7 @@ class MyPromise {
           }
         });
       }
-    
+
       const rejectedCb = () => {
         setTimeout(() => {
           try {
@@ -294,7 +305,7 @@ class MyPromise {
           }
         })
       };
-  
+
       if (this.state === PENDING) {
         this.onFullfilledCallbacks.push(fullfilledCb);
         this.onRejectedCallbacks.push(rejectedCb);
@@ -306,7 +317,7 @@ class MyPromise {
         rejectedCb();
       }
     });
-  
+
     return promise2;
   }
 }
