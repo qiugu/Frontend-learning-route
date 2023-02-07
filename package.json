@@ -4,7 +4,6 @@
   "description": "frontend resource collections",
   "main": "main.js",
   "scripts": {
-    "dev": "node examples/server.js",
     "doc": "docsify serve docs",
     "copyFile": "esno scripts/updateDocs",
     "prepare": "husky install"

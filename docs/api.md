@@ -131,31 +131,42 @@ function isPlainObject (obj) {
 
 ```javascript
 // call的实现
-Function.prototype.myCall = function(context, args) {
-  // 获取上下文，如果为null的话则指向window
-  context = context || window;
-  // 获取函数的参数，利用argments对象截取从第一位往后的参数
-  const params = [...arguments].slice(1);
-  // 利用Symbol生成一个唯一的属性名
-  const symbol = Symbol('fn');
-  // 把属性挂到上下文上，执行该方法
-  context[symbol] = this;
-  const res = context[symbol](...params);
-  // 执行完成后删除生成的这个属性
-  delete context[symbol];
-
-  return res;
+Function.prototype.myCall = function(context) {
+    // globalThis 兼容浏览器和NodeJS环境下的全局变量
+    context = context || globalThis;
+    // 尽量保证key是唯一的，防止和对象原有属性冲突
+    var key = 'key' + Date.now();
+    context[key] = this;
+    var args = [];
+    // call,apply 都是ES3的方法，实现时尽量使用ES3的API
+    for (var i = 1; i < arguments.length; i++) {
+        args.push('arguments[' + i + ']');
+    }
+    var result = eval('context.fn(' + args + ')');
+    delete context[key];
+    return result;
 }
 
-// apply的实现
 Function.prototype.myApply = function(context, args) {
-  context = context || window;
-  const symbol = Symbol('fn');
-  context[symbol] = this;
-  const res = context[symbol](...args);
-  delete context[symbol];
+    context = context || globalThis;
+    var key = 'key' + Date.now();
+    context[key] = this;
+    var result;
+    if (!args) {
+        result = eval('context.fn()');
+        // 第二个参数不是对象类型会报错
+    } else if (typeof args !== 'object') {
+        throw new Error('args is called on non-object')
+    } else {
+        var params = [];
+        for (var i = 0; i < args.length; i++) {
+            params.push('args[' + i + ']');
+        }
+        result = eval('context.fn(' + params + ')');
+    }
 
-  return res;
+    delete context[key];
+    return result;
 }
 ```
 
@@ -182,19 +193,24 @@ Function.prototype.myBind = function(context, args) {
 }
 ```
 
+> 博主在最新版的 Chrome 浏览中发现，无论是 bind 方法返回的函数（返回函数上不存在 prototype 属性了）、还是 bind 绑定的函数，二者的原型更改均不会互相影响，也就是说在 bind 实现中，通过将返回函数的原型指向了中间函数的实例这种做法已经不需要了，可以作为面试中的一个亮点提出
+
 ## new的实现
 
 ```javascript
-function objFactory(fn, ...args) {
+function objFactory() {
+  // 从参数中拿到构造函数，注意此时arguments只剩下剩余传入构造函数的参数了
+  var constructor = [].shift.call(arguments);
   // 生成一个空对象
-  const obj = new Object();
+  var obj = new Object();
   // 将对象的原型链接到构造函数的原型上，这么做就能使对象访问到构造函数原型上的属性方法
-  obj.__proto__ = fn.prototype;
+  obj.__proto__ = constructor.prototype;
   // 执行构造函数，利用call将上下文指向刚刚创建的对象，这样就能访问this上的属性方法
-  const res = fn.call(obj, ...args);
+  var res = constructor.apply(obj, arguments);
   // 如果构造函数有返回值的话，需要判断返回值的类型是否是对象，如果是对象就返回这个对象
   // 如果是基础类型，则还是返回创建的对象
-  return typeof res === 'object' ? res : obj;
+  // 如果函数返回null，因为null的类型也是object，所以会返回null，实际为null的时候应该返回新对象
+  return result !== null && typeof result === 'object' ? result : obj;
 }
 ```
 
@@ -211,7 +227,7 @@ function customInstanceOf(left, right) {
   while(true) {
     if (proto == null) return false;
     if (proto === prototype) return true;
-    proto = proto.___proto__;
+    proto = proto.__proto__;
   }
 }
 ```
