@@ -35,7 +35,7 @@ class TrieNode {
     // 存储的字符
     this.data = data;
     // 子节点
-    this.children = new Arrary(26).fill(new TrieNode);
+    this.children = new Arrary(26);
     // 标记是否到达字符串的结尾
     this.isEndingChar = false;
   }
