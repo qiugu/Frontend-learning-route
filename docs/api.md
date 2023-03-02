@@ -153,7 +153,7 @@ Function.prototype.myApply = function(context, args) {
     context[key] = this;
     var result;
     if (!args) {
-        result = eval('context.fn()');
+        result = eval('context[key]()');
         // 第二个参数不是对象类型会报错
     } else if (typeof args !== 'object') {
         throw new Error('args is called on non-object')
