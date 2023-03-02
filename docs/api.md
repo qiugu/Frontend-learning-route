@@ -142,7 +142,7 @@ Function.prototype.myCall = function(context) {
     for (var i = 1; i < arguments.length; i++) {
         args.push('arguments[' + i + ']');
     }
-    var result = eval('context.fn(' + args + ')');
+    var result = eval('context[key](' + args + ')');
     delete context[key];
     return result;
 }
@@ -162,7 +162,7 @@ Function.prototype.myApply = function(context, args) {
         for (var i = 0; i < args.length; i++) {
             params.push('args[' + i + ']');
         }
-        result = eval('context.fn(' + params + ')');
+        result = eval('context[key](' + params + ')');
     }
 
     delete context[key];
@@ -206,7 +206,7 @@ function objFactory() {
   // 将对象的原型链接到构造函数的原型上，这么做就能使对象访问到构造函数原型上的属性方法
   obj.__proto__ = constructor.prototype;
   // 执行构造函数，利用call将上下文指向刚刚创建的对象，这样就能访问this上的属性方法
-  var res = constructor.apply(obj, arguments);
+  var result = constructor.apply(obj, arguments);
   // 如果构造函数有返回值的话，需要判断返回值的类型是否是对象，如果是对象就返回这个对象
   // 如果是基础类型，则还是返回创建的对象
   // 如果函数返回null，因为null的类型也是object，所以会返回null，实际为null的时候应该返回新对象
