@@ -11,15 +11,16 @@
   - [Vue](vue.md)
 - 计算机基础
   - [操作系统]()
-  - [网络](net.md)
+  - [计算机网络](net.md)
 - 数据结构与算法
   - [栈]()
   - [队列]()
   - [堆]()
   - [链表]()
-  - [哈希表]()
+  - [哈希表](hash.md)
   - [树](tree.md)
   - [排序](sort.md)
+  - [指针](pointer.md)
   - [字符串匹配](string_match.md)
   - [回溯](backtrace.md)
   - [动态规划](dp.md)

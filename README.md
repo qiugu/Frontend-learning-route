@@ -8,7 +8,7 @@
 
 ## 访问地址
 
-目前可以通过 Github Pages 访问，也可以通过 Netlify 访问，Netlify 访问链接为https://qiugu-online.netlify.app/#/
+目前可以通过 [Github Pages](https://qiugu.github.io/Frontend-learning-route/#/) 访问，也可以通过 Netlify 访问，Netlify 访问链接为https://qiugu-online.netlify.app/#/
 
 ## 目录内容
 
