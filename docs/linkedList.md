@@ -66,3 +66,50 @@ var reverseList = function(head) {
   return newNode;
 };
 ```
+
+## 回文链表
+
+存储所有的节点，利用双指针首尾比较
+```js
+var isPalindrome = function(head) {
+  const visited = [];
+  while (head) {
+    visited.push(head.val);
+    head = head.next;
+  }
+  const n = visited.length;
+  for (let i = 0, j = n - 1; i < n, j >= 0; i++, j--) {
+    if (visited[i] !== visited[j]) return false;
+  }
+
+  return true;
+};
+```
+
+利用快慢指针找到中间节点，再反转后半部分的链表，同前半部分对比
+```js
+var isPalindrome = function(head) {
+  let slow = head, fast = head.next;
+  while (fast && fast.next) {
+    slow = slow.next;
+    fast = fast.next.next;
+  }
+  const reverseList = (node) => {
+    let prev = null, cur = node;
+    while (cur) {
+      const next = cur.next;
+      cur.next = prev;
+      prev = cur;
+      cur = next;
+    }
+    return prev;
+  };
+  let halfLink = reverseList(slow.next);
+  while(halfLink) {
+    if (halfLink.val !== head.val) return false;
+    halfLink = halfLink.next;
+    head = head.next;
+  }
+  return true;
+};
+```
