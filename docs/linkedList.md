@@ -113,3 +113,60 @@ var isPalindrome = function(head) {
   return true;
 };
 ```
+
+## 链表有环
+
+通过快慢指针，快慢指针相遇则说明链表存在环
+```js
+var hasCycle = function(head) {
+  if (!head || !head.next) return false;
+  let slow = head, fast = head.next;
+  while (fast && fast.next) {
+      if (slow == fast) return true;
+      slow = slow.next;
+      fast = fast.next.next;
+  }
+  return false;
+};
+```
+
+## 合并两个有序链表
+
+迭代：双指针不停进行比较
+```js
+var mergeTwoLists = function(list1, list2) {
+  const piovt = new ListNode(-1);
+  let l1 = list1, l2 = list2, l0 = piovt;
+  while (l1 && l2) {
+      if (l1.val > l2.val) {
+          l0.next = l2;
+          l2 = l2.next;
+      } else {
+          l0.next = l1;
+          l1 = l1.next;
+      }
+      l0 = l0.next;
+  }
+
+  l0.next = l1 ? l1 : l2;
+
+  return piovt.next;
+};
+```
+
+递归：找出递推公式，每次合并应该返回新链表的节点
+const newNode = mergeTwoLists(l1, l2);
+更新节点指针：l1.val < l2.val ? l1.next : l2.next;
+```js
+var mergeTwoLists = function(list1, list2) {
+  if (!list1 && list2) return null;
+  if (!list1) return list2;
+  if (!list2) return list1;
+  if (l1.val < l2.val) {
+    l1.next = mergeTwoLists(l1.next, l2);
+    return l1;
+  }
+  l2.next = mergeTwoLists(l1, l2.next);
+  return l2;
+};
+```
