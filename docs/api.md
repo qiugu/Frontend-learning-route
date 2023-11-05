@@ -664,3 +664,28 @@ function shuffle(nums) {
 ```
 
 [参考链接](https://github.com/mqyqingfeng/Blog/issues/51)
+
+## Promise 控制并发量
+
+```js
+function asyncPool(promises, limit = 5) {
+  const ret = [];
+  const excuteQueue = [];
+  for (let i = 0; i < promises.length; i++) {
+    ret.push(promises[i]);
+    // promise 数量小于并发数，才进行并发控制
+    if (promises.length < limit) {
+        // 完成以后，从执行队列中删除该promise
+       const p = promises[i].then(e => excuteQueue.splice(excuteQueue.indexOf(e), 1));
+       excuteQueue.push(p);
+       // 执行队列满足最大并发量，进行请求
+       if (excuteQueue.length >= limit) {
+         // 拿到最先完成的promise
+         await Promise.race(excuteQueue);
+       }
+    }
+  }
+  // 等待结果完成以后，一起返回
+  return Promise.all(ret);
+}
+```

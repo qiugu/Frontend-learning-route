@@ -98,6 +98,127 @@ var maxDepth = function(root) {
 };
 ```
 
+## 翻转二叉树
+
+```js
+// 递归，后序遍历
+var invertTree = function (root) {
+  const dfs = (node) => {
+      if (!node) return null;
+      const left = dfs(node.left);
+      const right = dfs(node.right);
+      node.left = right;
+      node.right = left;
+      return node;
+  };
+  dfs(root);
+  return root;
+};
+
+// 迭代，广度优先遍历
+var invertTree = function (root) {
+  if (root == null) return null;
+  const queue = [root];
+  while (queue.length !== 0) {
+      const temp = queue.shift();
+      const left = temp.left;
+      temp.left = temp.right;
+      temp.right = left;
+
+      if (temp.left != null) {
+          queue.push(temp.left);
+      }
+      if (temp.right != null) {
+          queue.push(temp.right);
+      }
+  }
+  return root;
+}
+```
+
+## 对称二叉树
+
+```js
+/**
+    分析：
+    1. 左子树和右子树进行对比，即左子树的左子节点和右子树的右子节点，左子树的右子节点和右子树的左子节点
+    2. 后续遍历
+ */
+var isSymmetric = function(root) {
+  const dfs = (l, r) => {
+      if (!l && !r) return true;
+      if (!l || !r) return false;
+      if (l.val !== r.val) return false;
+      return dfs(l.left, r.right) && dfs(l.right, r.left);
+  };
+  return dfs(root.left, root.right);
+};
+
+// 迭代遍历
+var isSymmetric = function(root) {
+  const q = [root,root];
+  while (q.length) {
+      const l = q.shift();
+      const r = q.shift();
+
+      if (!l && !r) continue;
+      if (!l || !r) return false;
+      if (l.val !== r.val) return false;
+
+      q.push(l.left);
+      q.push(r.right);
+      q.push(l.right);
+      q.push(r.left);
+  }
+  return true;
+}
+```
+
+## 二叉树的直径
+
+```js
+var diameterOfBinaryTree = function(root) {
+  // 求二叉树的直径长度可以理解为求每个节点左右子树的深度
+  // 当前节点的直径就是左右子树的深度
+  // 使用一个值，记录每个节点的直径
+  // 找到最大的直径返回
+  // 记录所有节点中最大直径的值
+  let ans = 0;
+  const dfs = node => {
+   // 节点为空，其直径为0
+   if (!node) return 0;
+   // 求左右子树的深度
+   const L = dfs(node.left);
+   const R = dfs(node.right);
+   // 当前节点的直径就是左右子树的深度
+   ans = Math.max(ans, L+R);
+   // 当前节点的深度就是左右子树中较大的深度+1
+   return Math.max(L, R) + 1;
+  };
+  dfs(root);
+  return ans;
+};
+```
+
+## 将有序数组转换为二叉搜索树
+
+```js
+var sortedArrayToBST = function(nums) {
+  // 左右子树高度差不超过1，说明节点必须均分数组的剩余元素
+  const dfs = (arr) => {
+    if (!arr.length) return null;
+    const start = 0;
+    const end = arr.length - 1;
+    const mid = (start + end) >> 1;
+    const newNode = new TreeNode(arr[mid]);
+    newNode.left = dfs(arr.slice(start, mid));
+    newNode.right = dfs(arr.slice(mid + 1, end + 1));
+    return newNode;
+  };
+  return dfs(nums);
+};
+```
+
 ## 字典树（Trie树）
 
 ```js
