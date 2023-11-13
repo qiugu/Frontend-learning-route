@@ -1,9 +1,4 @@
 - [博客](https://juejin.cn/user/2277843824032936)
-- 图形学
-  - [WebGL入门](https://www.bilibili.com/video/BV14T4y1G7P8)
-  - [WebGL基础](https://webglfundamentals.org/webgl/lessons/zh_cn/webgl-fundamentals.html)
-  - [计算机图形学入门](https://www.bilibili.com/video/BV1X7411F744)
-  - [The Book of Shaders](https://thebookofshaders.com/?lan=ch)
 - 学习资源
   - [面试](https://bitable.feishu.cn/app8Ok6k9qafpMkgyRbfgxeEnet?from=logout&table=tblEnSV2PNAajtWE&view=vewJHSwJVd)
   - [数据结构与算法](https://labuladong.gitbook.io/algo/)

@@ -26,6 +26,9 @@
 - 编程题
   - [常见手写题](api.md)
 - [面试](interview.md)
-- 文章
-  - [WebGL基础篇](base.md)
-  - [WebGL数学篇](math.md)
+
+- 图形学
+  - [WebGL入门](https://www.bilibili.com/video/BV14T4y1G7P8)
+  - [WebGL基础](https://webglfundamentals.org/webgl/lessons/zh_cn/webgl-fundamentals.html)
+  - [计算机图形学入门](https://www.bilibili.com/video/BV1X7411F744)
+  - [The Book of Shaders](https://thebookofshaders.com/?lan=ch)
