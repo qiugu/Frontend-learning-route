@@ -83,6 +83,7 @@ function type (obj) {
      return obj + '';
   }
   if (typeof obj === 'object' || typeof obj === 'function') {
+    // [object Object]split(' ')得到 Object] slice(0, -1)得到Object，toLowerCase()得到object
     return Object.prototype.toString.call(obj)
       .split(' ')[1]
       .slice(0, -1)
@@ -615,14 +616,18 @@ function unique(arr) {
 ```javascript
 function unique(arr) {
   if (!Array.isArray(arr)) return;
-  let obj = {}, res = [];
-  for(let i = 0; i < arr.length; i++) {
-    if (!obj[arr[i]]) {
-      res.push(arr[i]);
-      obj[arr[i]] = 1;
-    } else {
-      obj[arr[i]]++;
+  let res = [arr[0]];
+  for(let i = 1; i < arr.length; i++) {
+    let flag = true;
+    // 原数组和去去重以后的数组比较
+    for(let j = 0; j < res.length; j++) {
+      // 原数组已经在去重数组中存在了，直接退出循环
+      if (arr[i] === res[j]) {
+        flag = false;
+        break;
+      };
     }
+    if (flag) res.push(arr[i]);
   }
   return res;
 }
