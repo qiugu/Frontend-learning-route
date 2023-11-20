@@ -6,4 +6,4 @@
   - [React技术揭秘](https://react.iamkasong.com/#%E5%AF%BC%E5%AD%A6%E8%A7%86%E9%A2%91)
   - [Vue中的Diff算法](http://hcysun.me/vue-design/zh/essence-of-comp.html)
   - [EcmaScript规范](http://yanhaijing.com/es5/#about)
-- 笔者相关
+- [笔者相关](about.md)
