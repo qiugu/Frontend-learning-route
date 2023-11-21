@@ -1,14 +1,10 @@
 # React
 
-## React基础
-
-- [官方中文文档（最新版）](https://reactjs.bootcss.com/)
-
-### React 生命周期
+## React 生命周期
 
 ![lifecycle](./images/react_lifecycle.png)
 
-### React Fiber
+## React Fiber
 
 1. 把原有的递归更新架构改为可中断更新
 2. DOM节点抽象成普通对象，称之为Vituial DOM，React中也可以叫做fiber
@@ -21,11 +17,42 @@
 
 > [React技术揭秘](https://react.iamkasong.com/preparation/newConstructure.html#react16%E6%9E%B6%E6%9E%84)
 
-### Hooks原理
+## Context API
+
+React Context API 也经历了新旧变化。
+
+旧的 Context 实现是通过递归遍历时生成栈，将 Context 上的数据入栈出栈，所以对应的 Consumer 就可以获取栈上的数据。
+
+随着 React 推出了 shouldComponentUpdate 和 React.memo 可以自定义跳过一些不必要的更新，这就导致某些子 Fiber 不会被遍历到，也就不会有入栈出栈的操作。因此旧的 Context API 和这些优化的 API 产生了冲突。
+
+新的 Context API 用法如下：
+
+```js
+const AppContext = React.createContext();
+
+function App() {
+    return (
+        <AppContext.Provider value={{ name: 'qiugu' }}>
+            <Child/>
+        </AppContext.Provider>
+    )
+}
+
+function Child() {
+    const { name } = useContext(AppContext);
+    return (
+        <div>hello {name}</div>
+    );
+}
+```
+
+当 context value 发生变化时，Provider 内部会遍历子 Fiber，找到对应使用 useContext 的子 Fiber，并且为之触发一次 render，这样就可以打破上面提到的 shouldComponentUpdate 和 React.memo 导致的越过子 Fiber 的情况，从而实现子组件的更新。
+
+## Hooks原理
 
 ![hooks](./images/hooks.png)
 
-### diff算法
+## diff算法
 
 React 中的 diff 算法实际就是两颗树的diff，current 指针，指向了页面中的树，workInProgress 则指向了内存中更新的树。两颗树进行对比，需要`O^3`的时间复杂度，为了降低这个复杂度，React 做了一些进行 diff 的前置条件。
 
@@ -57,7 +84,3 @@ React 中的 diff 算法实际就是两颗树的diff，current 指针，指向�
 ![multi_diff](./images/react_diff_multi.png)
 
 [参考链接](https://react.iamkasong.com/diff/prepare.html)
-
-## React进阶
-
-- [Build your own React](https://pomb.us/build-your-own-react/)

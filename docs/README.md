@@ -6,6 +6,9 @@
 
 > 路漫漫其修远兮
 
+- React
+  - [Build your own React](https://pomb.us/build-your-own-react/)
+
 - [数据结构与算法](https://github.com/trekhleb/javascript-algorithms)
 
 - 面试合集

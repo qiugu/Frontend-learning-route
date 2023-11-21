@@ -219,6 +219,33 @@ var sortedArrayToBST = function(nums) {
 };
 ```
 
+## 二叉树的最近公共祖先
+
+```js
+var lowestCommonAncestor = function(root, p, q) {
+  let ans = null;
+  // 定义 f(x) 表示节点x是否包含p或q节点
+  const dfs = (node, p, q) => {
+    // 当前节点为空，不可能包含p，q，返回false
+    if (node === null) return false;
+    // 后续遍历，先判断左右子树是否包含p、q
+    const lson = dfs(node.left, p, q);
+    const rson = dfs(node.right, p, q);
+    // 1.如果左右子树包含了p、q节点，那么node就是其最近公共祖先
+    // 2.如果左右子树其中之一包含了p或q，并且node节点刚好就是p或q，此时node节点也就是最近公共祖先
+    if ((lson && rson) || ((lson || rson) && (node.val === p.val || node.val === q.val))) {
+      // 记录最近公共祖先
+      ans = node;
+    }
+    // 只要左子树或者右子树包含p或q就表示f(x)包含了p、q
+    // 又或者node就是p或者q时，也属于包含了p、q
+    return lson || rson || (node.val === p.val || node.val === q.val);
+  };
+  dfs(root, p, q);
+  return ans;
+}
+```
+
 ## 字典树（Trie树）
 
 ```js
