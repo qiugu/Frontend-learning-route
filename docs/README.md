@@ -5,11 +5,16 @@
 ![VX](./images/vx-img.jpg)
 
 > 路漫漫其修远兮
+- JavaScript
+  - [EcmaScript规范](http://yanhaijing.com/es5/#about)
 
 - React
   - [Build your own React](https://pomb.us/build-your-own-react/)
+  - [React技术揭秘](https://react.iamkasong.com/#%E5%AF%BC%E5%AD%A6%E8%A7%86%E9%A2%91)
 
-- [数据结构与算法](https://github.com/trekhleb/javascript-algorithms)
+- 数据结构与算法
+  - [javascript 算法数据结构实现](https://github.com/trekhleb/javascript-algorithms)
+  - [labuladong 算法笔记](https://labuladong.gitee.io/algo/)
 
 - 面试合集
   - [Tech Interview Handbook](https://www.techinterviewhandbook.org/software-engineering-interview-guide/)

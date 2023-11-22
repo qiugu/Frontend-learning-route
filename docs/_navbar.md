@@ -1,9 +1,2 @@
 - [博客](https://juejin.cn/user/2277843824032936)
-- 学习资源
-  - [面试](https://bitable.feishu.cn/app8Ok6k9qafpMkgyRbfgxeEnet?from=logout&table=tblEnSV2PNAajtWE&view=vewJHSwJVd)
-  - [数据结构与算法](https://labuladong.gitbook.io/algo/)
-  - [前端进阶之道](https://yuchengkai.cn/docs/frontend/)
-  - [React技术揭秘](https://react.iamkasong.com/#%E5%AF%BC%E5%AD%A6%E8%A7%86%E9%A2%91)
-  - [Vue中的Diff算法](http://hcysun.me/vue-design/zh/essence-of-comp.html)
-  - [EcmaScript规范](http://yanhaijing.com/es5/#about)
 - [笔者相关](about.md)

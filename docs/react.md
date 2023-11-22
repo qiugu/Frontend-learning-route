@@ -15,8 +15,6 @@
 - Reconciler协调器，找出fiber中变化的部分
 - Renderer渲染器，将变化的部分渲染到页面上
 
-> [React技术揭秘](https://react.iamkasong.com/preparation/newConstructure.html#react16%E6%9E%B6%E6%9E%84)
-
 ## Context API
 
 React Context API 也经历了新旧变化。
@@ -47,6 +45,33 @@ function Child() {
 ```
 
 当 context value 发生变化时，Provider 内部会遍历子 Fiber，找到对应使用 useContext 的子 Fiber，并且为之触发一次 render，这样就可以打破上面提到的 shouldComponentUpdate 和 React.memo 导致的越过子 Fiber 的情况，从而实现子组件的更新。
+
+## React 合成事件
+
+react 17版本以前的事件流程分为以下三个阶段
+
+1. 事件合成
+
+生成合成事件对应的原生事件的映射关系
+
+2. 事件绑定
+
+React 在遍历 fiber 的时候，如果发现注册的是合成事件，会走单独的合成事件逻辑，找到合成事件对应的原生事件，然后在 document 上注册原生事件
+
+3. 事件触发
+
+React 会对事件统一处理，进行批量更新，按照捕获，事件源、冒泡的顺序将事件回调加入事件队列，最后执行事件队列。如果发现阻止冒泡，则会提前退出执行，并且重置事件源，将其放回事件池
+
+
+17 以后的版本相比于 17以前的版本，有如下改动
+
+- 17 版本以后事件都绑定到 React 挂载的 DOM 元素上，17 以前的事件则是绑定到 **document** 上。
+- 17 以后终于支持了原生捕获事件的支持， 对齐了浏览器原生标准。同时 onScroll 事件不再进行事件冒泡。onFocus 和 onBlur 使用原生 focusin， focusout 合成。
+- 17 取消事件池复用，也就解决了在setTimeout打印，找不到e.target的问题。
+
+### 参考资料
+
+[一文吃透react事件系统原理](https://juejin.cn/post/6955636911214067720)
 
 ## Hooks原理
 

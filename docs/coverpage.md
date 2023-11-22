@@ -7,4 +7,4 @@
 - No statically built html files
 - Multiple themes
 
-[开始使用 Let Go](/README.md)
+[开始修行](/README.md)
