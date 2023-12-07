@@ -246,6 +246,30 @@ var lowestCommonAncestor = function(root, p, q) {
 }
 ```
 
+## 二叉树的最大路径和
+
+```js
+var maxPathSum = function(root) {
+  let ans = -Infinity;
+  // f(x) 表示以x为根的最大路径和
+  // 那么递归遍历整棵树，得到每个节点为根的最大路径和，再使用一个变量记录其中的最大值
+  // 如果路径和为负数，该子树不计入最大路径和
+  const dfs = node => {
+    if (node == null) return 0;
+    // 最大路径和，如果节点值是负数则没有意义，所以不选节点值为负数的节点
+    const l = Math.max(dfs(node.left), 0);
+    const r = Math.max(dfs(node.right), 0);
+
+    // 最大路径就是左子树的最大路径值+右子树的最大路径+当前节点
+    ans = Math.max(ans, node.val + l + r);
+    // 对于当前节点来说，其最大路径就是本身加上左右子树路径和较大的那个
+    return node.val + Math.max(l, r);
+  };
+  dfs(root);
+  return ans;
+}
+```
+
 ## 字典树（Trie树）
 
 ```js

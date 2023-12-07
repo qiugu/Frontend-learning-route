@@ -69,13 +69,24 @@ React 会对事件统一处理，进行批量更新，按照捕获，事件源�
 - 17 以后终于支持了原生捕获事件的支持， 对齐了浏览器原生标准。同时 onScroll 事件不再进行事件冒泡。onFocus 和 onBlur 使用原生 focusin， focusout 合成。
 - 17 取消事件池复用，也就解决了在setTimeout打印，找不到e.target的问题。
 
-### 参考资料
+参考资料
 
 [一文吃透react事件系统原理](https://juejin.cn/post/6955636911214067720)
 
 ## Hooks原理
 
 ![hooks](./images/hooks.png)
+
+Hooks 的执行分为两个部分
+
+- mount 挂载阶段
+- update 更新阶段
+
+挂载阶段会在函数组件执行生成的 fiberNode 下的 memorizedState 上挂载 hooks 链表。而 hooks 中的 memorizedState 则保存了 hooks 的状态。对于 effect 的副作用钩子则绑定到当前 fiber 节点的 updateQueue 上，在 commit 阶段会执行 effectlist 列表。
+
+参考资料
+
+[一文吃透 react hooks 原理](https://juejin.cn/post/6944863057000529933#heading-0)
 
 ## diff算法
 
